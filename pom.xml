@@ -17,6 +17,8 @@
         <maven-bundle-plugin.version>5.1.9</maven-bundle-plugin.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-assembly-plugin.version>3.6.0</maven-assembly-plugin.version>
+        <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
+        <javafx-maven-plugin.version>0.0.8</javafx-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -57,10 +59,31 @@
                 </configuration>
             </plugin>
             <plugin>
-                <!-- To create OSGi-compliant bundles-->
+                <!-- Included in Maven by default, but without defining it will be configured depending on Maven version -->
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven-jar-plugin.version}</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>com.github.introfog.rgit.HelloApplication</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <!-- To create OSGi-compliant bundles (e.g. for containing MANIFEST.MF file) -->
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
                 <version>${maven-bundle-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>${javafx-maven-plugin.version}</version>
+                <configuration>
+                    <mainClass>com.github.introfog.rgit.HelloApplication</mainClass>
+                </configuration>
             </plugin>
 <!--            <plugin>-->
 <!--                <groupId>org.openjfx</groupId>-->
