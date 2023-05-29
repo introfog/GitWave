@@ -1,14 +1,27 @@
 package com.github.introfog.rgit;
 
+import java.io.File;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
 public class HelloController {
     @FXML
-    private Label welcomeText;
+    private TextField directory;
 
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+    private AnchorPane anchorid;
+
+    @FXML
+    protected void browseDirectory() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        Stage stage = (Stage) anchorid.getScene().getWindow();
+
+        File selectedDirectory = directoryChooser.showDialog(stage);
+        if (selectedDirectory != null) {
+            directory.setText(selectedDirectory.getAbsolutePath());
+        }
     }
 }
