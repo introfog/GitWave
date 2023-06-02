@@ -67,7 +67,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.github.introfog.rgit.HelloApplication</mainClass>
+                            <mainClass>com.github.introfog.rgit.RGitApplication</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -87,7 +87,7 @@
                     <execution>
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.github.introfog.rgit/com.github.introfog.rgit.HelloApplication</mainClass>
+                            <mainClass>com.github.introfog.rgit/com.github.introfog.rgit.RGitApplication</mainClass>
                             <compess>2</compess>
                             <launcher>rGit</launcher>
                             <jlinkZipName>rGit-${project.version}</jlinkZipName>
