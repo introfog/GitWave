@@ -91,7 +91,12 @@ public class Controller {
         }
     }
 
-    private  void searchGitRepositories(File folder, String gitCommand) {
+    private void searchGitRepositories(File folder, String gitCommand) {
+        if (isGitRepository(folder)) {
+            executeGitCommand(folder, gitCommand);
+            return;
+        }
+
         File[] files = folder.listFiles();
         if (files != null) {
             for (File file : files) {
@@ -114,7 +119,7 @@ public class Controller {
     }
 
     private void executeGitCommand(File repositoryFolder, String gitCommand) {
-        output.appendText("EXECUTE IN " + repositoryFolder.getAbsolutePath() + "\n");
+        output.appendText("------------EXECUTE IN " + repositoryFolder.getAbsolutePath() + "\n");
         String[] commands = gitCommand.split(";");
         for (String command: commands) {
             try {
@@ -122,20 +127,25 @@ public class Controller {
                 ProcessBuilder processBuilder = new ProcessBuilder(command.trim().split("\\s+"));
                 // Set the repository folder as the working directory
                 processBuilder.directory(repositoryFolder);
-
                 // Start the process
                 Process process = processBuilder.start();
-                InputStream inputStream = process.getInputStream();
+
+                StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), "ERROR");
+                StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), "OUTPUT");
+
+                outputGobbler.start();
+                errorGobbler.start();
 
                 // Wait for the process to complete
                 int exitCode = process.waitFor();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    output.appendText(line + "\n");
 
-                }
-                output.appendText("Git command execution completed with exit code: " + exitCode + "\n");
+                errorGobbler.join();
+                outputGobbler.join();
+
+                output.appendText(errorGobbler.getOutput());
+                output.appendText(outputGobbler.getOutput());
+
+                output.appendText("------Exit code: " + exitCode + "\n");
                 output.requestLayout();
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
@@ -143,4 +153,33 @@ public class Controller {
         }
     }
 
+    private static class StreamGobbler extends Thread {
+
+        private final InputStream is;
+        private final String type;
+
+        private final StringBuilder output;
+
+        private StreamGobbler(InputStream is, String type) {
+            this.is = is;
+            this.type = type;
+            output = new StringBuilder();
+        }
+
+        @Override
+        public void run() {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(is));) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    output.append(type).append("> ").append(line).append("\n");
+                }
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+        }
+
+        public String getOutput() {
+            return output.toString();
+        }
+    }
 }
