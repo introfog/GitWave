@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
@@ -24,6 +26,12 @@ public class Controller {
     private TextField gitCommand;
 
     @FXML
+    private TextArea output;
+
+    @FXML
+    private Button run;
+
+    @FXML
     protected void browseDirectory() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         Stage stage = (Stage) anchor.getScene().getWindow();
@@ -36,49 +44,54 @@ public class Controller {
 
     @FXML
     protected void runGitCommand() {
-        checkIfGitInstalledAndAvailable();
-        searchAndExecuteGitCommand(directory.getText(), gitCommand.getText());
+        run.setDisable(true);
+        synchronized (output) {
+            new Thread(() -> {
+                checkIfGitInstalledAndAvailable();
+                searchAndExecuteGitCommand(directory.getText(), gitCommand.getText());
+                run.setDisable(false);
+            }).start();
+        }
     }
 
-    private static void checkIfGitInstalledAndAvailable() {
+    private void checkIfGitInstalledAndAvailable() {
         try {
             ProcessBuilder processBuilder = new ProcessBuilder("git", "--version");
-
-            // Redirect the process output to the console
-            processBuilder.inheritIO();
 
             // Start the process
             Process process = processBuilder.start();
             InputStream inputStream = process.getInputStream();
+
+            // Wait for the process to complete
+            int exitCode = process.waitFor();
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line = reader.readLine();
             if (line != null && !line.startsWith("git version")) {
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error");
-                alert.setHeaderText("Git isn't available");
-                alert.setContentText("Make sure that Git is installed and path to git.exe is in PATH environment variable");
+                alert.setHeaderText("Git not found");
+                alert.setContentText("Make sure that Git is installed and path to git.exe is in PATH environment variable and re-run rGit.");
                 alert.showAndWait();
+            } else {
+                output.appendText("Git was found.\n");
             }
-
-            // Wait for the process to complete
-            int exitCode = process.waitFor();
-            System.out.println("Git command execution completed with exit code: " + exitCode);
+            output.appendText("Git command execution completed with exit code: " + exitCode + "\n");
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
 
     }
 
-    private static void searchAndExecuteGitCommand(String folderPath, String gitCommand) {
+    private void searchAndExecuteGitCommand(String folderPath, String gitCommand) {
         File folder = new File(folderPath);
         if (folder.exists() && folder.isDirectory()) {
             searchGitRepositories(folder, gitCommand);
         } else {
-            System.out.println("Invalid folder path: " + folderPath);
+            output.appendText("Invalid folder path: " + folderPath + "\n");
         }
     }
 
-    private static void searchGitRepositories(File folder, String gitCommand) {
+    private  void searchGitRepositories(File folder, String gitCommand) {
         File[] files = folder.listFiles();
         if (files != null) {
             for (File file : files) {
@@ -95,30 +108,35 @@ public class Controller {
         }
     }
 
-    private static boolean isGitRepository(File folder) {
+    private boolean isGitRepository(File folder) {
         File gitFolder = new File(folder, ".git");
         return gitFolder.exists() && gitFolder.isDirectory();
     }
 
-    private static void executeGitCommand(File repositoryFolder, String gitCommand) {
-        System.out.println("EXECUTE IN " + repositoryFolder.getAbsolutePath());
+    private void executeGitCommand(File repositoryFolder, String gitCommand) {
+        output.appendText("EXECUTE IN " + repositoryFolder.getAbsolutePath() + "\n");
         String[] commands = gitCommand.split(";");
         for (String command: commands) {
             try {
                 // Create a ProcessBuilder for the git command
-
                 ProcessBuilder processBuilder = new ProcessBuilder(command.trim().split("\\s+"));
-                processBuilder.directory(repositoryFolder); // Set the repository folder as the working directory
-
-                // Redirect the process output to the console
-                processBuilder.inheritIO();
+                // Set the repository folder as the working directory
+                processBuilder.directory(repositoryFolder);
 
                 // Start the process
                 Process process = processBuilder.start();
+                InputStream inputStream = process.getInputStream();
 
                 // Wait for the process to complete
                 int exitCode = process.waitFor();
-                System.out.println("Git command execution completed with exit code: " + exitCode);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    output.appendText(line + "\n");
+
+                }
+                output.appendText("Git command execution completed with exit code: " + exitCode + "\n");
+                output.requestLayout();
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
