@@ -40,6 +40,12 @@ public class Controller {
     }
 
     @FXML
+    private void clearOutput() {
+        output.clear();
+        output.requestLayout();
+    }
+
+    @FXML
     protected void runGitCommand() {
         run.setDisable(true);
         new Thread(() -> {
@@ -89,6 +95,7 @@ public class Controller {
         String[] commands = gitCommand.split(";");
         for (String command: commands) {
             try {
+                output.appendText("------Run: \"" + command + "\"\n");
                 ProcessRunResult result = ProcessRunnerUtil.runProcess(command.trim().split("\\s+"), repositoryFolder);
 
                 output.appendText(result.getErrorLog());

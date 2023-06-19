@@ -17,7 +17,6 @@ rGit is easy to install and use.
 ## Ideas for further improvements
 - Add output about current command which is executed.
 - Add button to choose run commands in cmd or in bash.
-- Add button to clear output window.
 - Add formatting to outputs, e.g. different colors\font sizes etc.
 - Implement config file, it's storage and choosing.
 - Add question mark near to cmdVsBash button to explain what the difference and why it is needed.
