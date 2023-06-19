@@ -6,14 +6,21 @@ Welcome to rGit, a windows desktop application that lets you run recursive git c
 rGit is designed for developers who work with multiple git repositories and want to save tricky commands with notes. With rGit, you can:
 
 - Run any git command on a single or multiple repositories with one click.
-- Save your commands and notes in a JSON file for future reference or sharing.
 
 ## Usage
 rGit is easy to install and use. 
 
 - Just download the latest release from the GitHub page and unzip in any folder. 
-- Launch the application by running rGit.exe and select the folder where your application config will be located.
-- Then, select the folder where git repositories are located, put a git command and click on run.
+- Launch the application by running rGit.exe.
+- Select the folder where git repositories are located, put a git command and click on run.
+
+## Ideas for further improvements
+- Add output about current command which is executed.
+- Add button to choose run commands in cmd or in bash.
+- Add button to clear output window.
+- Add formatting to outputs, e.g. different colors\font sizes etc.
+- Implement config file, it's storage and choosing.
+- Add question mark near to cmdVsBash button to explain what the difference and why it is needed.
 
 ## Issues and Contributions
 If you have any feedback or suggestions, please feel free to open an issue or a pull request on GitHub. Thank you for using rGit!
