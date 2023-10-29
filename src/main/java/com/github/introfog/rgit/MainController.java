@@ -1,5 +1,6 @@
 package com.github.introfog.rgit;
 
+import com.github.introfog.rgit.model.SettingsManager;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -40,6 +41,9 @@ public class MainController {
 
     @FXML
     protected void runGitCommand() {
+        if (directory.getText().isEmpty() || gitCommand.getText().isEmpty()) {
+            return;
+        }
         run.setDisable(true);
         new Thread(() -> {
             searchAndExecuteGitCommand(directory.getText(), gitCommand.getText());
@@ -66,7 +70,9 @@ public class MainController {
                 }
                 writer.close();
 
-                String[] str= { "cmd", "/c", "start", "E:\\Programs\\Git\\bin\\bash.exe", "-c", scriptFile.getAbsolutePath().replace("\\", "\\\\\\\\") + ";read -p 'Press Enter to continue...'" };
+                String[] str= { "cmd", "/c", "start",
+                        SettingsManager.getPathToGitBashExeInRegistry(), "-c",
+                        scriptFile.getAbsolutePath().replace("\\", "\\\\\\\\") + ";read -p 'Press Enter to continue...'" };
                 Process powerShellProcess = Runtime.getRuntime().exec(str);
                 String line;
                 System.out.println("Standard Output:");
