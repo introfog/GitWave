@@ -1,6 +1,7 @@
 module com.github.introfog.rgit {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.desktop;
 
     opens com.github.introfog.rgit to javafx.fxml;
 

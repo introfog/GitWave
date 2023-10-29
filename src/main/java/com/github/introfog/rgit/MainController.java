@@ -14,7 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
-public class Controller {
+public class MainController {
     @FXML
     private TextField directory;
 
@@ -52,11 +52,12 @@ public class Controller {
         if (folder.exists() && folder.isDirectory()) {
             List<File> repositoriesToRunCommand = new ArrayList<>();
             searchGitRepositories(folder, repositoriesToRunCommand);
+            File scriptFile = null;
             try {
-                File scriptFile = File.createTempFile("script", ".sh");
+                scriptFile = File.createTempFile("script", ".sh");
                 FileWriter writer = new FileWriter(scriptFile);
                 writer.write("#!/bin/bash\n");
-                writer.write("echo -e \"\\033[0;32m\" " + gitCommand + " \"\\033[0m\"\n");
+                writer.write("echo -e \"\\033[0;32m\" \"" + gitCommand + "\" \"\\033[0m\"\n");
                 for (File currentFolder : repositoriesToRunCommand) {
                     writer.write("cd " + currentFolder.getAbsolutePath().replace("\\", "\\\\") + "\n");
                     writer.write("echo -e \"\\033[0;36m\" $PWD \"\\033[0m\"\n");
@@ -86,6 +87,11 @@ public class Controller {
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
+            } finally {
+                if (scriptFile != null && scriptFile.exists()) {
+                    scriptFile.delete();
+                    // TODO write log if file wasn't deleted
+                }
             }
         } else {
             // TODO open error windows
