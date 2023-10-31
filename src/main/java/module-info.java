@@ -7,4 +7,6 @@ module com.github.introfog.rgit {
     opens com.github.introfog.rgit to javafx.fxml;
 
     exports com.github.introfog.rgit;
+    exports com.github.introfog.rgit.controller;
+    opens com.github.introfog.rgit.controller to javafx.fxml;
 }

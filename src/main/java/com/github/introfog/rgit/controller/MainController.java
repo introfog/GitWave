@@ -1,6 +1,6 @@
-package com.github.introfog.rgit;
+package com.github.introfog.rgit.controller;
 
-import com.github.introfog.rgit.model.SettingsManager;
+import com.github.introfog.rgit.RGitConfiguration;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -71,7 +71,7 @@ public class MainController {
                 writer.close();
 
                 String[] str= { "cmd", "/c", "start",
-                        SettingsManager.getPathToGitBashExeInRegistry(), "-c",
+                        RGitConfiguration.getInstance().getPathToGitBashExeInRegistry(), "-c",
                         scriptFile.getAbsolutePath().replace("\\", "\\\\\\\\") + ";read -p 'Press Enter to continue...'" };
                 Process powerShellProcess = Runtime.getRuntime().exec(str);
                 String line;

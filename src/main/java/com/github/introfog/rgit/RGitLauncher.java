@@ -1,6 +1,5 @@
 package com.github.introfog.rgit;
 
-import com.github.introfog.rgit.model.SettingsManager;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -8,19 +7,21 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class RGitApplication extends Application {
+public class RGitLauncher extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        if (!SettingsManager.isPathToGitSpecifiedInRegistry()) {
+        if (!RGitConfiguration.getInstance().isPathToGitSpecifiedInRegistry()) {
             openSetupWindow(stage);
         }
-        openMainWindow(stage);
+        if (RGitConfiguration.getInstance().isPathToGitSpecifiedInRegistry()) {
+            openMainWindow(stage);
+        }
     }
 
     private void openMainWindow(Stage stage) throws IOException {
         // TODO define a path to GitBash
-        FXMLLoader fxmlLoader = new FXMLLoader(RGitApplication.class.getResource("main.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(RGitLauncher.class.getResource("view/main.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
         stage.setTitle("rGit");
@@ -31,7 +32,7 @@ public class RGitApplication extends Application {
     }
 
     private void openSetupWindow(Stage parentStage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(RGitApplication.class.getResource("setup.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(RGitLauncher.class.getResource("view/setup.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
         Stage stage = new Stage();

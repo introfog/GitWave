@@ -1,7 +1,7 @@
-package com.github.introfog.rgit;
+package com.github.introfog.rgit.controller;
 
+import com.github.introfog.rgit.RGitConfiguration;
 import com.github.introfog.rgit.model.AlertsUtil;
-import com.github.introfog.rgit.model.SettingsManager;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +27,7 @@ public class SetupController {
         Stage stage = (Stage) anchorSetup.getScene().getWindow();
         File bashExeFile = new File(pathToBashExe.getText());
         if (bashExeFile.exists() && bashExeFile.getAbsolutePath().endsWith(".exe")) {
-            SettingsManager.setPathToGitBashExeInRegistry(bashExeFile.getAbsolutePath());
+            RGitConfiguration.getInstance().setPathToGitBashExeInRegistry(bashExeFile.getAbsolutePath());
             stage.close();
         } else {
             AlertsUtil.createErrorAlert("Git Bash executable hasn't been specified",
