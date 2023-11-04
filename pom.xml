@@ -19,6 +19,7 @@
         <maven-assembly-plugin.version>3.6.0</maven-assembly-plugin.version>
         <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
         <javafx-maven-plugin.version>0.0.8</javafx-maven-plugin.version>
+        <exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -32,19 +33,6 @@
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
         </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>com.dlsc.formsfx</groupId>-->
-<!--            &lt;!&ndash; A framework for easily creating forms for a JavaFX UI. &ndash;&gt;-->
-<!--            <artifactId>formsfx-core</artifactId>-->
-<!--            <version>11.5.0</version>-->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <groupId>org.openjfx</groupId>-->
-<!--                    <artifactId>*</artifactId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
     </dependencies>
 
     <build>
@@ -79,26 +67,121 @@
                 <version>${maven-bundle-plugin.version}</version>
             </plugin>
             <plugin>
-                <!-- To run JavaFX application and create runtime image -->
+                <!-- To run JavaFX application and create Java runtime image -->
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>${javafx-maven-plugin.version}</version>
                 <executions>
                     <execution>
+                        <id>create-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jlink</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <!-- Execution without phase, to allow run this goal separately (it's why id is `default-cli`)-->
                         <id>default-cli</id>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>com.github.introfog.rgit/com.github.introfog.rgit.RGitLauncher</mainClass>
+                    <launcher>${project.name}</launcher>
+                    <jlinkImageName>rGitImage</jlinkImageName>
+                    <noManPages>true</noManPages>
+                    <stripDebug>true</stripDebug>
+                    <noHeaderFiles>true</noHeaderFiles>
+                </configuration>
+            </plugin>
+            <plugin>
+                <!-- To run different command\tools -->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${exec-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>create-launcher-bat</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
                         <configuration>
-                            <mainClass>com.github.introfog.rgit/com.github.introfog.rgit.RGitLauncher</mainClass>
-                            <compess>2</compess>
-                            <launcher>rGit</launcher>
-                            <jlinkZipName>rGit-${project.version}</jlinkZipName>
-                            <jlinkImageName>rGitImage</jlinkImageName>
-                            <noManPages>true</noManPages>
-                            <stripDebug>true</stripDebug>
-                            <noHeaderFiles>true</noHeaderFiles>
+                            <executable>cmd</executable>
+                            <arguments>
+                                <argument>/c</argument>
+                                <argument>echo "bin/java" -m com.github.introfog.rgit/com.github.introfog.rgit.RGitLauncher > target/rGitImage/launcher.bat</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>create-exe-based-on-launcher</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>tools/batToExe.exe</executable>
+                            <arguments>
+                                <argument>/bat</argument>
+                                <argument>target/rGitImage/launcher.bat</argument>
+                                <argument>/exe</argument>
+                                <argument>target/rGitImage/${project.name}.exe</argument>
+                                <argument>/invisible</argument>
+                                <argument>/x64</argument>
+                                <argument>/overwrite</argument>
+                                <argument>/productversion</argument>
+                                <argument>${project.version}</argument>
+                                <argument>/productname</argument>
+                                <argument>${project.name}</argument>
+                                <argument>/company</argument>
+                                <argument>${project.groupId}</argument>
+                                <argument>/copyright</argument>
+                                <argument>2023 Dmitry Chubrick</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>create-install-exe</id>
+                        <phase>none</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>iscc</executable>
+                            <arguments>
+                                <argument>innoSetupScript.iss</argument>
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <!-- By default don't create installer -->
+            <id>create-installer</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>create-install-exe</id>
+                                <phase>package</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
