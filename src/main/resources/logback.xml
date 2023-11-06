@@ -1,0 +1,14 @@
+<configuration>
+  <timestamp key="logFileTime" datePattern="yyyy-MM-dd'_'HH-mm-ss.SSS"/>
+
+  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <file>logs/rGit-${logFileTime}.log</file>
+    <encoder>
+      <pattern>%date %level [%file:%line] %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <root level="debug">
+    <appender-ref ref="FILE" />
+  </root>
+</configuration>

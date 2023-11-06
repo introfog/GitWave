@@ -6,8 +6,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RGitLauncher extends Application {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RGitLauncher.class);
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -15,6 +18,7 @@ public class RGitLauncher extends Application {
             openSetupWindow(stage);
         }
         if (RGitConfiguration.getInstance().isPathToGitSpecifiedInRegistry()) {
+            LOGGER.info("Path to GitBash.exe specified to '{}'", RGitConfiguration.getInstance().getPathToGitBashExeInRegistry());
             openMainWindow(stage);
         }
     }

@@ -1,6 +1,7 @@
 package com.github.introfog.rgit.controller;
 
 import com.github.introfog.rgit.RGitConfiguration;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -14,8 +15,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MainController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
+
     @FXML
     private TextField directory;
 
@@ -42,6 +47,8 @@ public class MainController {
     @FXML
     protected void runGitCommand() {
         if (directory.getText().isEmpty() || gitCommand.getText().isEmpty()) {
+            LOGGER.warn("Either directory '{}' or git command '{}' is empty, running git command was skipped.",
+                    directory.getText(), gitCommand.getText());
             return;
         }
         run.setDisable(true);
@@ -58,50 +65,61 @@ public class MainController {
             searchGitRepositories(folder, repositoriesToRunCommand);
             File scriptFile = null;
             try {
-                scriptFile = File.createTempFile("script", ".sh");
-                FileWriter writer = new FileWriter(scriptFile);
-                writer.write("#!/bin/bash\n");
-                writer.write("echo -e \"\\033[0;32m\" \"" + gitCommand + "\" \"\\033[0m\"\n");
-                for (File currentFolder : repositoriesToRunCommand) {
-                    writer.write("cd " + currentFolder.getAbsolutePath().replace("\\", "\\\\") + "\n");
-                    writer.write("echo -e \"\\033[0;36m\" $PWD \"\\033[0m\"\n");
-
-                    writer.write(gitCommand + "\n");
-                }
-                writer.close();
-
-                String[] str= { "cmd", "/c", "start",
-                        RGitConfiguration.getInstance().getPathToGitBashExeInRegistry(), "-c",
-                        scriptFile.getAbsolutePath().replace("\\", "\\\\\\\\") + ";read -p 'Press Enter to continue...'" };
-                Process powerShellProcess = Runtime.getRuntime().exec(str);
-                String line;
-                System.out.println("Standard Output:");
-                BufferedReader stdout = new BufferedReader(new InputStreamReader(
-                        powerShellProcess.getInputStream()));
-                while ((line = stdout.readLine()) != null) {
-                    System.out.println(line);
-                }
-                stdout.close();
-                System.out.println("Standard Error:");
-                BufferedReader stderr = new BufferedReader(new InputStreamReader(
-                        powerShellProcess.getErrorStream()));
-                while ((line = stderr.readLine()) != null) {
-                    System.out.println(line);
-                }
-                stderr.close();
-                System.out.println("Done");
-
+                scriptFile = createAndFillTempFileWithGitCommand(gitCommand, repositoriesToRunCommand);
+                executeGitCommand(scriptFile);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                LOGGER.error("Something goes wrong with creation or executing of temp file with git command.", e);
             } finally {
                 if (scriptFile != null && scriptFile.exists()) {
-                    scriptFile.delete();
-                    // TODO write log if file wasn't deleted
+                    if (scriptFile.delete()) {
+                        LOGGER.info("Temp file '{}' was removed.", scriptFile.getAbsolutePath());
+                    } else {
+                        LOGGER.warn("Temp file '{}' with git command wasn't removed.", scriptFile.getAbsolutePath());
+                    }
                 }
             }
         } else {
+            LOGGER.warn("Specified folder either don't exist or isn't a directory, running git command was skipped.");
             // TODO open error windows
         }
+    }
+
+    private void executeGitCommand(File scriptFile) throws IOException {
+        String[] str= { "cmd", "/c", "start",
+                RGitConfiguration.getInstance().getPathToGitBashExeInRegistry(), "-c",
+                scriptFile.getAbsolutePath().replace("\\", "\\\\\\\\") + ";read -p 'Press Enter to continue...'" };
+        Process powerShellProcess = Runtime.getRuntime().exec(str);
+        String line;
+        BufferedReader stdout = new BufferedReader(new InputStreamReader(
+                powerShellProcess.getInputStream()));
+        while ((line = stdout.readLine()) != null) {
+            LOGGER.info("Standard output of executed git command '{}'", line);
+        }
+        stdout.close();
+        BufferedReader stderr = new BufferedReader(new InputStreamReader(
+                powerShellProcess.getErrorStream()));
+        while ((line = stderr.readLine()) != null) {
+            LOGGER.error("Error output of executed git command '{}'", line);
+        }
+        stderr.close();
+        LOGGER.info("Finish executing git command.");
+    }
+
+    private File createAndFillTempFileWithGitCommand(String gitCommand, List<File> repositoriesToRunCommand) throws IOException {
+        File scriptFile = File.createTempFile("script", ".sh");
+        LOGGER.info("Temp file '{}' was created", scriptFile.getAbsolutePath());
+        FileWriter writer = new FileWriter(scriptFile);
+        writer.write("#!/bin/bash\n");
+        writer.write("echo -e \"\\033[0;32m\" \"" + gitCommand + "\" \"\\033[0m\"\n");
+        for (File currentFolder : repositoriesToRunCommand) {
+            writer.write("cd " + currentFolder.getAbsolutePath().replace("\\", "\\\\") + "\n");
+            writer.write("echo -e \"\\033[0;36m\" $PWD \"\\033[0m\"\n");
+
+            writer.write(gitCommand + "\n");
+        }
+        writer.close();
+        LOGGER.info("Git command '{}' was written to temp file.", gitCommand);
+        return scriptFile;
     }
 
     private void searchGitRepositories(File folder, List<File> repositoriesToRunCommand) {
