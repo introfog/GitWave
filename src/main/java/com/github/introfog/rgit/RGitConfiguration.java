@@ -5,6 +5,8 @@ import java.util.prefs.Preferences;
 public final class RGitConfiguration {
     private static final String PATH_TO_GIT_BASH_EXE = "path.to.git.bash.exe";
 
+    private static final String LAST_OPENED_FOLDER = "last.opened.folder";
+
     private static final RGitConfiguration INSTANCE = new RGitConfiguration();
 
     private final Preferences systemPreferences;
@@ -28,5 +30,13 @@ public final class RGitConfiguration {
 
     public String getPathToGitBashExeInRegistry() {
         return systemPreferences.get(PATH_TO_GIT_BASH_EXE, null);
+    }
+
+    public void setLastOpenedFolderInRegistry(String pathToGitBashExe) {
+        systemPreferences.put(LAST_OPENED_FOLDER, pathToGitBashExe);
+    }
+
+    public String getLastOpenedFolderInRegistry() {
+        return systemPreferences.get(LAST_OPENED_FOLDER, null);
     }
 }

@@ -36,6 +36,15 @@ public class MainController {
     @FXML
     protected void browseDirectory() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
+        String lastOpenedFolderPath = RGitConfiguration.getInstance().getLastOpenedFolderInRegistry();
+        if (lastOpenedFolderPath != null && !lastOpenedFolderPath.isEmpty()) {
+            File lastOpenedFolder = new File(lastOpenedFolderPath);
+            if (lastOpenedFolder.exists() && lastOpenedFolder.isDirectory()) {
+                directoryChooser.setInitialDirectory(lastOpenedFolder);
+                // TODO is it necessary to remove field in registry if folder doesn't exist?
+            }
+        }
+
         Stage stage = (Stage) anchor.getScene().getWindow();
 
         File selectedDirectory = directoryChooser.showDialog(stage);
@@ -51,6 +60,9 @@ public class MainController {
                     directory.getText(), gitCommand.getText());
             return;
         }
+
+        RGitConfiguration.getInstance().setLastOpenedFolderInRegistry(directory.getText());
+
         run.setDisable(true);
         new Thread(() -> {
             searchAndExecuteGitCommand(directory.getText(), gitCommand.getText());
