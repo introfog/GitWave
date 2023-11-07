@@ -97,9 +97,9 @@ public class MainController {
     }
 
     private void executeGitCommand(File scriptFile) throws IOException {
-        String[] str= { "cmd", "/c", "start",
-                RGitConfiguration.getInstance().getPathToGitBashExeInRegistry(), "-c",
-                scriptFile.getAbsolutePath().replace("\\", "\\\\\\\\") + ";read -p 'Press Enter to continue...'" };
+        String[] str= { "cmd", "/c", "start", "\"\"",
+                "\"" + RGitConfiguration.getInstance().getPathToGitBashExeInRegistry() + "\"", "-c",
+                scriptFile.getAbsolutePath().replace("\\", "\\\\\\\\") + ";read -p 'Press Enter to close window...'" };
         Process powerShellProcess = Runtime.getRuntime().exec(str);
         String line;
         BufferedReader stdout = new BufferedReader(new InputStreamReader(
