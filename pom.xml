@@ -17,6 +17,7 @@
         <javafx.version>11.0.2</javafx.version>
         <slf4j-api.version>2.0.9</slf4j-api.version>
         <logback-classic.version>1.4.11</logback-classic.version>
+        <jackson-databind.version>2.15.3</jackson-databind.version>
 
         <maven-bundle-plugin.version>5.1.9</maven-bundle-plugin.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
@@ -47,6 +48,11 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback-classic.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind.version}</version>
         </dependency>
     </dependencies>
 
@@ -147,6 +153,7 @@
                                 <argument>/invisible</argument>
                                 <argument>/x64</argument>
                                 <argument>/overwrite</argument>
+                                <!-- TODO Windows doesn't see any details about created .exe -->
                                 <argument>/productversion</argument>
                                 <argument>${project.version}</argument>
                                 <argument>/productname</argument>

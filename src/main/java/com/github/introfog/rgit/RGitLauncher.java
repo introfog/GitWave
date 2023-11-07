@@ -17,6 +17,7 @@ public class RGitLauncher extends Application {
         if (!RGitConfiguration.getInstance().isPathToGitSpecifiedInRegistry()) {
             openSetupWindow(stage);
         }
+        RGitConfiguration.getInstance().initConfig();
         if (RGitConfiguration.getInstance().isPathToGitSpecifiedInRegistry()) {
             LOGGER.info("Path to GitBash.exe specified to '{}'", RGitConfiguration.getInstance().getPathToGitBashExeInRegistry());
             openMainWindow(stage);

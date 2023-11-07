@@ -33,8 +33,7 @@ target/
 *.iml
 *.ipr
 
-# Installer folder
+# rGit util folders
 installer/
-
-# Folder with logs from runs during development
 logs/
+config/
