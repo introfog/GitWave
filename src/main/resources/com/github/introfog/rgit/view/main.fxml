@@ -11,6 +11,7 @@
       <Button layoutX="465.0" layoutY="60.0" mnemonicParsing="false" onAction="#browseDirectory" text="Browse" />
       <TextField fx:id="gitCommand" layoutX="27.0" layoutY="128.0" prefHeight="25.0" prefWidth="378.0" />
       <Label layoutX="27.0" layoutY="97.0" text="Define git command" />
-      <Button fx:id="run" layoutX="474.0" layoutY="128.0" mnemonicParsing="false" onAction="#runGitCommand" text="Run" />
+      <Button fx:id="run" layoutX="447.0" layoutY="128.0" mnemonicParsing="false" onAction="#runGitCommand" text="Run" />
+      <Button layoutX="520.0" layoutY="128.0" mnemonicParsing="false" onAction="#saveCommand" text="Save" />
    </children>
 </AnchorPane>

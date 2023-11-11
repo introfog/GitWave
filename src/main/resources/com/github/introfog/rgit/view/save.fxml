@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.rgit.controller.SaveController">
+   <children>
+      <Label layoutX="26.0" layoutY="22.0" text="Command" />
+      <TextField fx:id="command" layoutX="26.0" layoutY="39.0" prefHeight="25.0" prefWidth="448.0" />
+      <Label layoutX="26.0" layoutY="75.0" text="Comment" />
+      <TextField fx:id="comment" layoutX="26.0" layoutY="92.0" prefHeight="25.0" prefWidth="448.0" />
+      <Button layoutX="116.0" layoutY="144.0" mnemonicParsing="false" onAction="#save" text="Save" />
+      <Button layoutX="325.0" layoutY="144.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+   </children>
+</AnchorPane>

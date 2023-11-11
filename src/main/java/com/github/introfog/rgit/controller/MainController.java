@@ -1,6 +1,7 @@
 package com.github.introfog.rgit.controller;
 
 import com.github.introfog.rgit.RGitConfiguration;
+import com.github.introfog.rgit.RGitLauncher;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,10 +11,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +55,25 @@ public class MainController {
         if (selectedDirectory != null) {
             directory.setText(selectedDirectory.getAbsolutePath());
         }
+    }
+
+    @FXML
+    protected void saveCommand() {
+        Stage modalStage = new Stage();
+        modalStage.initModality(Modality.APPLICATION_MODAL);
+        FXMLLoader fxmlLoader = new FXMLLoader(RGitLauncher.class.getResource("view/save.fxml"));
+        Scene scene = null;
+        try {
+            scene = new Scene(fxmlLoader.load());
+        } catch (IOException e) {
+            LOGGER.error("Something goes wrong while opening save command dialog window.", e);
+        }
+
+        modalStage.setTitle("rGit save command");
+        modalStage.setScene(scene);
+        // TODO make design flexible and allow resizing
+        modalStage.setResizable(false);
+        modalStage.showAndWait();
     }
 
     @FXML
