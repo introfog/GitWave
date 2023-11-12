@@ -184,7 +184,7 @@ public class MainController {
         writer.write("#!/bin/bash\n");
         writer.write("echo -e \"\\033[0;32m\" \"" + gitCommand + "\" \"\\033[0m\"\n");
         for (File currentFolder : repositoriesToRunCommand) {
-            writer.write("cd " + currentFolder.getAbsolutePath().replace("\\", "\\\\") + "\n");
+            writer.write("cd \"" + currentFolder.getAbsolutePath().replace("\\", "\\\\") + "\"\n");
             writer.write("echo -e \"\\033[0;36m\" $PWD \"\\033[0m\"\n");
 
             writer.write(gitCommand + "\n");
