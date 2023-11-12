@@ -88,6 +88,26 @@ public final class RGitConfiguration {
         saveConfig();
     }
 
+    public void addCommandToConfig(CommandDto commandDto) {
+        config.getCommands().add(commandDto);
+        saveConfig();
+    }
+
+    public void removeCommandFromConfig(CommandDto commandDto) {
+        config.getCommands().remove(commandDto);
+        saveConfig();
+    }
+
+    public void updateCommandScriptFromConfig(CommandDto commandDto, String newCommand) {
+        config.getCommands().get(config.getCommands().indexOf(commandDto)).setCommand(newCommand);
+        saveConfig();
+    }
+
+    public void updateCommandCommentFromConfig(CommandDto commandDto, String newComment) {
+        config.getCommands().get(config.getCommands().indexOf(commandDto)).setComment(newComment);
+        saveConfig();
+    }
+
     public void saveConfig() {
         File configDir = new File(CONFIG_DIR_PATH);
         if (!configDir.mkdirs()) {

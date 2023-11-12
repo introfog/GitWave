@@ -12,7 +12,7 @@ module com.github.introfog.rgit {
     requires com.fasterxml.jackson.core;
 
     opens com.github.introfog.rgit to javafx.fxml;
-    opens com.github.introfog.rgit.model.dto to com.fasterxml.jackson.core, com.fasterxml.jackson.annotation, com.fasterxml.jackson.databind;
+    opens com.github.introfog.rgit.model.dto to com.fasterxml.jackson.core, com.fasterxml.jackson.annotation, com.fasterxml.jackson.databind, javafx.base;
     opens com.github.introfog.rgit.controller to javafx.fxml;
 
     exports com.github.introfog.rgit;

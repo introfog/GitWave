@@ -2,6 +2,7 @@ package com.github.introfog.rgit.controller;
 
 import com.github.introfog.rgit.RGitConfiguration;
 import com.github.introfog.rgit.RGitLauncher;
+import com.github.introfog.rgit.model.dto.CommandDto;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -58,6 +59,30 @@ public class MainController {
     }
 
     @FXML
+    protected void chooseFromSaved() {
+        Stage modalStage = new Stage();
+        modalStage.initModality(Modality.APPLICATION_MODAL);
+        FXMLLoader fxmlLoader = new FXMLLoader(RGitLauncher.class.getResource("view/saved.fxml"));
+        Scene scene = null;
+        try {
+            scene = new Scene(fxmlLoader.load());
+        } catch (IOException e) {
+            LOGGER.error("Something goes wrong while opening saved dialog window.", e);
+        }
+
+        modalStage.setTitle("rGit saved commands");
+        modalStage.setScene(scene);
+        // TODO make design flexible and allow resizing
+        modalStage.setResizable(false);
+
+        SavedController savedController = fxmlLoader.getController();
+        savedController.fill();
+        savedController.setMainController(this);
+
+        modalStage.showAndWait();
+    }
+
+    @FXML
     protected void saveCommand() {
         Stage modalStage = new Stage();
         modalStage.initModality(Modality.APPLICATION_MODAL);
@@ -78,6 +103,7 @@ public class MainController {
         if (!gitCommandText.isEmpty()) {
             SaveController saveController = fxmlLoader.getController();
             saveController.setCommand(gitCommandText);
+            saveController.setMainController(this);
         }
 
         modalStage.showAndWait();
@@ -98,6 +124,10 @@ public class MainController {
             searchAndExecuteGitCommand(directory.getText(), gitCommand.getText());
             run.setDisable(false);
         }).start();
+    }
+
+    public void setGitCommand(CommandDto commandDto) {
+        gitCommand.setText(commandDto.getCommand());
     }
 
     private void searchAndExecuteGitCommand(String folderPath, String gitCommand) {
