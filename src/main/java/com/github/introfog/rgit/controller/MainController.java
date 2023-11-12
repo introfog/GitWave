@@ -73,6 +73,13 @@ public class MainController {
         modalStage.setScene(scene);
         // TODO make design flexible and allow resizing
         modalStage.setResizable(false);
+
+        final String gitCommandText = gitCommand.getText();
+        if (!gitCommandText.isEmpty()) {
+            SaveController saveController = fxmlLoader.getController();
+            saveController.setCommand(gitCommandText);
+        }
+
         modalStage.showAndWait();
     }
 

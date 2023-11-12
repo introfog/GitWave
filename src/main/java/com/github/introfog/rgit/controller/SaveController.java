@@ -14,7 +14,7 @@ public class SaveController {
 
     @FXML
     private TextField command;
-
+    // TODO what if define long command or comment? Set some limit.
     @FXML
     private TextField comment;
 
@@ -31,6 +31,10 @@ public class SaveController {
             RGitConfiguration.getInstance().addCommandToConfig(command.getText(), comment.getText());
             closeStage();
         }
+    }
+
+    public void setCommand(String commandText) {
+        command.setText(commandText);
     }
 
     private void closeStage() {

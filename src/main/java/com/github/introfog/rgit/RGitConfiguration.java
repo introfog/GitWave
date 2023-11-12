@@ -23,6 +23,8 @@ public final class RGitConfiguration {
     private static final String CONFIG_DIR_PATH = "config";
     private static final String CONFIG_FILE_NAME = "config.json";
 
+    private static final String CONFIG_FILE_PATH = CONFIG_DIR_PATH + File.separator + CONFIG_FILE_NAME;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(RGitConfiguration.class);
 
 
@@ -62,7 +64,7 @@ public final class RGitConfiguration {
     }
 
     public void initConfig() {
-        File configFile = new File(CONFIG_FILE_NAME);
+        File configFile = new File(CONFIG_FILE_PATH);
         if (configFile.exists() && configFile.length() != 0) {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -95,7 +97,7 @@ public final class RGitConfiguration {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setSerializationInclusion(Include.NON_NULL);
         try {
-            final File configFilePath = new File(CONFIG_DIR_PATH + File.separator + CONFIG_FILE_NAME);
+            final File configFilePath = new File(CONFIG_FILE_PATH);
             objectMapper.writer(new CustomPrettyPrinter()).writeValue(configFilePath, config);
         } catch (IOException e) {
             LOGGER.error("Failed to save config", e);
