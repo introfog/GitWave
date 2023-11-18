@@ -19,20 +19,20 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SavedController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SavedController.class);
+public class ExploreController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExploreController.class);
 
     @FXML
     private TableView<CommandDto> commandsTable;
 
-    private MainController mainController;
+    private ExecuteController executeController;
 
-    public SavedController() {
+    public ExploreController() {
 
     }
 
-    public void setMainController(MainController mainController) {
-        this.mainController = mainController;
+    public void setMainController(ExecuteController executeController) {
+        this.executeController = executeController;
     }
 
     @FXML
@@ -62,7 +62,7 @@ public class SavedController {
     protected void chooseToRun() {
         CommandDto selectedItem = commandsTable.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
-            mainController.setGitCommand(selectedItem);
+            executeController.setGitCommand(selectedItem);
             closeStage();
         } else {
             AlertsUtil.createErrorAlert("No row selected", "Please select a row to run.");
@@ -71,7 +71,7 @@ public class SavedController {
 
     @FXML
     protected void addNew() {
-        FxmlStageHolder holder = StagesUtil.setUpModalStage("view/commandSaver.fxml", "rGit save command");
+        FxmlStageHolder holder = StagesUtil.setUpModalStage("view/saver.fxml", "Command saver");
 
         SaveController saveController = holder.getFxmlLoader().getController();
         saveController.setSavedController(this);

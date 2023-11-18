@@ -21,8 +21,8 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MainController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
+public class ExecuteController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExecuteController.class);
 
     @FXML
     private TextField directory;
@@ -44,7 +44,7 @@ public class MainController {
             File lastOpenedFolder = new File(lastOpenedFolderPath);
             if (lastOpenedFolder.exists() && lastOpenedFolder.isDirectory()) {
                 directoryChooser.setInitialDirectory(lastOpenedFolder);
-                // TODO is it necessary to remove field in registry if folder doesn't exist?
+                // TODO is it necessary to remove field in config if folder doesn't exist?
             }
         }
 
@@ -58,18 +58,18 @@ public class MainController {
 
     @FXML
     protected void chooseFromSaved() {
-        FxmlStageHolder holder = StagesUtil.setUpModalStage("view/commandExplorer.fxml", "rGit saved commands");
+        FxmlStageHolder holder = StagesUtil.setUpModalStage("view/explorer.fxml", "Command explorer");
 
-        SavedController savedController = holder.getFxmlLoader().getController();
-        savedController.fill();
-        savedController.setMainController(this);
+        ExploreController exploreController = holder.getFxmlLoader().getController();
+        exploreController.fill();
+        exploreController.setMainController(this);
 
         holder.getStage().showAndWait();
     }
 
     @FXML
     protected void saveCommand() {
-        FxmlStageHolder holder = StagesUtil.setUpModalStage("view/commandSaver.fxml", "rGit save command");
+        FxmlStageHolder holder = StagesUtil.setUpModalStage("view/saver.fxml", "Command saver");
 
         final String gitCommandText = gitCommand.getText();
         if (!gitCommandText.isEmpty()) {

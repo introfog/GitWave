@@ -15,11 +15,11 @@ public class RGitLauncher extends Application {
     public void start(Stage stage) {
         if (!AppConfig.getInstance().isPathToGitSpecified()) {
             // TODO run setup only if person click on Run without bash specifying or open settings
-            StagesUtil.setUpModalStage("view/setup.fxml", "rGit setup").getStage().showAndWait();
+            StagesUtil.setUpModalStage("view/setup.fxml", "Setup").getStage().showAndWait();
         }
         if (AppConfig.getInstance().isPathToGitSpecified()) {
             LOGGER.info("Path to GitBash.exe specified to '{}'", AppConfig.getInstance().getPathToGitBashExe());
-            StagesUtil.setUpStage("view/commandExecutor.fxml", "rGit", stage).getStage().show();
+            StagesUtil.setUpStage("view/executor.fxml", "rGit", stage).getStage().show();
         }
     }
 

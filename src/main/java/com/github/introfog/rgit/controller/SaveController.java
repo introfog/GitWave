@@ -19,20 +19,20 @@ public class SaveController {
     @FXML
     private TextField comment;
 
-    private SavedController savedController;
+    private ExploreController exploreController;
 
-    private MainController mainController;
+    private ExecuteController executeController;
 
-    public void setSavedController(SavedController savedController) {
-        this.savedController = savedController;
-        if (savedController != null) {
+    public void setSavedController(ExploreController exploreController) {
+        this.exploreController = exploreController;
+        if (exploreController != null) {
             setMainController(null);
         }
     }
 
-    public void setMainController(MainController mainController) {
-        this.mainController = mainController;
-        if (mainController != null) {
+    public void setMainController(ExecuteController executeController) {
+        this.executeController = executeController;
+        if (executeController != null) {
             setSavedController(null);
         }
     }
@@ -46,11 +46,11 @@ public class SaveController {
     protected void save() {
         if (command.getText().isEmpty()) {
             AlertsUtil.createErrorAlert("Invalid command", "Command can't be empty");
-        } else if (mainController != null) {
+        } else if (executeController != null) {
             AppConfig.getInstance().addCommand(command.getText(), comment.getText());
             closeStage();
-        } else if (savedController != null){
-            savedController.addNewCommand(new CommandDto(command.getText(), comment.getText()));
+        } else if (exploreController != null){
+            exploreController.addNewCommand(new CommandDto(command.getText(), comment.getText()));
             closeStage();
         } else {
             LOGGER.error("Save controller isn't called correctly, saved and main controller are null.");
