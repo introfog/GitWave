@@ -1,7 +1,8 @@
 package com.github.introfog.rgit.controller;
 
-import com.github.introfog.rgit.RGitLauncher;
 import com.github.introfog.rgit.model.AppConfig;
+import com.github.introfog.rgit.model.StagesUtil;
+import com.github.introfog.rgit.model.StagesUtil.FxmlStageHolder;
 import com.github.introfog.rgit.model.dto.CommandDto;
 
 import java.io.BufferedReader;
@@ -12,13 +13,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,53 +58,27 @@ public class MainController {
 
     @FXML
     protected void chooseFromSaved() {
-        Stage modalStage = new Stage();
-        modalStage.initModality(Modality.APPLICATION_MODAL);
-        FXMLLoader fxmlLoader = new FXMLLoader(RGitLauncher.class.getResource("view/saved.fxml"));
-        Scene scene = null;
-        try {
-            scene = new Scene(fxmlLoader.load());
-        } catch (IOException e) {
-            LOGGER.error("Something goes wrong while opening saved dialog window.", e);
-        }
+        FxmlStageHolder holder = StagesUtil.setUpModalStage("view/commandExplorer.fxml", "rGit saved commands");
 
-        modalStage.setTitle("rGit saved commands");
-        modalStage.setScene(scene);
-        // TODO make design flexible and allow resizing
-        modalStage.setResizable(false);
-
-        SavedController savedController = fxmlLoader.getController();
+        SavedController savedController = holder.getFxmlLoader().getController();
         savedController.fill();
         savedController.setMainController(this);
 
-        modalStage.showAndWait();
+        holder.getStage().showAndWait();
     }
 
     @FXML
     protected void saveCommand() {
-        Stage modalStage = new Stage();
-        modalStage.initModality(Modality.APPLICATION_MODAL);
-        FXMLLoader fxmlLoader = new FXMLLoader(RGitLauncher.class.getResource("view/save.fxml"));
-        Scene scene = null;
-        try {
-            scene = new Scene(fxmlLoader.load());
-        } catch (IOException e) {
-            LOGGER.error("Something goes wrong while opening save command dialog window.", e);
-        }
-
-        modalStage.setTitle("rGit save command");
-        modalStage.setScene(scene);
-        // TODO make design flexible and allow resizing
-        modalStage.setResizable(false);
+        FxmlStageHolder holder = StagesUtil.setUpModalStage("view/commandSaver.fxml", "rGit save command");
 
         final String gitCommandText = gitCommand.getText();
         if (!gitCommandText.isEmpty()) {
-            SaveController saveController = fxmlLoader.getController();
+            SaveController saveController = holder.getFxmlLoader().getController();
             saveController.setCommand(gitCommandText);
             saveController.setMainController(this);
         }
 
-        modalStage.showAndWait();
+        holder.getStage().showAndWait();
     }
 
     @FXML

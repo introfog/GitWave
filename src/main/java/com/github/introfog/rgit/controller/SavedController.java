@@ -1,23 +1,20 @@
 package com.github.introfog.rgit.controller;
 
-import com.github.introfog.rgit.RGitLauncher;
 import com.github.introfog.rgit.model.AlertsUtil;
 import com.github.introfog.rgit.model.AppConfig;
+import com.github.introfog.rgit.model.StagesUtil;
+import com.github.introfog.rgit.model.StagesUtil.FxmlStageHolder;
 import com.github.introfog.rgit.model.dto.CommandDto;
 
-import java.io.IOException;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,27 +71,12 @@ public class SavedController {
 
     @FXML
     protected void addNew() {
-        Stage modalStage = new Stage();
-        modalStage.initModality(Modality.APPLICATION_MODAL);
-        FXMLLoader fxmlLoader = new FXMLLoader(RGitLauncher.class.getResource("view/save.fxml"));
-        Scene scene = null;
-        try {
-            scene = new Scene(fxmlLoader.load());
-        } catch (IOException e) {
-            LOGGER.error("Something goes wrong while opening save command dialog window.", e);
-        }
+        FxmlStageHolder holder = StagesUtil.setUpModalStage("view/commandSaver.fxml", "rGit save command");
 
-        modalStage.setTitle("rGit save command");
-        modalStage.setScene(scene);
-        // TODO make design flexible and allow resizing
-        modalStage.setResizable(false);
-
-        SaveController saveController = fxmlLoader.getController();
+        SaveController saveController = holder.getFxmlLoader().getController();
         saveController.setSavedController(this);
 
-        modalStage.showAndWait();
-
-        saveController.setSavedController(null);
+        holder.getStage().showAndWait();
     }
 
     private void closeStage() {
