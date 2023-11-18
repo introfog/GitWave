@@ -83,19 +83,25 @@ public class ExecuteController {
 
     @FXML
     protected void runGitCommand() {
-        if (directory.getText().isEmpty() || gitCommand.getText().isEmpty()) {
-            LOGGER.warn("Either directory '{}' or git command '{}' is empty, running git command was skipped.",
-                    directory.getText(), gitCommand.getText());
-            return;
+        if (AppConfig.getInstance().isPathToGitSpecified()) {
+            if (directory.getText().isEmpty() || gitCommand.getText().isEmpty()) {
+                LOGGER.warn("Either directory '{}' or git command '{}' is empty, running git command was skipped.",
+                        directory.getText(), gitCommand.getText());
+                // TODO open alert window
+                return;
+            }
+
+            AppConfig.getInstance().setLastOpenedFolderInRegistry(directory.getText());
+
+            run.setDisable(true);
+            new Thread(() -> {
+                searchAndExecuteGitCommand(directory.getText(), gitCommand.getText());
+                run.setDisable(false);
+            }).start();
+        } else {
+            // TODO probably worth to add a alert or message in setting window if path is specified but file doesn't exist
+            StagesUtil.setUpModalStage("view/settings.fxml", "Settings").getStage().showAndWait();
         }
-
-        AppConfig.getInstance().setLastOpenedFolderInRegistry(directory.getText());
-
-        run.setDisable(true);
-        new Thread(() -> {
-            searchAndExecuteGitCommand(directory.getText(), gitCommand.getText());
-            run.setDisable(false);
-        }).start();
     }
 
     public void setGitCommand(CommandDto commandDto) {
