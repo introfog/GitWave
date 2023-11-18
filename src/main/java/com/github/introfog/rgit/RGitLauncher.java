@@ -1,5 +1,7 @@
 package com.github.introfog.rgit;
 
+import com.github.introfog.rgit.model.AppConfig;
+
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,12 +16,11 @@ public class RGitLauncher extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        if (!RGitConfiguration.getInstance().isPathToGitSpecifiedInRegistry()) {
+        if (!AppConfig.getInstance().isPathToGitSpecified()) {
             openSetupWindow(stage);
         }
-        RGitConfiguration.getInstance().initConfig();
-        if (RGitConfiguration.getInstance().isPathToGitSpecifiedInRegistry()) {
-            LOGGER.info("Path to GitBash.exe specified to '{}'", RGitConfiguration.getInstance().getPathToGitBashExeInRegistry());
+        if (AppConfig.getInstance().isPathToGitSpecified()) {
+            LOGGER.info("Path to GitBash.exe specified to '{}'", AppConfig.getInstance().getPathToGitBashExe());
             openMainWindow(stage);
         }
     }

@@ -1,8 +1,8 @@
 package com.github.introfog.rgit.controller;
 
-import com.github.introfog.rgit.RGitConfiguration;
 import com.github.introfog.rgit.RGitLauncher;
 import com.github.introfog.rgit.model.AlertsUtil;
+import com.github.introfog.rgit.model.AppConfig;
 import com.github.introfog.rgit.model.dto.CommandDto;
 
 import java.io.IOException;
@@ -41,13 +41,13 @@ public class SavedController {
     @FXML
     protected void commitCommand(CellEditEvent<CommandDto, String> event) {
         event.getRowValue().setCommand(event.getNewValue());
-        RGitConfiguration.getInstance().updateCommandScriptFromConfig(event.getRowValue(), event.getNewValue());
+        AppConfig.getInstance().updateCommandScript(event.getRowValue(), event.getNewValue());
     }
 
     @FXML
     protected void commitComment(CellEditEvent<CommandDto, String> event) {
         event.getRowValue().setComment(event.getNewValue());
-        RGitConfiguration.getInstance().updateCommandCommentFromConfig(event.getRowValue(), event.getNewValue());
+        AppConfig.getInstance().updateCommandComment(event.getRowValue(), event.getNewValue());
     }
 
     @FXML
@@ -55,7 +55,7 @@ public class SavedController {
         CommandDto selectedItem = commandsTable.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             commandsTable.getItems().remove(selectedItem);
-            RGitConfiguration.getInstance().removeCommandFromConfig(selectedItem);
+            AppConfig.getInstance().removeCommand(selectedItem);
         } else {
             AlertsUtil.createErrorAlert("No row selected", "Please select a row to remove.");
         }
@@ -103,12 +103,12 @@ public class SavedController {
     }
 
     public void addNewCommand(CommandDto commandDto) {
-        RGitConfiguration.getInstance().addCommandToConfig(commandDto);
+        AppConfig.getInstance().addCommand(commandDto);
         commandsTable.getItems().add(commandDto);
     }
 
     public void fill() {
-        List<CommandDto> commandsDtoList = RGitConfiguration.getInstance().getConfig().getCommands();
+        List<CommandDto> commandsDtoList = AppConfig.getInstance().getCommands();
         ObservableList<CommandDto> itemList = FXCollections.observableArrayList(commandsDtoList);
         commandsTable.setItems(itemList);
 

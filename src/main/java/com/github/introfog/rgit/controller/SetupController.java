@@ -1,7 +1,7 @@
 package com.github.introfog.rgit.controller;
 
-import com.github.introfog.rgit.RGitConfiguration;
 import com.github.introfog.rgit.model.AlertsUtil;
+import com.github.introfog.rgit.model.AppConfig;
 
 import java.awt.Desktop;
 import java.io.File;
@@ -33,7 +33,7 @@ public class SetupController {
         File bashExeFile = new File(pathToBashExe.getText());
         if (bashExeFile.exists() && bashExeFile.getAbsolutePath().endsWith(".exe")) {
             final String absolutePath = bashExeFile.getAbsolutePath();
-            RGitConfiguration.getInstance().setPathToGitBashExeInRegistry(absolutePath);
+            AppConfig.getInstance().setPathToGitBashExe(absolutePath);
             LOGGER.info("Path to GitBash.exe registered to '{}'", absolutePath);
             stage.close();
         } else {

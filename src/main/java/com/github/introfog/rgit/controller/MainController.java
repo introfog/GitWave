@@ -1,7 +1,7 @@
 package com.github.introfog.rgit.controller;
 
-import com.github.introfog.rgit.RGitConfiguration;
 import com.github.introfog.rgit.RGitLauncher;
+import com.github.introfog.rgit.model.AppConfig;
 import com.github.introfog.rgit.model.dto.CommandDto;
 
 import java.io.BufferedReader;
@@ -41,7 +41,7 @@ public class MainController {
     @FXML
     protected void browseDirectory() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
-        String lastOpenedFolderPath = RGitConfiguration.getInstance().getLastOpenedFolderInRegistry();
+        String lastOpenedFolderPath = AppConfig.getInstance().getLastOpenedFolderInRegistry();
         if (lastOpenedFolderPath != null && !lastOpenedFolderPath.isEmpty()) {
             File lastOpenedFolder = new File(lastOpenedFolderPath);
             if (lastOpenedFolder.exists() && lastOpenedFolder.isDirectory()) {
@@ -117,7 +117,7 @@ public class MainController {
             return;
         }
 
-        RGitConfiguration.getInstance().setLastOpenedFolderInRegistry(directory.getText());
+        AppConfig.getInstance().setLastOpenedFolderInRegistry(directory.getText());
 
         run.setDisable(true);
         new Thread(() -> {
@@ -158,7 +158,7 @@ public class MainController {
 
     private void executeGitCommand(File scriptFile) throws IOException {
         String[] str= { "cmd", "/c", "start", "\"\"",
-                "\"" + RGitConfiguration.getInstance().getPathToGitBashExeInRegistry() + "\"", "-c",
+                "\"" + AppConfig.getInstance().getPathToGitBashExe() + "\"", "-c",
                 scriptFile.getAbsolutePath().replace("\\", "\\\\\\\\") + ";read -p 'Press Enter to close window...'" };
         Process powerShellProcess = Runtime.getRuntime().exec(str);
         String line;

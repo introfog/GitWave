@@ -1,7 +1,7 @@
 package com.github.introfog.rgit.controller;
 
-import com.github.introfog.rgit.RGitConfiguration;
 import com.github.introfog.rgit.model.AlertsUtil;
+import com.github.introfog.rgit.model.AppConfig;
 import com.github.introfog.rgit.model.dto.CommandDto;
 
 import javafx.fxml.FXML;
@@ -47,7 +47,7 @@ public class SaveController {
         if (command.getText().isEmpty()) {
             AlertsUtil.createErrorAlert("Invalid command", "Command can't be empty");
         } else if (mainController != null) {
-            RGitConfiguration.getInstance().addCommandToConfig(command.getText(), comment.getText());
+            AppConfig.getInstance().addCommand(command.getText(), comment.getText());
             closeStage();
         } else if (savedController != null){
             savedController.addNewCommand(new CommandDto(command.getText(), comment.getText()));
