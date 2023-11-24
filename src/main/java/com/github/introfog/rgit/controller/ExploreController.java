@@ -16,12 +16,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ExploreController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExploreController.class);
-
     @FXML
     private TableView<CommandDto> commandsTable;
 
@@ -74,7 +70,7 @@ public class ExploreController {
         FxmlStageHolder holder = StagesUtil.setUpModalStage("view/saver.fxml", "Command saver");
 
         SaveController saveController = holder.getFxmlLoader().getController();
-        saveController.setSavedController(this);
+        saveController.setExporeController(this);
 
         holder.getStage().showAndWait();
     }

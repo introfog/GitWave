@@ -70,7 +70,13 @@ public class ExecuteController {
 
     @FXML
     protected void editCommand() {
+        FxmlStageHolder holder = StagesUtil.setUpModalStage("view/editor.fxml", "Command editor");
 
+        EditController editController = holder.getFxmlLoader().getController();
+        editController.setExecuteController(this);
+        editController.setCommand(new CommandDto(gitCommand.getText(), gitComment.getText()));
+
+        holder.getStage().showAndWait();
     }
 
     @FXML
@@ -89,7 +95,7 @@ public class ExecuteController {
         FxmlStageHolder holder = StagesUtil.setUpModalStage("view/saver.fxml", "Command saver");
 
         SaveController saveController = holder.getFxmlLoader().getController();
-        saveController.setMainController(this);
+        saveController.setExecuteController(this);
 
         final String gitCommandText = gitCommand.getText();
         if (!gitCommandText.isEmpty()) {

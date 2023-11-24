@@ -76,12 +76,24 @@ public final class AppConfig {
     }
 
     public void updateCommandScript(CommandDto commandDto, String newCommand) {
-        config.getCommands().get(config.getCommands().indexOf(commandDto)).setCommand(newCommand);
+        final List<CommandDto> commands = config.getCommands();
+        commands.get(commands.indexOf(commandDto)).setCommand(newCommand);
         saveConfig();
     }
 
     public void updateCommandComment(CommandDto commandDto, String newComment) {
-        config.getCommands().get(config.getCommands().indexOf(commandDto)).setComment(newComment);
+        final List<CommandDto> commands = config.getCommands();
+        commands.get(commands.indexOf(commandDto)).setComment(newComment);
+        saveConfig();
+    }
+
+    public void updateExistedCommand(CommandDto initial, String command, String comment) {
+        // TODO don't allow duplication of CommandDto instances on UI or low levels
+        final List<CommandDto> commands = config.getCommands();
+        if (initial != null && commands.contains(initial)) {
+            final CommandDto newCommand = new CommandDto(command, comment);
+            commands.set(commands.indexOf(initial), newCommand);
+        }
         saveConfig();
     }
 

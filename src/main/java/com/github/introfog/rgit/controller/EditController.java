@@ -10,9 +10,9 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SaveController {
+public class EditController {
     // TODO when press `Enter` save the command, `Esc` cancel, the same for other windows
-    private static final Logger LOGGER = LoggerFactory.getLogger(SaveController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EditController.class);
 
     @FXML
     private TextField command;
@@ -20,22 +20,12 @@ public class SaveController {
     @FXML
     private TextField comment;
 
-    private ExploreController exploreController;
+    private CommandDto initialCommand;
 
     private ExecuteController executeController;
 
-    public void setExporeController(ExploreController exploreController) {
-        this.exploreController = exploreController;
-        if (exploreController != null) {
-            setExecuteController(null);
-        }
-    }
-
     public void setExecuteController(ExecuteController executeController) {
         this.executeController = executeController;
-        if (executeController != null) {
-            setExporeController(null);
-        }
     }
 
     @FXML
@@ -44,27 +34,35 @@ public class SaveController {
     }
 
     @FXML
-    protected void save() {
+    protected void saveAsNew() {
         if (command.getText().isEmpty()) {
             AlertsUtil.createErrorAlert("Invalid command", "Command can't be empty");
         } else if (executeController != null) {
             AppConfig.getInstance().addCommand(command.getText(), comment.getText());
             executeController.setGitCommand(new CommandDto(command.getText(), comment.getText()));
             closeStage();
-        } else if (exploreController != null){
-            exploreController.addNewCommand(new CommandDto(command.getText(), comment.getText()));
-            closeStage();
         } else {
-            LOGGER.error("Save controller isn't called correctly, expore and execute controller are null.");
+            LOGGER.error("Edit controller isn't called correctly, execute controller are null.");
         }
     }
 
-    public void setCommand(String commandText) {
-        command.setText(commandText);
+    @FXML
+    protected void updateExisted() {
+        if (command.getText().isEmpty()) {
+            AlertsUtil.createErrorAlert("Invalid command", "Command can't be empty");
+        } else if (executeController != null) {
+            AppConfig.getInstance().updateExistedCommand(initialCommand, command.getText(), comment.getText());
+            executeController.setGitCommand(new CommandDto(command.getText(), comment.getText()));
+            closeStage();
+        } else {
+            LOGGER.error("Edit controller isn't called correctly, execute controller are null.");
+        }
     }
 
-    public void setComment(String commentText) {
-        comment.setText(commentText);
+    public void setCommand(CommandDto commandDto) {
+        this.initialCommand = commandDto;
+        command.setText(commandDto.getCommand());
+        comment.setText(commandDto.getComment());
     }
 
     private void closeStage() {
