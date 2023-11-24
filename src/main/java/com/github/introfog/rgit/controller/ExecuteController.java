@@ -34,7 +34,19 @@ public class ExecuteController {
     private TextField gitCommand;
 
     @FXML
+    private TextField gitComment;
+
+    @FXML
     private Button run;
+
+    @FXML
+    private Button edit;
+
+    @FXML
+    private Button clean;
+
+    @FXML
+    private Button save;
 
     @FXML
     protected void browseDirectory() {
@@ -57,6 +69,11 @@ public class ExecuteController {
     }
 
     @FXML
+    protected void editCommand() {
+
+    }
+
+    @FXML
     protected void chooseFromSaved() {
         FxmlStageHolder holder = StagesUtil.setUpModalStage("view/explorer.fxml", "Command explorer");
 
@@ -71,14 +88,27 @@ public class ExecuteController {
     protected void saveCommand() {
         FxmlStageHolder holder = StagesUtil.setUpModalStage("view/saver.fxml", "Command saver");
 
+        SaveController saveController = holder.getFxmlLoader().getController();
+        saveController.setMainController(this);
+
         final String gitCommandText = gitCommand.getText();
         if (!gitCommandText.isEmpty()) {
-            SaveController saveController = holder.getFxmlLoader().getController();
             saveController.setCommand(gitCommandText);
-            saveController.setMainController(this);
+        }
+
+        final String gitCommentText = gitComment.getText();
+        if (!gitCommentText.isEmpty()) {
+            saveController.setComment(gitCommentText);
         }
 
         holder.getStage().showAndWait();
+    }
+
+    @FXML
+    protected void cleanCommand() {
+        gitCommand.clear();
+        gitComment.clear();
+        switchToSavedCommand(false);
     }
 
     @FXML
@@ -106,6 +136,18 @@ public class ExecuteController {
 
     public void setGitCommand(CommandDto commandDto) {
         gitCommand.setText(commandDto.getCommand());
+        gitComment.setText(commandDto.getComment());
+        switchToSavedCommand(true);
+    }
+
+    private void switchToSavedCommand(boolean switchToSavedCommand) {
+        gitCommand.setEditable(!switchToSavedCommand);
+        gitCommand.setDisable(switchToSavedCommand);
+        gitCommand.setEditable(!switchToSavedCommand);
+        gitComment.setDisable(switchToSavedCommand);
+        edit.setDisable(!switchToSavedCommand);
+        clean.setDisable(!switchToSavedCommand);
+        save.setDisable(switchToSavedCommand);
     }
 
     private void searchAndExecuteGitCommand(String folderPath, String gitCommand) {
