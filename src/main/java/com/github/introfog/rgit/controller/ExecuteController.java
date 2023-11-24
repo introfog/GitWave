@@ -92,22 +92,8 @@ public class ExecuteController {
 
     @FXML
     protected void saveCommand() {
-        FxmlStageHolder holder = StagesUtil.setUpModalStage("view/saver.fxml", "Command saver");
-
-        SaveController saveController = holder.getFxmlLoader().getController();
-        saveController.setExecuteController(this);
-
-        final String gitCommandText = gitCommand.getText();
-        if (!gitCommandText.isEmpty()) {
-            saveController.setCommand(gitCommandText);
-        }
-
-        final String gitCommentText = gitComment.getText();
-        if (!gitCommentText.isEmpty()) {
-            saveController.setComment(gitCommentText);
-        }
-
-        holder.getStage().showAndWait();
+        AppConfig.getInstance().addCommand(gitCommand.getText(), gitComment.getText());
+        setGitCommand(new CommandDto(gitCommand.getText(), gitComment.getText()));
     }
 
     @FXML

@@ -1,7 +1,6 @@
 package com.github.introfog.rgit.controller;
 
 import com.github.introfog.rgit.model.AlertsUtil;
-import com.github.introfog.rgit.model.AppConfig;
 import com.github.introfog.rgit.model.dto.CommandDto;
 
 import javafx.fxml.FXML;
@@ -22,20 +21,8 @@ public class SaveController {
 
     private ExploreController exploreController;
 
-    private ExecuteController executeController;
-
-    public void setExporeController(ExploreController exploreController) {
+    public void setExploreController(ExploreController exploreController) {
         this.exploreController = exploreController;
-        if (exploreController != null) {
-            setExecuteController(null);
-        }
-    }
-
-    public void setExecuteController(ExecuteController executeController) {
-        this.executeController = executeController;
-        if (executeController != null) {
-            setExporeController(null);
-        }
     }
 
     @FXML
@@ -47,15 +34,11 @@ public class SaveController {
     protected void save() {
         if (command.getText().isEmpty()) {
             AlertsUtil.createErrorAlert("Invalid command", "Command can't be empty");
-        } else if (executeController != null) {
-            AppConfig.getInstance().addCommand(command.getText(), comment.getText());
-            executeController.setGitCommand(new CommandDto(command.getText(), comment.getText()));
-            closeStage();
         } else if (exploreController != null){
             exploreController.addNewCommand(new CommandDto(command.getText(), comment.getText()));
             closeStage();
         } else {
-            LOGGER.error("Save controller isn't called correctly, expore and execute controller are null.");
+            LOGGER.error("Save controller isn't called correctly, explore and execute controller are null.");
         }
     }
 

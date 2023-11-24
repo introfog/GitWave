@@ -70,7 +70,7 @@ public class ExploreController {
         FxmlStageHolder holder = StagesUtil.setUpModalStage("view/saver.fxml", "Command saver");
 
         SaveController saveController = holder.getFxmlLoader().getController();
-        saveController.setExporeController(this);
+        saveController.setExploreController(this);
 
         holder.getStage().showAndWait();
     }
