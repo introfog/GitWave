@@ -47,13 +47,13 @@ public final class AppConfig {
         return config.getPathToGitBash();
     }
 
-    public void setLastOpenedFolderInRegistry(String lastOpenedFolder) {
-        config.setLastOpenedFolder(lastOpenedFolder);
+    public void setLastRunFolder(String lastRunFolder) {
+        config.setLastRunFolder(lastRunFolder);
         saveConfig();
     }
 
-    public String getLastOpenedFolderInRegistry() {
-        return config.getLastOpenedFolder();
+    public String getLastRunFolder() {
+        return config.getLastRunFolder();
     }
 
     public List<CommandDto> getCommands() {

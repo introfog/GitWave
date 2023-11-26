@@ -8,17 +8,17 @@ public final class ConfigDto {
     @JsonProperty("pathToGitBash")
     private String pathToGitBash;
     @JsonProperty("lastOpenedFolder")
-    private String lastOpenedFolder;
+    private String lastRunFolder;
     @JsonProperty("commands")
     private List<CommandDto> commands;
 
     public ConfigDto(
             @JsonProperty("pathToGitBash") String pathToGitBash,
-            @JsonProperty("lastOpenedFolder") String lastOpenedFolder,
+            @JsonProperty("lastOpenedFolder") String lastRunFolder,
             @JsonProperty("commands") List<CommandDto> commands) {
 
         this.pathToGitBash = pathToGitBash;
-        this.lastOpenedFolder = lastOpenedFolder;
+        this.lastRunFolder = lastRunFolder;
         this.commands = commands;
     }
 
@@ -42,11 +42,11 @@ public final class ConfigDto {
         this.pathToGitBash = pathToGitBash;
     }
 
-    public String getLastOpenedFolder() {
-        return lastOpenedFolder;
+    public String getLastRunFolder() {
+        return lastRunFolder;
     }
 
-    public void setLastOpenedFolder(String lastOpenedFolder) {
-        this.lastOpenedFolder = lastOpenedFolder;
+    public void setLastRunFolder(String lastOpenedFolder) {
+        this.lastRunFolder = lastOpenedFolder;
     }
 }

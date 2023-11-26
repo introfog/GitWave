@@ -52,12 +52,11 @@ public class ExecuteController {
     @FXML
     protected void browseDirectory() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
-        String lastOpenedFolderPath = AppConfig.getInstance().getLastOpenedFolderInRegistry();
+        String lastOpenedFolderPath = AppConfig.getInstance().getLastRunFolder();
         if (lastOpenedFolderPath != null && !lastOpenedFolderPath.isEmpty()) {
             File lastOpenedFolder = new File(lastOpenedFolderPath);
             if (lastOpenedFolder.exists() && lastOpenedFolder.isDirectory()) {
                 directoryChooser.setInitialDirectory(lastOpenedFolder);
-                // TODO is it necessary to remove field in config if folder doesn't exist?
             }
         }
 
@@ -119,7 +118,7 @@ public class ExecuteController {
                 return;
             }
 
-            AppConfig.getInstance().setLastOpenedFolderInRegistry(directory.getText());
+            AppConfig.getInstance().setLastRunFolder(directory.getText());
 
             run.setDisable(true);
             new Thread(() -> {
