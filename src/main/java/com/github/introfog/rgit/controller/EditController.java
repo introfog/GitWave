@@ -38,9 +38,14 @@ public class EditController {
         if (command.getText().isEmpty()) {
             AlertsUtil.createErrorAlert("Invalid command", "Command can't be empty");
         } else if (executeController != null) {
-            AppConfig.getInstance().addCommand(command.getText(), comment.getText());
-            executeController.setGitCommand(new CommandDto(command.getText(), comment.getText()));
-            closeStage();
+            final CommandDto commandDto = new CommandDto(command.getText(), comment.getText());
+            if (commandDto.equals(initialCommand)) {
+                AlertsUtil.createErrorAlert("Save error", "The same command already exists");
+            } else {
+                AppConfig.getInstance().addCommand(commandDto);
+                executeController.setGitCommand(commandDto);
+                closeStage();
+            }
         } else {
             LOGGER.error("Edit controller isn't called correctly, execute controller are null.");
         }
@@ -51,8 +56,9 @@ public class EditController {
         if (command.getText().isEmpty()) {
             AlertsUtil.createErrorAlert("Invalid command", "Command can't be empty");
         } else if (executeController != null) {
-            AppConfig.getInstance().updateExistedCommand(initialCommand, command.getText(), comment.getText());
-            executeController.setGitCommand(new CommandDto(command.getText(), comment.getText()));
+            final CommandDto currentCommand = new CommandDto(command.getText(), comment.getText());
+            AppConfig.getInstance().updateExistedCommand(initialCommand, currentCommand);
+            executeController.setGitCommand(currentCommand);
             closeStage();
         } else {
             LOGGER.error("Edit controller isn't called correctly, execute controller are null.");

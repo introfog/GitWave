@@ -1,5 +1,6 @@
 package com.github.introfog.rgit.controller;
 
+import com.github.introfog.rgit.model.AlertsUtil;
 import com.github.introfog.rgit.model.AppConfig;
 import com.github.introfog.rgit.model.StagesUtil;
 import com.github.introfog.rgit.model.StagesUtil.FxmlStageHolder;
@@ -92,8 +93,13 @@ public class ExecuteController {
 
     @FXML
     protected void saveCommand() {
-        AppConfig.getInstance().addCommand(gitCommand.getText(), gitComment.getText());
-        setGitCommand(new CommandDto(gitCommand.getText(), gitComment.getText()));
+        if (gitCommand.getText().isEmpty()) {
+            AlertsUtil.createErrorAlert("Invalid command", "Command can't be empty");
+        } else {
+            final CommandDto commandDto = new CommandDto(gitCommand.getText(), gitComment.getText());
+            AppConfig.getInstance().addCommand(commandDto);
+            setGitCommand(commandDto);
+        }
     }
 
     @FXML

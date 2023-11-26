@@ -12,3 +12,4 @@
     <appender-ref ref="FILE" />
   </root>
 </configuration>
+<!-- TODO fix creating empty logs -->

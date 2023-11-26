@@ -60,14 +60,13 @@ public final class AppConfig {
         return config.getCommands();
     }
 
-    public void addCommand(String command, String comment) {
-        config.getCommands().add(new CommandDto(command, comment));
-        saveConfig();
-    }
-
     public void addCommand(CommandDto commandDto) {
-        config.getCommands().add(commandDto);
-        saveConfig();
+        if (config.getCommands().contains(commandDto)) {
+            LOGGER.warn("There was an attempt to add duplicate command '{}'", commandDto);
+        } else {
+            config.getCommands().add(commandDto);
+            saveConfig();
+        }
     }
 
     public void removeCommand(CommandDto commandDto) {
@@ -87,12 +86,10 @@ public final class AppConfig {
         saveConfig();
     }
 
-    public void updateExistedCommand(CommandDto initial, String command, String comment) {
-        // TODO don't allow duplication of CommandDto instances on UI or low levels
+    public void updateExistedCommand(CommandDto initial, CommandDto current) {
         final List<CommandDto> commands = config.getCommands();
         if (initial != null && commands.contains(initial)) {
-            final CommandDto newCommand = new CommandDto(command, comment);
-            commands.set(commands.indexOf(initial), newCommand);
+            commands.set(commands.indexOf(initial), current);
         }
         saveConfig();
     }
