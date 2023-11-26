@@ -153,7 +153,8 @@
                                 <argument>/invisible</argument>
                                 <argument>/x64</argument>
                                 <argument>/overwrite</argument>
-                                <!-- TODO Windows doesn't see any details about created .exe -->
+                                <argument>/fileversion</argument>
+                                <argument>1.0.0.0</argument>
                                 <argument>/productversion</argument>
                                 <argument>${project.version}</argument>
                                 <argument>/productname</argument>
