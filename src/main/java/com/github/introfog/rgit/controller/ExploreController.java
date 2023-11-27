@@ -2,8 +2,8 @@ package com.github.introfog.rgit.controller;
 
 import com.github.introfog.rgit.model.AlertsUtil;
 import com.github.introfog.rgit.model.AppConfig;
-import com.github.introfog.rgit.model.StagesUtil;
-import com.github.introfog.rgit.model.StagesUtil.FxmlStageHolder;
+import com.github.introfog.rgit.model.StageFactory;
+import com.github.introfog.rgit.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.rgit.model.dto.CommandDto;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 
-public class ExploreController {
+public class ExploreController extends BaseController {
     @FXML
     private TableView<CommandDto> commandsTable;
 
@@ -28,11 +28,13 @@ public class ExploreController {
 
     private ExecuteController executeController;
 
-    public ExploreController() {
-
+    @Override
+    public void initialize(FxmlStageHolder fxmlStageHolder) {
+        super.setClosingOnEscapePressing(fxmlStageHolder);
+        fillTable();
     }
 
-    public void setMainController(ExecuteController executeController) {
+    public void setExecuteController(ExecuteController executeController) {
         this.executeController = executeController;
     }
 
@@ -72,7 +74,7 @@ public class ExploreController {
 
     @FXML
     protected void addNew() {
-        FxmlStageHolder holder = StagesUtil.setUpModalStage("view/saver.fxml", "Command saver");
+        FxmlStageHolder holder = StageFactory.createModalStage("view/saver.fxml", "Command saver");
 
         SaveController saveController = holder.getFxmlLoader().getController();
         saveController.setExploreController(this);
@@ -90,7 +92,7 @@ public class ExploreController {
         commandsTable.getItems().add(commandDto);
     }
 
-    public void fill() {
+    private void fillTable() {
         List<CommandDto> commandsDtoList = AppConfig.getInstance().getCommands();
         ObservableList<CommandDto> itemList = FXCollections.observableArrayList(commandsDtoList);
         commandsTable.setItems(itemList);

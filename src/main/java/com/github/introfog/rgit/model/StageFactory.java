@@ -1,48 +1,34 @@
 package com.github.introfog.rgit.model;
 
 import com.github.introfog.rgit.RGitLauncher;
+import com.github.introfog.rgit.controller.BaseController;
 
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class StagesUtil {
-    private static final Logger LOGGER = LoggerFactory.getLogger(StagesUtil.class);
+public final class StageFactory {
+    private static final Logger LOGGER = LoggerFactory.getLogger(StageFactory.class);
 
-    private StagesUtil() {
+    private StageFactory() {
         // private constructor
     }
 
-    public static FxmlStageHolder setUpModalStage(String fxmlPath, String title) {
+    public static FxmlStageHolder createModalStage(String fxmlPath, String title) {
         Stage modalStage = new Stage();
         modalStage.initModality(Modality.APPLICATION_MODAL);
-        final FxmlStageHolder fxmlStageHolder = setUpStage(fxmlPath, title, modalStage);
-        fxmlStageHolder.getScene().setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ESCAPE) {
-                fxmlStageHolder.getStage().close();
-            }
-        });
-        return fxmlStageHolder;
+        return creteStage(fxmlPath, title, modalStage);
     }
 
-    public static FxmlStageHolder setUpPrimaryStage(String fxmlPath, String title, Stage stage) {
-        final FxmlStageHolder fxmlStageHolder = setUpStage(fxmlPath, title, stage);
-
-        final Stage primaryStage = fxmlStageHolder.getStage();
-        primaryStage.setOnCloseRequest(event -> {
-            event.consume();
-            AlertsUtil.createCloseConfirmationAlert(primaryStage);
-        });
-
-        return fxmlStageHolder;
+    public static FxmlStageHolder createPrimaryStage(String fxmlPath, String title, Stage stage) {
+        return creteStage(fxmlPath, title, stage);
     }
 
-    private static FxmlStageHolder setUpStage(String fxmlPath, String title, Stage stage) {
+    private static FxmlStageHolder creteStage(String fxmlPath, String title, Stage stage) {
         FXMLLoader fxmlLoader = new FXMLLoader(RGitLauncher.class.getResource(fxmlPath));
         Scene scene;
         try {
@@ -57,7 +43,10 @@ public final class StagesUtil {
         stage.setScene(scene);
         // TODO make design flexible and allow resizing
         stage.setResizable(false);
-        return new FxmlStageHolder(stage, fxmlLoader, scene);
+        BaseController controller = fxmlLoader.getController();
+        final FxmlStageHolder fxmlStageHolder = new FxmlStageHolder(stage, fxmlLoader, scene);
+        controller.initialize(fxmlStageHolder);
+        return fxmlStageHolder;
     }
 
     public static final class FxmlStageHolder {

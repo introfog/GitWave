@@ -2,6 +2,7 @@ package com.github.introfog.rgit.controller;
 
 import com.github.introfog.rgit.model.AlertsUtil;
 import com.github.introfog.rgit.model.AppConfig;
+import com.github.introfog.rgit.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.rgit.model.dto.CommandDto;
 
 import javafx.fxml.FXML;
@@ -10,7 +11,7 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class EditController {
+public class EditController extends BaseController {
     // TODO when press `Enter` save the command, `Esc` cancel, the same for other windows
     private static final Logger LOGGER = LoggerFactory.getLogger(EditController.class);
 
@@ -26,6 +27,11 @@ public class EditController {
 
     public void setExecuteController(ExecuteController executeController) {
         this.executeController = executeController;
+    }
+
+    @Override
+    public void initialize(FxmlStageHolder fxmlStageHolder) {
+        super.setClosingOnEscapePressing(fxmlStageHolder);
     }
 
     @FXML

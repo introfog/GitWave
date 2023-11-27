@@ -2,6 +2,7 @@ package com.github.introfog.rgit.controller;
 
 import com.github.introfog.rgit.model.AlertsUtil;
 import com.github.introfog.rgit.model.AppConfig;
+import com.github.introfog.rgit.model.StageFactory.FxmlStageHolder;
 
 import java.awt.Desktop;
 import java.io.File;
@@ -16,7 +17,7 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SetupController {
+public class SetupController extends BaseController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SetupController.class);
 
     private static final String GIT_HUB_URI = "https://github.com/introfog/rGit";
@@ -26,6 +27,11 @@ public class SetupController {
 
     @FXML
     private TextField pathToBashExe;
+
+    @Override
+    public void initialize(FxmlStageHolder fxmlStageHolder) {
+        super.setClosingOnEscapePressing(fxmlStageHolder);
+    }
 
     @FXML
     protected void finishSetup() {

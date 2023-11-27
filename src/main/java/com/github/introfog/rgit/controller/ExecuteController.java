@@ -2,8 +2,8 @@ package com.github.introfog.rgit.controller;
 
 import com.github.introfog.rgit.model.AlertsUtil;
 import com.github.introfog.rgit.model.AppConfig;
-import com.github.introfog.rgit.model.StagesUtil;
-import com.github.introfog.rgit.model.StagesUtil.FxmlStageHolder;
+import com.github.introfog.rgit.model.StageFactory;
+import com.github.introfog.rgit.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.rgit.model.dto.CommandDto;
 
 import java.io.BufferedReader;
@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ExecuteController {
+public class ExecuteController extends BaseController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExecuteController.class);
 
     @FXML
@@ -49,6 +49,15 @@ public class ExecuteController {
     @FXML
     private Button save;
 
+    @Override
+    public void initialize(FxmlStageHolder fxmlStageHolder) {
+        final Stage primaryStage = fxmlStageHolder.getStage();
+        primaryStage.setOnCloseRequest(event -> {
+            event.consume();
+            AlertsUtil.createCloseConfirmationAlert(primaryStage);
+        });
+    }
+
     @FXML
     protected void browseDirectory() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -70,7 +79,7 @@ public class ExecuteController {
 
     @FXML
     protected void editCommand() {
-        FxmlStageHolder holder = StagesUtil.setUpModalStage("view/editor.fxml", "Command editor");
+        FxmlStageHolder holder = StageFactory.createModalStage("view/editor.fxml", "Command editor");
 
         EditController editController = holder.getFxmlLoader().getController();
         editController.setExecuteController(this);
@@ -81,11 +90,10 @@ public class ExecuteController {
 
     @FXML
     protected void chooseFromSaved() {
-        FxmlStageHolder holder = StagesUtil.setUpModalStage("view/explorer.fxml", "Command explorer");
+        FxmlStageHolder holder = StageFactory.createModalStage("view/explorer.fxml", "Command explorer");
 
         ExploreController exploreController = holder.getFxmlLoader().getController();
-        exploreController.fill();
-        exploreController.setMainController(this);
+        exploreController.setExecuteController(this);
 
         holder.getStage().showAndWait();
     }
@@ -127,7 +135,7 @@ public class ExecuteController {
             }).start();
         } else {
             // TODO probably worth to add a alert or message in setting window if path is specified but file doesn't exist
-            StagesUtil.setUpModalStage("view/settings.fxml", "Settings").getStage().showAndWait();
+            StageFactory.createModalStage("view/settings.fxml", "Settings").getStage().showAndWait();
         }
     }
 
