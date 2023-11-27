@@ -7,9 +7,11 @@ import com.github.introfog.rgit.model.StagesUtil.FxmlStageHolder;
 import com.github.introfog.rgit.model.dto.CommandDto;
 
 import java.util.List;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -20,6 +22,9 @@ import javafx.stage.Stage;
 public class ExploreController {
     @FXML
     private TableView<CommandDto> commandsTable;
+
+    @FXML
+    protected Button addNew;
 
     private ExecuteController executeController;
 
@@ -97,5 +102,7 @@ public class ExploreController {
         final TableColumn<CommandDto, String> commentTableColumn = (TableColumn<CommandDto, String>) commandsTable.getColumns().get(1);
         commentTableColumn.setCellValueFactory(new PropertyValueFactory<>("comment"));
         commentTableColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        Platform.runLater(() -> addNew.requestFocus());
     }
 }

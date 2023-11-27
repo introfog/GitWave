@@ -9,7 +9,7 @@ public class RGitLauncher extends Application {
     @Override
     public void start(Stage stage) {
         // TODO create a icon for the app (use also in exe)
-        StagesUtil.setUpStage("view/executor.fxml", "rGit", stage).getStage().show();
+        StagesUtil.setUpPrimaryStage("view/executor.fxml", "rGit", stage).getStage().show();
     }
 
     public static void main(String[] args) {

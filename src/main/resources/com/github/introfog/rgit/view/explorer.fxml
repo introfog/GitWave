@@ -13,7 +13,7 @@
         </columns>
       </TableView>
       <Button layoutX="72.0" layoutY="236.0" mnemonicParsing="false" onAction="#removeSelected" text="Remove selected" />
-      <Button layoutX="269.0" layoutY="236.0" mnemonicParsing="false" onAction="#addNew" text="Add new" />
+      <Button fx:id="addNew" layoutX="269.0" layoutY="236.0" mnemonicParsing="false" onAction="#addNew" text="Add new" />
       <Button layoutX="423.0" layoutY="236.0" mnemonicParsing="false" onAction="#chooseToRun" text="Choose to run" />
    </children>
 </AnchorPane>
