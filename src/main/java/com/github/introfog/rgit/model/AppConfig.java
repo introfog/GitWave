@@ -74,6 +74,10 @@ public final class AppConfig {
         saveConfig();
     }
 
+    public boolean containsCommand(CommandDto commandDto) {
+        return config.getCommands().contains(commandDto);
+    }
+
     public void updateCommandScript(CommandDto commandDto, String newCommand) {
         final List<CommandDto> commands = config.getCommands();
         commands.get(commands.indexOf(commandDto)).setCommand(newCommand);
