@@ -119,10 +119,14 @@ public class ExecuteController extends BaseController {
     @FXML
     protected void runGitCommand() {
         if (AppConfig.getInstance().isPathToGitSpecified()) {
-            if (directory.getText().isEmpty() || gitCommand.getText().isEmpty()) {
-                LOGGER.warn("Either directory '{}' or git command '{}' is empty, running git command was skipped.",
-                        directory.getText(), gitCommand.getText());
-                // TODO open alert window
+            if (gitCommand.getText().isEmpty()) {
+                LOGGER.warn("Command '{}' is empty, running git command was skipped.", gitCommand.getText());
+                AlertsUtil.createErrorAlert("Invalid command", "Command can't be empty");
+                return;
+            }
+            if (directory.getText().isEmpty()) {
+                LOGGER.warn("Directory '{}' is empty, running git command was skipped.", directory.getText());
+                AlertsUtil.createErrorAlert("Invalid directory", "Directory can't be empty");
                 return;
             }
 

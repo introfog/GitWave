@@ -62,14 +62,6 @@ public class SaveController extends BaseController {
         }
     }
 
-    public void setCommand(String commandText) {
-        command.setText(commandText);
-    }
-
-    public void setComment(String commentText) {
-        comment.setText(commentText);
-    }
-
     private void closeStage() {
         Stage modalStage = (Stage) comment.getScene().getWindow();
         modalStage.close();

@@ -17,6 +17,7 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 public class ExploreController extends BaseController {
@@ -32,6 +33,11 @@ public class ExploreController extends BaseController {
     public void initialize(FxmlStageHolder fxmlStageHolder) {
         super.setClosingOnEscapePressing(fxmlStageHolder);
         fillTable();
+        commandsTable.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ESCAPE) {
+                fxmlStageHolder.getStage().close();
+            }
+        });
     }
 
     public void setExecuteController(ExecuteController executeController) {
