@@ -118,7 +118,14 @@ public class ExecuteController extends BaseController {
 
     @FXML
     protected void runGitCommand() {
-        if (AppConfig.getInstance().isPathToGitSpecified()) {
+        final String pathToGitBashExe = AppConfig.getInstance().getPathToGitBashExe();
+        if (pathToGitBashExe == null || pathToGitBashExe.isEmpty()) {
+            StageFactory.createModalStage("view/settings.fxml", "Settings").getStage().showAndWait();
+        } else if (!(new File(pathToGitBashExe)).exists()) {
+            LOGGER.error("Specified GitBash.exe path '{}' points to not-existent file, running git command was skipped.", pathToGitBashExe);
+            AlertsUtil.createErrorAlert("Invalid path to GitBash.exe", "Specified path \"" + pathToGitBashExe +
+                    "\" points to not-existent file. Specify correct path in settings.");
+        } else {
             if (gitCommand.getText().isEmpty()) {
                 LOGGER.warn("Command '{}' is empty, running git command was skipped.", gitCommand.getText());
                 AlertsUtil.createErrorAlert("Invalid command", "Command can't be empty");
@@ -137,9 +144,6 @@ public class ExecuteController extends BaseController {
                 searchAndExecuteGitCommand(directory.getText(), gitCommand.getText());
                 run.setDisable(false);
             }).start();
-        } else {
-            // TODO probably worth to add a alert or message in setting window if path is specified but file doesn't exist
-            StageFactory.createModalStage("view/settings.fxml", "Settings").getStage().showAndWait();
         }
     }
 
@@ -180,8 +184,7 @@ public class ExecuteController extends BaseController {
                 }
             }
         } else {
-            LOGGER.warn("Specified folder either don't exist or isn't a directory, running git command was skipped.");
-            // TODO open error windows
+            LOGGER.error("Specified folder either don't exist or isn't a directory, running git command was skipped.");
         }
     }
 
