@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SaveController extends BaseController {
-    // TODO when press `Enter` save the command, `Esc` cancel, the same for other windows
     private static final Logger LOGGER = LoggerFactory.getLogger(SaveController.class);
 
     @FXML

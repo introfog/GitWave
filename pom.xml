@@ -167,6 +167,7 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <!-- TODO Get rid of using innosetup and creating installer -->
                         <id>create-install-exe</id>
                         <phase>none</phase>
                         <goals>

@@ -210,6 +210,7 @@ public class ExecuteController extends BaseController {
     }
 
     private File createAndFillTempFileWithGitCommand(String gitCommand, List<File> repositoriesToRunCommand) throws IOException {
+        // TODO save temp files in app folder
         File scriptFile = File.createTempFile("script", ".sh");
         LOGGER.info("Temp file '{}' was created", scriptFile.getAbsolutePath());
         FileWriter writer = new FileWriter(scriptFile);
