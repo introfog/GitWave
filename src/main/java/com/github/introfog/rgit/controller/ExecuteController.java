@@ -138,8 +138,7 @@ public class ExecuteController extends BaseController {
             }
 
             AppConfig.getInstance().setLastRunFolder(directory.getText());
-
-            run.setDisable(true);
+            
             new Thread(() -> {
                 searchAndExecuteGitCommand(directory.getText(), gitCommand.getText());
                 run.setDisable(false);
