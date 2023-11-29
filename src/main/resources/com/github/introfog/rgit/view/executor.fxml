@@ -16,7 +16,7 @@
       <Button layoutX="238.0" layoutY="233.0" mnemonicParsing="false" onAction="#chooseFromSaved" text="Choose from saved" />
       <TextField fx:id="gitComment" layoutX="27.0" layoutY="189.0" prefHeight="25.0" prefWidth="378.0" />
       <Label layoutX="27.0" layoutY="162.0" text="Comment to command" />
-      <Button fx:id="edit" disable="true" layoutX="447.0" layoutY="189.0" mnemonicParsing="false" onAction="#editCommand" text="Edit" />
+      <Button fx:id="update" disable="true" layoutX="438.0" layoutY="189.0" mnemonicParsing="false" onAction="#updateCommand" text="Update" />
       <Button fx:id="clean" disable="true" layoutX="518.0" layoutY="189.0" mnemonicParsing="false" onAction="#cleanCommand" text="Clean" />
    </children>
 </AnchorPane>

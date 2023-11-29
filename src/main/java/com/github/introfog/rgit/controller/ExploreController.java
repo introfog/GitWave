@@ -61,6 +61,7 @@ public class ExploreController extends BaseController {
         CommandDto selectedItem = commandsTable.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             commandsTable.getItems().remove(selectedItem);
+            executeController.removeSavedCommand(selectedItem);
             AppConfig.getInstance().removeCommand(selectedItem);
         } else {
             AlertsUtil.createErrorAlert("No row selected", "Please select a row to remove.");

@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -41,13 +42,15 @@ public class ExecuteController extends BaseController {
     private Button run;
 
     @FXML
-    private Button edit;
+    private Button update;
 
     @FXML
     private Button clean;
 
     @FXML
     private Button save;
+
+    private CommandDto savedCommand;
 
     @Override
     public void initialize(FxmlStageHolder fxmlStageHolder) {
@@ -78,12 +81,12 @@ public class ExecuteController extends BaseController {
     }
 
     @FXML
-    protected void editCommand() {
-        FxmlStageHolder holder = StageFactory.createModalStage("view/editor.fxml", "Command editor");
+    protected void updateCommand() {
+        FxmlStageHolder holder = StageFactory.createModalStage("view/updater.fxml", "Command updater");
 
-        EditController editController = holder.getFxmlLoader().getController();
-        editController.setExecuteController(this);
-        editController.setCommand(new CommandDto(gitCommand.getText(), gitComment.getText()));
+        UpdateController updateController = holder.getFxmlLoader().getController();
+        updateController.setExecuteController(this);
+        updateController.setCommand(savedCommand);
 
         holder.getStage().showAndWait();
     }
@@ -113,6 +116,7 @@ public class ExecuteController extends BaseController {
     protected void cleanCommand() {
         gitCommand.clear();
         gitComment.clear();
+        savedCommand = null;
         switchToSavedCommand(false);
     }
 
@@ -138,7 +142,7 @@ public class ExecuteController extends BaseController {
             }
 
             AppConfig.getInstance().setLastRunFolder(directory.getText());
-            
+
             new Thread(() -> {
                 searchAndExecuteGitCommand(directory.getText(), gitCommand.getText());
                 run.setDisable(false);
@@ -149,15 +153,19 @@ public class ExecuteController extends BaseController {
     public void setGitCommand(CommandDto commandDto) {
         gitCommand.setText(commandDto.getCommand());
         gitComment.setText(commandDto.getComment());
+        savedCommand = commandDto;
         switchToSavedCommand(true);
     }
 
+    public void removeSavedCommand(CommandDto commandDto) {
+        if (Objects.equals(commandDto, savedCommand)) {
+            savedCommand = null;
+            switchToSavedCommand(false);
+        }
+    }
+
     private void switchToSavedCommand(boolean switchToSavedCommand) {
-        gitCommand.setEditable(!switchToSavedCommand);
-        gitCommand.setDisable(switchToSavedCommand);
-        gitCommand.setEditable(!switchToSavedCommand);
-        gitComment.setDisable(switchToSavedCommand);
-        edit.setDisable(!switchToSavedCommand);
+        update.setDisable(!switchToSavedCommand);
         clean.setDisable(!switchToSavedCommand);
         save.setDisable(switchToSavedCommand);
     }

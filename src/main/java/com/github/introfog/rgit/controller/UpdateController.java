@@ -11,8 +11,8 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class EditController extends BaseController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(EditController.class);
+public class UpdateController extends BaseController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UpdateController.class);
 
     @FXML
     private TextField command;
