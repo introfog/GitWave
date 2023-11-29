@@ -16,13 +16,10 @@ rGit is designed for developers who work with multiple git repositories and/or w
 - JDK 11 or higher.
 - Maven.
 - Any IDE for Java
-- To create rGit installer:
-  - Download and install [Inno Setup 6 or higher](https://jrsoftware.org/isinfo.php).
-  - Add an `Inno Setup` folder to `Path` environment variable.
 ### Build options
 - To run application execute `mvn javafx:run`.
-- To create local ready to use Java image execute `mvn package`. rGit will be in `target/rGitImage` folder.
-- To create installer of app execute `mvn package -P create-installer`. Installer of rGit will be in `installer` folder.
+- To create ready to use app, archived into .zip, run `mvn package`. rGit will be in `target/rGitImage/rGit.zip` archive.
+  - Windows can consider `rGit.exe` or `batToExe.exe` as a dangerous files and remove them. In that case use `launcher.bat` to run app.
 
 ## Ideas for further releases
 - Allow working with app by using only keyboard (with correct Tabs, Esc and so on work).

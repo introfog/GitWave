@@ -167,45 +167,44 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <!-- TODO Get rid of using innosetup and creating installer -->
-                        <id>create-install-exe</id>
-                        <phase>none</phase>
+                        <id>copy-paste-license-file</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>iscc</executable>
+                            <executable>cmd</executable>
                             <arguments>
-                                <argument>innoSetupScript.iss</argument>
+                                <argument>/c</argument>
+                                <argument>copy LICENSE.md target\rGitImage</argument>
                             </arguments>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven-assembly-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>create-zip-archive</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/assembly/zip.xml</descriptor>
+                            </descriptors>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <finalName>rGit</finalName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <!-- By default don't create installer -->
-            <id>create-installer</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>create-install-exe</id>
-                                <phase>package</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>
