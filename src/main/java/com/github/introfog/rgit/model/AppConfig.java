@@ -34,10 +34,6 @@ public final class AppConfig {
         return INSTANCE;
     }
 
-    public boolean isPathToGitSpecified() {
-        return config.getPathToGitBash() != null;
-    }
-
     public void setPathToGitBashExe(String pathToGitBashExe) {
         config.setPathToGitBash(pathToGitBashExe);
         saveConfig();
