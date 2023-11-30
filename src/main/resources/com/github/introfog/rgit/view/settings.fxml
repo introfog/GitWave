@@ -4,11 +4,11 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane fx:id="anchorSetup" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="157.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.rgit.controller.SetupController">
+<AnchorPane fx:id="anchorSetup" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="157.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.rgit.controller.SettingsController">
    <children>
-      <Label layoutX="41.0" layoutY="33.0" prefHeight="17.0" prefWidth="409.0" text="Define a path to bash.exe on your PC (usually &quot;PATH_TO_GIT/bin/bash.exe&quot;)." />
+      <Label layoutX="41.0" layoutY="33.0" prefHeight="17.0" prefWidth="409.0" text="Path to bash.exe on your PC (usually &quot;PATH_TO_GIT/bin/bash.exe&quot;)." />
       <TextField fx:id="pathToBashExe" layoutX="41.0" layoutY="58.0" prefHeight="25.0" prefWidth="409.0" />
       <Button layoutX="505.0" layoutY="58.0" mnemonicParsing="false" onAction="#browseGitBashExe" text="Browse" />
-      <Button fx:id="finish" layoutX="280.0" layoutY="101.0" mnemonicParsing="false" onAction="#finishSetup" text="Save" />
+      <Button fx:id="save" layoutX="280.0" layoutY="101.0" mnemonicParsing="false" onAction="#finishSetup" text="Save" />
    </children>
 </AnchorPane>

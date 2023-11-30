@@ -4,12 +4,9 @@ import com.github.introfog.rgit.model.AppConfig;
 import com.github.introfog.rgit.model.DialogFactory;
 import com.github.introfog.rgit.model.StageFactory.FxmlStageHolder;
 
-import java.awt.Desktop;
 import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
@@ -17,10 +14,8 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SetupController extends BaseController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SetupController.class);
-
-    private static final String GIT_HUB_URI = "https://github.com/introfog/rGit";
+public class SettingsController extends BaseController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SettingsController.class);
 
     @FXML
     private AnchorPane anchorSetup;
@@ -28,9 +23,17 @@ public class SetupController extends BaseController {
     @FXML
     private TextField pathToBashExe;
 
+    @FXML
+    private Button save;
+
     @Override
     public void initialize(FxmlStageHolder fxmlStageHolder) {
         super.setClosingOnEscapePressing(fxmlStageHolder);
+        final String pathToGitBashExeStr = AppConfig.getInstance().getPathToGitBashExe();
+        if (pathToGitBashExeStr != null && !pathToGitBashExeStr.isEmpty()) {
+            pathToBashExe.setText(pathToGitBashExeStr);
+        }
+        save.requestFocus();
     }
 
     @FXML
@@ -55,23 +58,26 @@ public class SetupController extends BaseController {
         FileChooser.ExtensionFilter exeFilter = new FileChooser.ExtensionFilter("Bash executable (*.exe)", "*.exe");
         fileChooser.getExtensionFilters().add(exeFilter);
 
+        final String pathToGitBashExeStr = AppConfig.getInstance().getPathToGitBashExe();
+        if (pathToGitBashExeStr != null && !pathToGitBashExeStr.isEmpty()) {
+            File gitBashDir = new File(pathToGitBashExeStr.substring(0, pathToGitBashExeStr.lastIndexOf("\\")));
+            if (gitBashDir.exists() && gitBashDir.isDirectory()) {
+                fileChooser.setInitialDirectory(gitBashDir);
+            }
+        }
+
         Stage stage = (Stage) anchorSetup.getScene().getWindow();
 
         File selectedFile = fileChooser.showOpenDialog(stage);
-        if (selectedFile != null && selectedFile.exists()) {
-            pathToBashExe.setText(selectedFile.getAbsolutePath());
+        if (selectedFile != null) {
+            if (selectedFile.exists()) {
+                pathToBashExe.setText(selectedFile.getAbsolutePath());
+            } else {
+                LOGGER.error("Wrong browsed path to GitBash.exe '{}'", selectedFile);
+                DialogFactory.createErrorAlert("Provided file wasn't found", "Provided file wasn't found, try again");
+            }
         } else {
-            LOGGER.error("Wrong browsed path to GitBash.exe '{}'", selectedFile);
-            DialogFactory.createErrorAlert("Provided file wasn't found", "Provided file wasn't found, try again");
-        }
-    }
-
-    @FXML
-    protected void goToGitHub() {
-        try {
-            Desktop.getDesktop().browse(new URI(GIT_HUB_URI));
-        } catch (IOException | URISyntaxException e) {
-            throw new RuntimeException(e);
+            // It means that file chooser dialog window was just closed without choosing a file
         }
     }
 }

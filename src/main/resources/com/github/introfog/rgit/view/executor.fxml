@@ -2,21 +2,35 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="272.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.rgit.controller.ExecuteController">
+<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="290.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.rgit.controller.ExecuteController">
    <children>
-      <Label layoutX="27.0" layoutY="34.0" prefWidth="270.0" text="Choose directory where git command will be run" />
-      <TextField fx:id="directory" layoutX="27.0" layoutY="60.0" prefHeight="25.0" prefWidth="378.0" />
-      <Button layoutX="465.0" layoutY="60.0" mnemonicParsing="false" onAction="#browseDirectory" text="Browse" />
-      <TextField fx:id="gitCommand" layoutX="27.0" layoutY="128.0" prefHeight="25.0" prefWidth="378.0" />
-      <Label layoutX="27.0" layoutY="97.0" text="Define git command" />
-      <Button fx:id="run" layoutX="447.0" layoutY="128.0" mnemonicParsing="false" onAction="#runGitCommand" text="Run" />
-      <Button fx:id="save" layoutX="520.0" layoutY="128.0" mnemonicParsing="false" onAction="#saveCommand" text="Save" />
-      <Button layoutX="238.0" layoutY="233.0" mnemonicParsing="false" onAction="#chooseFromSaved" text="Choose from saved" />
-      <TextField fx:id="gitComment" layoutX="27.0" layoutY="189.0" prefHeight="25.0" prefWidth="378.0" />
-      <Label layoutX="27.0" layoutY="162.0" text="Comment to command" />
-      <Button fx:id="update" disable="true" layoutX="438.0" layoutY="189.0" mnemonicParsing="false" onAction="#updateCommand" text="Update" />
-      <Button fx:id="clean" disable="true" layoutX="518.0" layoutY="189.0" mnemonicParsing="false" onAction="#cleanCommand" text="Clean" />
+      <Label layoutX="32.0" layoutY="52.0" prefWidth="270.0" text="Choose directory where git command will be run" />
+      <TextField fx:id="directory" layoutX="32.0" layoutY="78.0" prefHeight="25.0" prefWidth="378.0" />
+      <Button layoutX="470.0" layoutY="78.0" mnemonicParsing="false" onAction="#browseDirectory" text="Browse" />
+      <TextField fx:id="gitCommand" layoutX="32.0" layoutY="146.0" prefHeight="25.0" prefWidth="378.0" />
+      <Label layoutX="32.0" layoutY="115.0" text="Define git command" />
+      <Button fx:id="run" layoutX="452.0" layoutY="146.0" mnemonicParsing="false" onAction="#runGitCommand" text="Run" />
+      <Button fx:id="save" layoutX="525.0" layoutY="146.0" mnemonicParsing="false" onAction="#saveCommand" text="Save" />
+      <Button layoutX="243.0" layoutY="251.0" mnemonicParsing="false" onAction="#chooseFromSaved" text="Choose from saved" />
+      <TextField fx:id="gitComment" layoutX="32.0" layoutY="207.0" prefHeight="25.0" prefWidth="378.0" />
+      <Label layoutX="32.0" layoutY="180.0" text="Comment to command" />
+      <Button fx:id="update" disable="true" layoutX="443.0" layoutY="207.0" mnemonicParsing="false" onAction="#updateCommand" text="Update" />
+      <Button fx:id="clean" disable="true" layoutX="523.0" layoutY="207.0" mnemonicParsing="false" onAction="#cleanCommand" text="Clean" />
+      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="600.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Menu">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#openSettings" text="Settings" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items></Menu>
+        </menus>
+      </MenuBar>
    </children>
 </AnchorPane>

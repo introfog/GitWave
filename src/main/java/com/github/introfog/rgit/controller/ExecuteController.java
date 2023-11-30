@@ -150,6 +150,11 @@ public class ExecuteController extends BaseController {
         }
     }
 
+    @FXML
+    protected void openSettings() {
+        StageFactory.createModalStage("view/settings.fxml", "Settings").getStage().showAndWait();
+    }
+
     public void setGitCommand(CommandDto commandDto) {
         gitCommand.setText(commandDto.getCommand());
         gitComment.setText(commandDto.getComment());
