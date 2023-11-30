@@ -8,7 +8,6 @@ import javafx.stage.Stage;
 public class RGitLauncher extends Application {
     @Override
     public void start(Stage stage) {
-        // TODO create a icon for the app (use also in exe)
         StageFactory.createPrimaryStage("view/executor.fxml", "rGit", stage).getStage().show();
     }
 

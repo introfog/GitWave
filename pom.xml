@@ -163,6 +163,8 @@
                                 <argument>${project.groupId}</argument>
                                 <argument>/copyright</argument>
                                 <argument>2023 Dmitry Chubrick</argument>
+                                <argument>/icon</argument>
+                                <argument>src/main/resources/logo.ico</argument>
                             </arguments>
                         </configuration>
                     </execution>

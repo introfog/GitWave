@@ -6,6 +6,7 @@ import com.github.introfog.rgit.controller.BaseController;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -43,6 +44,7 @@ public final class StageFactory {
         stage.setScene(scene);
         // TODO make design flexible and allow resizing
         stage.setResizable(false);
+        stage.getIcons().add(new Image(StageFactory.class.getResourceAsStream("/logo.png")));
         BaseController controller = fxmlLoader.getController();
         final FxmlStageHolder fxmlStageHolder = new FxmlStageHolder(stage, fxmlLoader, scene);
         controller.initialize(fxmlStageHolder);
