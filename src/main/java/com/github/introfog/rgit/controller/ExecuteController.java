@@ -1,7 +1,7 @@
 package com.github.introfog.rgit.controller;
 
-import com.github.introfog.rgit.model.AlertsUtil;
 import com.github.introfog.rgit.model.AppConfig;
+import com.github.introfog.rgit.model.DialogFactory;
 import com.github.introfog.rgit.model.StageFactory;
 import com.github.introfog.rgit.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.rgit.model.dto.CommandDto;
@@ -57,7 +57,7 @@ public class ExecuteController extends BaseController {
         final Stage primaryStage = fxmlStageHolder.getStage();
         primaryStage.setOnCloseRequest(event -> {
             event.consume();
-            AlertsUtil.createCloseConfirmationAlert(primaryStage);
+            DialogFactory.createCloseConfirmationAlert(primaryStage);
         });
     }
 
@@ -104,7 +104,7 @@ public class ExecuteController extends BaseController {
     @FXML
     protected void saveCommand() {
         if (gitCommand.getText().isEmpty()) {
-            AlertsUtil.createErrorAlert("Invalid command", "Command can't be empty");
+            DialogFactory.createErrorAlert("Invalid command", "Command can't be empty");
         } else {
             final CommandDto commandDto = new CommandDto(gitCommand.getText(), gitComment.getText());
             AppConfig.getInstance().addCommand(commandDto);
@@ -127,17 +127,17 @@ public class ExecuteController extends BaseController {
             StageFactory.createModalStage("view/settings.fxml", "Settings").getStage().showAndWait();
         } else if (!(new File(pathToGitBashExe)).exists()) {
             LOGGER.error("Specified GitBash.exe path '{}' points to not-existent file, running git command was skipped.", pathToGitBashExe);
-            AlertsUtil.createErrorAlert("Invalid path to GitBash.exe", "Specified path \"" + pathToGitBashExe +
+            DialogFactory.createErrorAlert("Invalid path to GitBash.exe", "Specified path \"" + pathToGitBashExe +
                     "\" points to not-existent file. Specify correct path in settings.");
         } else {
             if (gitCommand.getText().isEmpty()) {
                 LOGGER.warn("Command '{}' is empty, running git command was skipped.", gitCommand.getText());
-                AlertsUtil.createErrorAlert("Invalid command", "Command can't be empty");
+                DialogFactory.createErrorAlert("Invalid command", "Command can't be empty");
                 return;
             }
             if (directory.getText().isEmpty()) {
                 LOGGER.warn("Directory '{}' is empty, running git command was skipped.", directory.getText());
-                AlertsUtil.createErrorAlert("Invalid directory", "Directory can't be empty");
+                DialogFactory.createErrorAlert("Invalid directory", "Directory can't be empty");
                 return;
             }
 

@@ -1,7 +1,7 @@
 package com.github.introfog.rgit.controller;
 
-import com.github.introfog.rgit.model.AlertsUtil;
 import com.github.introfog.rgit.model.AppConfig;
+import com.github.introfog.rgit.model.DialogFactory;
 import com.github.introfog.rgit.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.rgit.model.dto.CommandDto;
 
@@ -41,11 +41,11 @@ public class UpdateController extends BaseController {
     @FXML
     protected void saveAsNew() {
         if (command.getText().isEmpty()) {
-            AlertsUtil.createErrorAlert("Invalid command", "Command can't be empty");
+            DialogFactory.createErrorAlert("Invalid command", "Command can't be empty");
         } else if (executeController != null) {
             final CommandDto commandDto = new CommandDto(command.getText(), comment.getText());
             if (commandDto.equals(initialCommand)) {
-                AlertsUtil.createErrorAlert("Save error", "The same command already exists");
+                DialogFactory.createErrorAlert("Save error", "The same command already exists");
             } else {
                 AppConfig.getInstance().addCommand(commandDto);
                 executeController.setGitCommand(commandDto);
@@ -59,7 +59,7 @@ public class UpdateController extends BaseController {
     @FXML
     protected void updateExisted() {
         if (command.getText().isEmpty()) {
-            AlertsUtil.createErrorAlert("Invalid command", "Command can't be empty");
+            DialogFactory.createErrorAlert("Invalid command", "Command can't be empty");
         } else if (executeController != null) {
             final CommandDto currentCommand = new CommandDto(command.getText(), comment.getText());
             AppConfig.getInstance().updateExistedCommand(initialCommand, currentCommand);

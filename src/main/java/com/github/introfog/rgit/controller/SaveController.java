@@ -1,7 +1,7 @@
 package com.github.introfog.rgit.controller;
 
-import com.github.introfog.rgit.model.AlertsUtil;
 import com.github.introfog.rgit.model.AppConfig;
+import com.github.introfog.rgit.model.DialogFactory;
 import com.github.introfog.rgit.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.rgit.model.dto.CommandDto;
 
@@ -47,11 +47,11 @@ public class SaveController extends BaseController {
     @FXML
     protected void save() {
         if (command.getText().isEmpty()) {
-            AlertsUtil.createErrorAlert("Invalid command", "Command can't be empty");
+            DialogFactory.createErrorAlert("Invalid command", "Command can't be empty");
         } else if (exploreController != null){
             final CommandDto commandDto = new CommandDto(command.getText(), comment.getText());
             if (AppConfig.getInstance().containsCommand(commandDto)) {
-                AlertsUtil.createErrorAlert("Save error", "The same command already exists");
+                DialogFactory.createErrorAlert("Save error", "The same command already exists");
             } else {
                 exploreController.addNewCommand(commandDto);
                 closeStage();

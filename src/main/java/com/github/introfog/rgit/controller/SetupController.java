@@ -1,7 +1,7 @@
 package com.github.introfog.rgit.controller;
 
-import com.github.introfog.rgit.model.AlertsUtil;
 import com.github.introfog.rgit.model.AppConfig;
+import com.github.introfog.rgit.model.DialogFactory;
 import com.github.introfog.rgit.model.StageFactory.FxmlStageHolder;
 
 import java.awt.Desktop;
@@ -44,7 +44,7 @@ public class SetupController extends BaseController {
             stage.close();
         } else {
             LOGGER.error("Wrong path to GitBash.exe '{}'", bashExeFile.getAbsolutePath());
-            AlertsUtil.createErrorAlert("Git Bash executable hasn't been specified",
+            DialogFactory.createErrorAlert("Git Bash executable hasn't been specified",
                     "Git Bash executable hasn't been specified correctly. Either specify path manually or find via file browser.");
         }
     }
@@ -62,7 +62,7 @@ public class SetupController extends BaseController {
             pathToBashExe.setText(selectedFile.getAbsolutePath());
         } else {
             LOGGER.error("Wrong browsed path to GitBash.exe '{}'", selectedFile);
-            AlertsUtil.createErrorAlert("Provided file wasn't found", "Provided file wasn't found, try again");
+            DialogFactory.createErrorAlert("Provided file wasn't found", "Provided file wasn't found, try again");
         }
     }
 

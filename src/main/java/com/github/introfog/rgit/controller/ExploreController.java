@@ -1,7 +1,7 @@
 package com.github.introfog.rgit.controller;
 
-import com.github.introfog.rgit.model.AlertsUtil;
 import com.github.introfog.rgit.model.AppConfig;
+import com.github.introfog.rgit.model.DialogFactory;
 import com.github.introfog.rgit.model.StageFactory;
 import com.github.introfog.rgit.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.rgit.model.dto.CommandDto;
@@ -64,7 +64,7 @@ public class ExploreController extends BaseController {
             executeController.removeSavedCommand(selectedItem);
             AppConfig.getInstance().removeCommand(selectedItem);
         } else {
-            AlertsUtil.createErrorAlert("No row selected", "Please select a row to remove.");
+            DialogFactory.createErrorAlert("No row selected", "Please select a row to remove.");
         }
     }
 
@@ -75,7 +75,7 @@ public class ExploreController extends BaseController {
             executeController.setGitCommand(selectedItem);
             closeStage();
         } else {
-            AlertsUtil.createErrorAlert("No row selected", "Please select a row to run.");
+            DialogFactory.createErrorAlert("No row selected", "Please select a row to run.");
         }
     }
 
