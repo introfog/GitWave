@@ -16,7 +16,7 @@
       <Button layoutX="219.0" layoutY="93.0" mnemonicParsing="false" onAction="#cleanLogs" text="Clean" />
       <Separator layoutX="14.0" layoutY="80.0" prefWidth="472.0" />
       <Separator layoutX="14.0" layoutY="130.0" prefWidth="472.0" />
-      <Label fx:id="done" layoutX="280.0" layoutY="97.0" text="Done!" textFill="#34cd4b" visible="false">
+      <Label fx:id="done" layoutX="280.0" layoutY="97.0" text="Done!" textFill="#34cd4b">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Label>

@@ -45,6 +45,7 @@ public class SettingsController extends BaseController {
             pathToBashExe.setText(pathToGitBashExeStr);
         }
         save.requestFocus();
+        done.setVisible(false);
     }
 
     @FXML
