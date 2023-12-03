@@ -8,20 +8,20 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="290.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.rgit.controller.ExecuteController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="290.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.rgit.controller.ExecuteController">
    <children>
       <Label layoutX="32.0" layoutY="52.0" prefWidth="270.0" text="Choose directory where git command will be run" />
       <TextField fx:id="directory" layoutX="32.0" layoutY="78.0" prefHeight="25.0" prefWidth="378.0" />
       <Button layoutX="470.0" layoutY="78.0" mnemonicParsing="false" onAction="#browseDirectory" text="Browse" />
-      <TextField fx:id="gitCommand" layoutX="32.0" layoutY="146.0" prefHeight="25.0" prefWidth="378.0" />
+      <TextField fx:id="command" layoutX="32.0" layoutY="146.0" prefHeight="25.0" prefWidth="378.0" />
       <Label layoutX="32.0" layoutY="115.0" text="Define git command" />
-      <Button fx:id="run" layoutX="452.0" layoutY="146.0" mnemonicParsing="false" onAction="#runGitCommand" text="Run" />
+      <Button fx:id="run" layoutX="452.0" layoutY="146.0" mnemonicParsing="false" onAction="#runCommand" text="Run" />
       <Button fx:id="save" layoutX="525.0" layoutY="146.0" mnemonicParsing="false" onAction="#saveCommand" text="Save" />
       <Button layoutX="243.0" layoutY="251.0" mnemonicParsing="false" onAction="#chooseFromSaved" text="Choose from saved" />
-      <TextField fx:id="gitComment" layoutX="32.0" layoutY="207.0" prefHeight="25.0" prefWidth="378.0" />
+      <TextField fx:id="comment" layoutX="32.0" layoutY="207.0" prefHeight="25.0" prefWidth="378.0" />
       <Label layoutX="32.0" layoutY="180.0" text="Comment to command" />
-      <Button fx:id="update" disable="true" layoutX="443.0" layoutY="207.0" mnemonicParsing="false" onAction="#updateCommand" text="Update" />
-      <Button fx:id="clean" disable="true" layoutX="523.0" layoutY="207.0" mnemonicParsing="false" onAction="#cleanCommand" text="Clean" />
+      <Button fx:id="update" disable="true" layoutX="443.0" layoutY="207.0" mnemonicParsing="false" onAction="#updateSavedCommand" text="Update" />
+      <Button fx:id="clean" disable="true" layoutX="523.0" layoutY="207.0" mnemonicParsing="false" onAction="#cleanSavedCommand" text="Clean" />
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="600.0">
         <menus>
           <Menu mnemonicParsing="false" text="Menu">

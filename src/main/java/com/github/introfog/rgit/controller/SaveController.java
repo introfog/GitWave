@@ -8,7 +8,6 @@ import com.github.introfog.rgit.model.dto.CommandDto;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,12 +22,9 @@ public class SaveController extends BaseController {
 
     private ExploreController exploreController;
 
-    public void setExploreController(ExploreController exploreController) {
-        this.exploreController = exploreController;
-    }
-
     @Override
     public void initialize(FxmlStageHolder fxmlStageHolder) {
+        super.initialize(fxmlStageHolder);
         fxmlStageHolder.getScene().setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 this.save();
@@ -61,8 +57,7 @@ public class SaveController extends BaseController {
         }
     }
 
-    private void closeStage() {
-        Stage modalStage = (Stage) comment.getScene().getWindow();
-        modalStage.close();
+    void setExploreController(ExploreController exploreController) {
+        this.exploreController = exploreController;
     }
 }

@@ -18,7 +18,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
-import javafx.stage.Stage;
 
 public class ExploreController extends BaseController {
     @FXML
@@ -31,6 +30,7 @@ public class ExploreController extends BaseController {
 
     @Override
     public void initialize(FxmlStageHolder fxmlStageHolder) {
+        super.initialize(fxmlStageHolder);
         super.setClosingOnEscapePressing(fxmlStageHolder);
         fillTable();
         commandsTable.setOnKeyPressed(event -> {
@@ -38,10 +38,7 @@ public class ExploreController extends BaseController {
                 fxmlStageHolder.getStage().close();
             }
         });
-    }
-
-    public void setExecuteController(ExecuteController executeController) {
-        this.executeController = executeController;
+        Platform.runLater(() -> addNew.requestFocus());
     }
 
     @FXML
@@ -57,7 +54,7 @@ public class ExploreController extends BaseController {
     }
 
     @FXML
-    protected void removeSelected() {
+    protected void removeSelectedCommand() {
         CommandDto selectedItem = commandsTable.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             commandsTable.getItems().remove(selectedItem);
@@ -69,10 +66,10 @@ public class ExploreController extends BaseController {
     }
 
     @FXML
-    protected void chooseToRun() {
+    protected void runSelectedCommand() {
         CommandDto selectedItem = commandsTable.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
-            executeController.setGitCommand(selectedItem);
+            executeController.setCommand(selectedItem);
             closeStage();
         } else {
             DialogFactory.createErrorAlert("No row selected", "Please select a row to run.");
@@ -80,7 +77,7 @@ public class ExploreController extends BaseController {
     }
 
     @FXML
-    protected void addNew() {
+    protected void addNewCommand() {
         FxmlStageHolder holder = StageFactory.createModalStage("view/saver.fxml", "Command saver");
 
         SaveController saveController = holder.getFxmlLoader().getController();
@@ -89,12 +86,11 @@ public class ExploreController extends BaseController {
         holder.getStage().showAndWait();
     }
 
-    private void closeStage() {
-        Stage modalStage = (Stage) commandsTable.getScene().getWindow();
-        modalStage.close();
+    void setExecuteController(ExecuteController executeController) {
+        this.executeController = executeController;
     }
 
-    public void addNewCommand(CommandDto commandDto) {
+    void addNewCommand(CommandDto commandDto) {
         AppConfig.getInstance().addCommand(commandDto);
         commandsTable.getItems().add(commandDto);
     }
@@ -111,7 +107,5 @@ public class ExploreController extends BaseController {
         final TableColumn<CommandDto, String> commentTableColumn = (TableColumn<CommandDto, String>) commandsTable.getColumns().get(1);
         commentTableColumn.setCellValueFactory(new PropertyValueFactory<>("comment"));
         commentTableColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-
-        Platform.runLater(() -> addNew.requestFocus());
     }
 }

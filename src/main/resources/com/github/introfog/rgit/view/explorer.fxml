@@ -12,8 +12,8 @@
           <TableColumn onEditCommit="#commitComment" prefWidth="300.0" text="Comment" />
         </columns>
       </TableView>
-      <Button layoutX="72.0" layoutY="236.0" mnemonicParsing="false" onAction="#removeSelected" text="Remove selected" />
-      <Button fx:id="addNew" layoutX="269.0" layoutY="236.0" mnemonicParsing="false" onAction="#addNew" text="Add new" />
-      <Button layoutX="423.0" layoutY="236.0" mnemonicParsing="false" onAction="#chooseToRun" text="Choose to run" />
+      <Button layoutX="72.0" layoutY="236.0" mnemonicParsing="false" onAction="#removeSelectedCommand" text="Remove selected" />
+      <Button fx:id="addNew" layoutX="269.0" layoutY="236.0" mnemonicParsing="false" onAction="#addNewCommand" text="Add new" />
+      <Button layoutX="423.0" layoutY="236.0" mnemonicParsing="false" onAction="#runSelectedCommand" text="Run selected" />
    </children>
 </AnchorPane>

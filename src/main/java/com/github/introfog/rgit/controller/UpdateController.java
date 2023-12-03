@@ -7,7 +7,6 @@ import com.github.introfog.rgit.model.dto.CommandDto;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,12 +23,9 @@ public class UpdateController extends BaseController {
 
     private ExecuteController executeController;
 
-    public void setExecuteController(ExecuteController executeController) {
-        this.executeController = executeController;
-    }
-
     @Override
     public void initialize(FxmlStageHolder fxmlStageHolder) {
+        super.initialize(fxmlStageHolder);
         super.setClosingOnEscapePressing(fxmlStageHolder);
     }
 
@@ -48,7 +44,7 @@ public class UpdateController extends BaseController {
                 DialogFactory.createErrorAlert("Save error", "The same command already exists");
             } else {
                 AppConfig.getInstance().addCommand(commandDto);
-                executeController.setGitCommand(commandDto);
+                executeController.setCommand(commandDto);
                 closeStage();
             }
         } else {
@@ -63,21 +59,20 @@ public class UpdateController extends BaseController {
         } else if (executeController != null) {
             final CommandDto currentCommand = new CommandDto(command.getText(), comment.getText());
             AppConfig.getInstance().updateExistedCommand(initialCommand, currentCommand);
-            executeController.setGitCommand(currentCommand);
+            executeController.setCommand(currentCommand);
             closeStage();
         } else {
             LOGGER.error("Edit controller isn't called correctly, execute controller are null.");
         }
     }
 
-    public void setCommand(CommandDto commandDto) {
+    void setExecuteController(ExecuteController executeController) {
+        this.executeController = executeController;
+    }
+
+    void setCommand(CommandDto commandDto) {
         this.initialCommand = commandDto;
         command.setText(commandDto.getCommand());
         comment.setText(commandDto.getComment());
-    }
-
-    private void closeStage() {
-        Stage modalStage = (Stage) comment.getScene().getWindow();
-        modalStage.close();
     }
 }

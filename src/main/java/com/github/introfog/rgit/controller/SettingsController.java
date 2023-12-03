@@ -15,18 +15,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SettingsController extends BaseController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SettingsController.class);
-
-    @FXML
-    private AnchorPane anchorSetup;
 
     @FXML
     private TextField pathToBashExe;
@@ -39,6 +34,7 @@ public class SettingsController extends BaseController {
 
     @Override
     public void initialize(FxmlStageHolder fxmlStageHolder) {
+        super.initialize(fxmlStageHolder);
         super.setClosingOnEscapePressing(fxmlStageHolder);
         final String pathToGitBashExeStr = AppConfig.getInstance().getPathToGitBashExe();
         if (pathToGitBashExeStr != null && !pathToGitBashExeStr.isEmpty()) {
@@ -49,14 +45,13 @@ public class SettingsController extends BaseController {
     }
 
     @FXML
-    protected void finishSetup() {
-        Stage stage = (Stage) anchorSetup.getScene().getWindow();
+    protected void save() {
         File bashExeFile = new File(pathToBashExe.getText());
         if (bashExeFile.exists() && bashExeFile.getAbsolutePath().endsWith(".exe")) {
             final String absolutePath = bashExeFile.getAbsolutePath();
             AppConfig.getInstance().setPathToGitBashExe(absolutePath);
             LOGGER.info("Path to GitBash.exe registered to '{}'", absolutePath);
-            stage.close();
+            closeStage();
         } else {
             LOGGER.error("Wrong path to GitBash.exe '{}'", bashExeFile.getAbsolutePath());
             DialogFactory.createErrorAlert("Git Bash executable hasn't been specified",
@@ -103,9 +98,7 @@ public class SettingsController extends BaseController {
             }
         }
 
-        Stage stage = (Stage) anchorSetup.getScene().getWindow();
-
-        File selectedFile = fileChooser.showOpenDialog(stage);
+        File selectedFile = fileChooser.showOpenDialog(getStage());
         if (selectedFile != null) {
             if (selectedFile.exists()) {
                 pathToBashExe.setText(selectedFile.getAbsolutePath());

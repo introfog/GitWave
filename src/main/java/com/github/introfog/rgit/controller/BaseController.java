@@ -3,9 +3,14 @@ package com.github.introfog.rgit.controller;
 import com.github.introfog.rgit.model.StageFactory.FxmlStageHolder;
 
 import javafx.scene.input.KeyCode;
+import javafx.stage.Stage;
 
 public abstract class BaseController {
-    public abstract void initialize(FxmlStageHolder fxmlStageHolder);
+    protected FxmlStageHolder fxmlStageHolder;
+
+    public void initialize(FxmlStageHolder fxmlStageHolder) {
+        this.fxmlStageHolder = fxmlStageHolder;
+    }
 
     protected void setClosingOnEscapePressing(FxmlStageHolder fxmlStageHolder) {
         fxmlStageHolder.getScene().setOnKeyPressed(event -> {
@@ -13,5 +18,13 @@ public abstract class BaseController {
                 fxmlStageHolder.getStage().close();
             }
         });
+    }
+
+    protected void closeStage() {
+        fxmlStageHolder.getStage().close();
+    }
+
+    protected Stage getStage() {
+        return fxmlStageHolder.getStage();
     }
 }

@@ -19,7 +19,7 @@ rGit is designed for developers who work with multiple git repositories and/or w
 ### Build options
 - To run application execute `mvn javafx:run`.
 - To create ready to use app, archived into .zip, run `mvn package`. rGit will be in `target/rGitImage/rGit.zip` archive.
-  - Windows can consider `rGit.exe` or `batToExe.exe` as a dangerous files and remove them. In that case use `launcher.bat` to run app.
+  - Windows can consider `rGit.exe` or `batToExe.exe` as a dangerous files and remove them. In that case add repository folder to [Windows Security exclusion][winSecurity].
 
 ## Ideas for further releases
 - Allow working with app by using only keyboard (with correct Tabs, Esc and so on work).
@@ -28,3 +28,6 @@ rGit is designed for developers who work with multiple git repositories and/or w
 
 ## Issues and Contributions
 If you have any feedback or suggestions, please feel free to open an issue or a pull request on GitHub. Thank you for using rGit!
+
+
+[winSecurity]: https://support.microsoft.com/en-us/windows/add-an-exclusion-to-windows-security-811816c0-4dfd-af4a-47e4-c301afe13b26
