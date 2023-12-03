@@ -5,12 +5,20 @@ import com.github.introfog.rgit.model.DialogFactory;
 import com.github.introfog.rgit.model.StageFactory.FxmlStageHolder;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileSystemException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Comparator;
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +33,9 @@ public class SettingsController extends BaseController {
 
     @FXML
     private Button save;
+
+    @FXML
+    private Label done;
 
     @Override
     public void initialize(FxmlStageHolder fxmlStageHolder) {
@@ -50,6 +61,31 @@ public class SettingsController extends BaseController {
             DialogFactory.createErrorAlert("Git Bash executable hasn't been specified",
                     "Git Bash executable hasn't been specified correctly. Either specify path manually or find via file browser.");
         }
+    }
+
+    @FXML
+    protected void cleanLogs() {
+        done.setVisible(true);
+
+        try {
+            Files.walk(Paths.get("logs"))
+                .sorted(Comparator.reverseOrder())
+                .forEach(path -> {
+                    try {
+                        Files.delete(path);
+                    } catch (FileSystemException e) {
+                        LOGGER.info("Log file '{}' wasn't removed because it is already used by logger.", path);
+                    } catch (IOException e) {
+                        LOGGER.error("An error occurred while cleaning logs folder on '" + path + "' file.", e);
+                    }
+                });
+        } catch (IOException e) {
+            LOGGER.error("An error occurred while cleaning logs folder.", e);
+        }
+
+        PauseTransition visibleDone = new PauseTransition(Duration.seconds(1.5));
+        visibleDone.setOnFinished(event -> done.setVisible(false));
+        visibleDone.play();
     }
 
     @FXML
