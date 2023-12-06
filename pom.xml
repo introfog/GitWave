@@ -7,7 +7,7 @@
     <groupId>com.github.introfog</groupId>
     <artifactId>rGit</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>rGit</name>
+    <name>rGit</name> <!-- TODO rename app to something better -->
 
 <!--    TODO add NOTICE files-->
 

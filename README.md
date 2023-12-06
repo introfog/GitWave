@@ -1,33 +1,51 @@
-# rGit
+# rGit - Multi-Repository Bash Command Runner
 [![Apache License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/introfog/rGit/blob/master/LICENSE.md)
 
-Welcome to rGit, a Windows desktop application that lets you run recursive git commands and save them with notes. 
+## Overview
+Welcome to rGit – the ultimate tool for developers who work with multiple repositories on Windows. rGit is 
+designed to streamline your workflow by allowing you to run any bash commands across several repositories simultaneously.
+It’s a powerful companion for any developer looking to save time and effort when managing their Git projects.
 
-rGit is designed for developers who work with multiple git repositories and/or want to save tricky commands with notes.
+## Features
+### 1. Multi-Repository Command Execution
+Execute bash commands in multiple repositories with a single command, making it easier to manage complex workflows.
+### 2. Command Management
+Save your most used or tricky commands with notes, so you never have to remember the syntax again.
+### 3. Standalone Application
+rGit is a standalone application that doesn't leave any footprint on your PC. It respects your 
+system's cleanliness by ensuring that no unnecessary files or configurations are left behind, 
+providing a hassle-free and straightforward experience for users.
+### 4. Open Source
+rGit is an open-source project, encouraging collaboration and community involvement. 
+Explore, contribute, and customize the application according to your preferences.
 
-## Key features
-- Allows run any bash commands in multiple repositories by a few clicks.
-- Absolutely standalone application, there is no any footprint! All logs, settings, resources and temp files are stored in the app folder.
-- There is a command's storage, which you can manage: add, remove, edit commands.
-- It is possible to add comments to all your stored commands to not forget what the trickiest ones do.
+## Getting Started
+1. Download the latest release from the [releases page](https://github.com/introfog/rGit/releases).
+2. Download and unpack rGit.zip archive to your local machine. 
+3. Launch rGit.exe and begin executing bash commands across multiple repositories effortlessly.
 
-## How to locally build
-### Software requirements
+## Build Locally
+### Software Requirements
 - JDK 11 or higher.
 - Maven.
 - Any IDE for Java
-### Build options
+### Build Options
 - To run application execute `mvn javafx:run`.
 - To create ready to use app, archived into .zip, run `mvn package`. rGit will be in `target/rGitImage/rGit.zip` archive.
   - Windows can consider `rGit.exe` or `batToExe.exe` as a dangerous files and remove them. In that case add repository folder to [Windows Security exclusion][winSecurity].
 
-## Ideas for further releases
+## Ideas For Further Releases
 - Allow working with app by using only keyboard (with correct Tabs, Esc and so on work).
 - Exclude sub-directories from command running.
 - Implement dynamic fields in commands, e.g. command `git checkout -f {branch}` and you can quickly specify which branch checkout in each command run. 
 
-## Issues and Contributions
-If you have any feedback or suggestions, please feel free to open an issue or a pull request on GitHub. Thank you for using rGit!
+## License
+rGit is licensed under the [Apache license](LICENSE.md), providing you with the freedom to use, modify, and distribute the software.
 
+## Support and Contributions
+If you have any feedback or feature requests, please feel free to open an issue or suggest your own ideas via a pull request.
+
+
+Enjoy the efficiency and cleanliness of rGit!
 
 [winSecurity]: https://support.microsoft.com/en-us/windows/add-an-exclusion-to-windows-security-811816c0-4dfd-af4a-47e4-c301afe13b26

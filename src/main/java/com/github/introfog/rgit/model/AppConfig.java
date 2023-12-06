@@ -11,10 +11,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import javafx.application.HostServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class AppConfig {
+    private static final String VERSION = "1.0.0-SNAPSHOT";
+
     private static final String CONFIG_DIR_PATH = "config";
     private static final String CONFIG_FILE_NAME = "config.json";
 
@@ -24,6 +27,8 @@ public final class AppConfig {
 
     private final ConfigDto config;
 
+    private HostServices hostServices;
+
     private static final AppConfig INSTANCE = new AppConfig();
 
     private AppConfig() {
@@ -32,6 +37,14 @@ public final class AppConfig {
 
     public static AppConfig getInstance() {
         return INSTANCE;
+    }
+
+    public HostServices getHostServices() {
+        return hostServices;
+    }
+
+    public void setHostServices(HostServices hostServices) {
+        this.hostServices = hostServices;
     }
 
     public void setPathToGitBashExe(String pathToGitBashExe) {
@@ -92,6 +105,10 @@ public final class AppConfig {
             commands.set(commands.indexOf(initial), current);
         }
         saveConfig();
+    }
+
+    public String getAppVersion() {
+        return VERSION;
     }
 
     private void saveConfig() {

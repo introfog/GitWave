@@ -144,6 +144,18 @@ public class ExecuteController extends BaseController {
         StageFactory.createModalStage("view/settings.fxml", "Settings").getStage().showAndWait();
     }
 
+    @FXML
+    protected void openAbout() {
+        StageFactory.createModalStage("view/about.fxml", "About").getStage().showAndWait();
+    }
+
+    @FXML
+    protected void findIssue() {
+        // TODO extract links to some constants
+        // TODO create Contribution.md (or another file) file where describe how properly create a but report
+        AppConfig.getInstance().getHostServices().showDocument("https://github.com/introfog/rGit/issues");
+    }
+
     void setCommand(CommandDto commandDto) {
         command.setText(commandDto.getCommand());
         comment.setText(commandDto.getComment());
