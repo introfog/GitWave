@@ -42,8 +42,9 @@ Explore, contribute, and customize the application according to your preferences
 ## License
 rGit is licensed under the [Apache license](LICENSE.md), providing you with the freedom to use, modify, and distribute the software.
 
-## Support and Contributions
-If you have any feedback or feature requests, please feel free to open an issue or suggest your own ideas via a pull request.
+## Contributions
+We welcome contributions to my project. If you're interested in helping, please read 
+[CONTRIBUTING.md](CONTRIBUTING.md) file for more information on how to get started.
 
 
 Enjoy the efficiency and cleanliness of rGit!
