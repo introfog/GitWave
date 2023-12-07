@@ -16,20 +16,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class AppConfig {
-    private static final String VERSION = "1.0.0-SNAPSHOT";
-
     private static final String CONFIG_DIR_PATH = "config";
     private static final String CONFIG_FILE_NAME = "config.json";
-
     private static final String CONFIG_FILE_PATH = CONFIG_DIR_PATH + File.separator + CONFIG_FILE_NAME;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(AppConfig.class);
+    private static final AppConfig INSTANCE = new AppConfig();
 
     private final ConfigDto config;
-
     private HostServices hostServices;
 
-    private static final AppConfig INSTANCE = new AppConfig();
 
     private AppConfig() {
         this.config = AppConfig.initConfig();
@@ -105,10 +100,6 @@ public final class AppConfig {
             commands.set(commands.indexOf(initial), current);
         }
         saveConfig();
-    }
-
-    public String getAppVersion() {
-        return VERSION;
     }
 
     private void saveConfig() {

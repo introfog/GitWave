@@ -1,6 +1,7 @@
 package com.github.introfog.rgit.controller;
 
 import com.github.introfog.rgit.model.AppConfig;
+import com.github.introfog.rgit.model.AppConstants;
 import com.github.introfog.rgit.model.CommandExecutor;
 import com.github.introfog.rgit.model.DialogFactory;
 import com.github.introfog.rgit.model.StageFactory;
@@ -151,8 +152,7 @@ public class ExecuteController extends BaseController {
 
     @FXML
     protected void findIssue() {
-        // TODO extract links to some constants
-        AppConfig.getInstance().getHostServices().showDocument("https://github.com/introfog/rGit/master/CONTRIBUTING.md");
+        AppConfig.getInstance().getHostServices().showDocument(AppConstants.LINK_TO_GIT_CONTRIBUTING_FILE);
     }
 
     void setCommand(CommandDto commandDto) {

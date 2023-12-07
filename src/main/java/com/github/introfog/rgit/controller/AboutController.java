@@ -1,6 +1,7 @@
 package com.github.introfog.rgit.controller;
 
 import com.github.introfog.rgit.model.AppConfig;
+import com.github.introfog.rgit.model.AppConstants;
 import com.github.introfog.rgit.model.StageFactory.FxmlStageHolder;
 
 import javafx.fxml.FXML;
@@ -14,7 +15,7 @@ public class AboutController extends BaseController {
     public void initialize(FxmlStageHolder fxmlStageHolder) {
         super.initialize(fxmlStageHolder);
         super.setClosingOnEscapePressing(fxmlStageHolder);
-        version.setText(AppConfig.getInstance().getAppVersion());
+        version.setText(AppConstants.VERSION);
     }
 
     @FXML
@@ -24,6 +25,6 @@ public class AboutController extends BaseController {
 
     @FXML
     protected void openGitHub() {
-        AppConfig.getInstance().getHostServices().showDocument("https://github.com/introfog/rGit");
+        AppConfig.getInstance().getHostServices().showDocument(AppConstants.LINK_TO_GIT_REPO);
     }
 }

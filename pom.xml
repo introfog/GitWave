@@ -9,8 +9,6 @@
     <version>1.0-SNAPSHOT</version>
     <name>rGit</name> <!-- TODO rename app to something better -->
 
-<!--    TODO add NOTICE files-->
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -181,6 +179,20 @@
                             <arguments>
                                 <argument>/c</argument>
                                 <argument>copy LICENSE.md target\rGitImage</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-paste-notice-file</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>cmd</executable>
+                            <arguments>
+                                <argument>/c</argument>
+                                <argument>copy NOTICE.txt target\rGitImage</argument>
                             </arguments>
                         </configuration>
                     </execution>
