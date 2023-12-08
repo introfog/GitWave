@@ -151,7 +151,7 @@ public class ExecuteController extends BaseController {
     }
 
     @FXML
-    protected void findIssue() {
+    protected void foundIssue() {
         AppConfig.getInstance().getHostServices().showDocument(AppConstants.LINK_TO_GIT_CONTRIBUTING_FILE);
     }
 

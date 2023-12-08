@@ -33,6 +33,6 @@
                </items></Menu>
         </menus>
       </MenuBar>
-      <Hyperlink layoutX="518.0" layoutY="265.0" onAction="#findIssue" text="Find an issue?" />
+      <Hyperlink layoutX="507.0" layoutY="265.0" onAction="#foundIssue" text="Found an issue?" />
    </children>
 </AnchorPane>

@@ -36,3 +36,4 @@ target/
 # rGit util folders
 logs/
 config/
+temp/

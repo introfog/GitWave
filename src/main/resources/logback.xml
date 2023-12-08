@@ -4,7 +4,7 @@
   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
     <file>logs/rGit-${logFileTime}.log</file>
     <encoder>
-      <pattern>%date %level [%file:%line] %msg%n</pattern>
+      <pattern>%date %level %msg%n</pattern>
     </encoder>
   </appender>
 
