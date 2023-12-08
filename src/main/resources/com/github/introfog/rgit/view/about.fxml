@@ -28,6 +28,6 @@
       <Label layoutX="134.0" layoutY="72.0" prefHeight="142.0" prefWidth="236.0" text="rGit is the ultimate tool for developers who work with multiple repositories on Windows. The app is designed to streamline your workflow by allowing you to run any bash commands across several repositories simultaneously. It’s a powerful companion for any developer looking to save time and effort when managing their Git projects." wrapText="true" />
       <Label layoutX="134.0" layoutY="233.0" prefHeight="39.0" prefWidth="236.0" text="rGit is a open source project, which you can find on" wrapText="true" />
       <Hyperlink layoutX="172.0" layoutY="251.0" onAction="#openGitHub" prefHeight="12.0" prefWidth="46.0" text="GitHub" />
-      <Label layoutX="133.0" layoutY="293.0" text="Copyright 2023 Dmitry Chubrick" />
+      <Label layoutX="133.0" layoutY="293.0" text="Copyright 2023-2024 Dmitry Chubrick" />
    </children>
 </AnchorPane>
