@@ -111,7 +111,7 @@
                 <configuration>
                     <mainClass>com.github.introfog.rgit/com.github.introfog.rgit.RGitLauncher</mainClass>
                     <launcher>${project.name}</launcher>
-                    <jlinkImageName>rGitImage</jlinkImageName>
+                    <jlinkImageName>javaImage</jlinkImageName>
                     <noManPages>true</noManPages>
                     <stripDebug>true</stripDebug>
                     <noHeaderFiles>true</noHeaderFiles>
@@ -133,7 +133,7 @@
                             <executable>cmd</executable>
                             <arguments>
                                 <argument>/c</argument>
-                                <argument>echo "bin/java" -m com.github.introfog.rgit/com.github.introfog.rgit.RGitLauncher > target/rGitImage/launcher.bat</argument>
+                                <argument>echo "javaImage/bin/java" -m com.github.introfog.rgit/com.github.introfog.rgit.RGitLauncher > target/launcher.bat</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -147,9 +147,9 @@
                             <executable>tools/batToExe.exe</executable>
                             <arguments>
                                 <argument>/bat</argument>
-                                <argument>target/rGitImage/launcher.bat</argument>
+                                <argument>target/launcher.bat</argument>
                                 <argument>/exe</argument>
-                                <argument>target/rGitImage/${project.name}.exe</argument>
+                                <argument>target/${project.name}.exe</argument>
                                 <argument>/invisible</argument>
                                 <argument>/x64</argument>
                                 <argument>/overwrite</argument>
@@ -162,37 +162,9 @@
                                 <argument>/company</argument>
                                 <argument>${project.groupId}</argument>
                                 <argument>/copyright</argument>
-                                <argument>2023 Dmitry Chubrick</argument>
+                                <argument>2023-2024 Dmitry Chubrick</argument>
                                 <argument>/icon</argument>
                                 <argument>src/main/resources/logo.ico</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>copy-paste-license-file</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>cmd</executable>
-                            <arguments>
-                                <argument>/c</argument>
-                                <argument>copy LICENSE.md target\rGitImage</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>copy-paste-notice-file</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>cmd</executable>
-                            <arguments>
-                                <argument>/c</argument>
-                                <argument>copy NOTICE.txt target\rGitImage</argument>
                             </arguments>
                         </configuration>
                     </execution>

@@ -10,7 +10,21 @@
 
   <fileSets>
     <fileSet>
-      <directory>target/rGitImage</directory>
+      <directory>target/javaImage</directory>
+      <outputDirectory>javaImage</outputDirectory>
+    </fileSet>
+    <fileSet>
+      <includes>
+        <include>NOTICE.txt</include>
+        <include>LICENSE.md</include>
+      </includes>
+      <outputDirectory>/</outputDirectory>
+    </fileSet>
+    <fileSet>
+      <directory>target</directory>
+      <includes>
+        <include>rGit.exe</include>
+      </includes>
       <outputDirectory>/</outputDirectory>
     </fileSet>
   </fileSets>

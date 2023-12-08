@@ -27,7 +27,7 @@ public class RGitLauncher extends Application {
     public void start(Stage stage) {
         StageFactory.createPrimaryStage("view/executor.fxml", "rGit", stage).getStage().show();
         AppConfig.getInstance().setHostServices(getHostServices());
-        // TODO java image already has conf, legal and other folder, let's put them into some javaImage folder
+        // TODO what to do if windows defender complaining about .exe file?
     }
 
     public static void main(String[] args) {
