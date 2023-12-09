@@ -27,7 +27,6 @@ public class RGitLauncher extends Application {
     public void start(Stage stage) {
         StageFactory.createPrimaryStage("view/executor.fxml", "rGit", stage).getStage().show();
         AppConfig.getInstance().setHostServices(getHostServices());
-        // TODO what to do if windows defender complaining about .exe file?
     }
 
     public static void main(String[] args) {

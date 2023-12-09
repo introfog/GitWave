@@ -60,7 +60,7 @@ public final class StageFactory {
         stage.setScene(scene);
         // TODO make design flexible and allow resizing
         stage.setResizable(false);
-        stage.getIcons().add(new Image(StageFactory.class.getResourceAsStream("/logo.png")));
+        stage.getIcons().add(new Image(StageFactory.class.getResourceAsStream(AppConstants.PATH_TO_LOGO)));
         BaseController controller = fxmlLoader.getController();
         final FxmlStageHolder fxmlStageHolder = new FxmlStageHolder(stage, fxmlLoader, scene);
         controller.initialize(fxmlStageHolder);
