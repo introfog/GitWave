@@ -104,9 +104,9 @@ public final class AppConfig {
         saveConfig();
     }
 
-    public void updateCommandComment(CommandDto commandDto, String newComment) {
+    public void updateCommandDescription(CommandDto commandDto, String newDescription) {
         final List<CommandDto> commands = config.getCommands();
-        commands.get(commands.indexOf(commandDto)).setComment(newComment);
+        commands.get(commands.indexOf(commandDto)).setDescription(newDescription);
         saveConfig();
     }
 

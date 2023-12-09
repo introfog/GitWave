@@ -64,9 +64,9 @@ public class ExploreController extends BaseController {
     }
 
     @FXML
-    protected void commitComment(CellEditEvent<CommandDto, String> event) {
-        event.getRowValue().setComment(event.getNewValue());
-        AppConfig.getInstance().updateCommandComment(event.getRowValue(), event.getNewValue());
+    protected void commitDescription(CellEditEvent<CommandDto, String> event) {
+        event.getRowValue().setDescription(event.getNewValue());
+        AppConfig.getInstance().updateCommandDescription(event.getRowValue(), event.getNewValue());
     }
 
     @FXML
@@ -120,8 +120,8 @@ public class ExploreController extends BaseController {
         commandTableColumn.setCellValueFactory(new PropertyValueFactory<>("command"));
         commandTableColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        final TableColumn<CommandDto, String> commentTableColumn = (TableColumn<CommandDto, String>) commandsTable.getColumns().get(1);
-        commentTableColumn.setCellValueFactory(new PropertyValueFactory<>("comment"));
-        commentTableColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        final TableColumn<CommandDto, String> descriptionTableColumn = (TableColumn<CommandDto, String>) commandsTable.getColumns().get(1);
+        descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        descriptionTableColumn.setCellFactory(TextFieldTableCell.forTableColumn());
     }
 }

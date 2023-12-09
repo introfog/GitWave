@@ -31,9 +31,9 @@ public class UpdateController extends BaseController {
 
     @FXML
     private TextField command;
-    // TODO what if define long command or comment? Set some limit.
+    // TODO what if define long command or description? Set some limit.
     @FXML
-    private TextField comment;
+    private TextField description;
 
     private CommandDto initialCommand;
 
@@ -55,7 +55,7 @@ public class UpdateController extends BaseController {
         if (command.getText().isEmpty()) {
             DialogFactory.createErrorAlert("Invalid command", "Command can't be empty");
         } else if (executeController != null) {
-            final CommandDto commandDto = new CommandDto(command.getText(), comment.getText());
+            final CommandDto commandDto = new CommandDto(command.getText(), description.getText());
             if (commandDto.equals(initialCommand)) {
                 DialogFactory.createErrorAlert("Save error", "The same command already exists");
             } else {
@@ -73,7 +73,7 @@ public class UpdateController extends BaseController {
         if (command.getText().isEmpty()) {
             DialogFactory.createErrorAlert("Invalid command", "Command can't be empty");
         } else if (executeController != null) {
-            final CommandDto currentCommand = new CommandDto(command.getText(), comment.getText());
+            final CommandDto currentCommand = new CommandDto(command.getText(), description.getText());
             AppConfig.getInstance().updateExistedCommand(initialCommand, currentCommand);
             executeController.setCommand(currentCommand);
             closeStage();
@@ -89,6 +89,6 @@ public class UpdateController extends BaseController {
     void setCommand(CommandDto commandDto) {
         this.initialCommand = commandDto;
         command.setText(commandDto.getCommand());
-        comment.setText(commandDto.getComment());
+        description.setText(commandDto.getDescription());
     }
 }

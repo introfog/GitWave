@@ -15,12 +15,12 @@
       <TextField fx:id="directory" layoutX="32.0" layoutY="78.0" prefHeight="25.0" prefWidth="378.0" />
       <Button layoutX="470.0" layoutY="78.0" mnemonicParsing="false" onAction="#browseDirectory" text="Browse" />
       <TextField fx:id="command" layoutX="32.0" layoutY="146.0" prefHeight="25.0" prefWidth="378.0" />
-      <Label layoutX="32.0" layoutY="115.0" text="Define git command" />
+      <Label layoutX="32.0" layoutY="115.0" text="Command" />
       <Button fx:id="run" layoutX="452.0" layoutY="146.0" mnemonicParsing="false" onAction="#runCommand" text="Run" />
       <Button fx:id="save" layoutX="525.0" layoutY="146.0" mnemonicParsing="false" onAction="#saveCommand" text="Save" />
       <Button layoutX="243.0" layoutY="251.0" mnemonicParsing="false" onAction="#chooseFromSaved" text="Choose from saved" />
-      <TextField fx:id="comment" layoutX="32.0" layoutY="207.0" prefHeight="25.0" prefWidth="378.0" />
-      <Label layoutX="32.0" layoutY="180.0" text="Comment to command" />
+      <TextField fx:id="description" layoutX="32.0" layoutY="207.0" prefHeight="25.0" prefWidth="378.0" />
+      <Label layoutX="32.0" layoutY="180.0" text="Description" />
       <Button fx:id="update" disable="true" layoutX="443.0" layoutY="207.0" mnemonicParsing="false" onAction="#updateSavedCommand" text="Update" />
       <Button fx:id="clean" disable="true" layoutX="523.0" layoutY="207.0" mnemonicParsing="false" onAction="#cleanSavedCommand" text="Clean" />
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="600.0">

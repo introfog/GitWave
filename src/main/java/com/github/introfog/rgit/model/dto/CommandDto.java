@@ -22,13 +22,13 @@ import java.util.Objects;
 public class CommandDto {
     @JsonProperty("command")
     private String command;
-    @JsonProperty("comment")
-    private String comment;
+    @JsonProperty("description")
+    private String description;
 
     public CommandDto(@JsonProperty("command") String command,
-            @JsonProperty("comment") String comment) {
+            @JsonProperty("description") String description) {
         this.command = command;
-        this.comment = comment;
+        this.description = description;
     }
 
     public String getCommand() {
@@ -39,12 +39,12 @@ public class CommandDto {
         this.command = command;
     }
 
-    public String getComment() {
-        return comment;
+    public String getDescription() {
+        return description;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
@@ -56,11 +56,11 @@ public class CommandDto {
             return false;
         }
         CommandDto that = (CommandDto) o;
-        return Objects.equals(command, that.command) && Objects.equals(comment, that.comment);
+        return Objects.equals(command, that.command) && Objects.equals(description, that.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(command, comment);
+        return Objects.hash(command, description);
     }
 }

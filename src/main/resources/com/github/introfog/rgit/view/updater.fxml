@@ -8,8 +8,8 @@
    <children>
       <Label layoutX="26.0" layoutY="22.0" text="Command" />
       <TextField fx:id="command" layoutX="26.0" layoutY="39.0" prefHeight="25.0" prefWidth="448.0" />
-      <Label layoutX="26.0" layoutY="75.0" text="Comment" />
-      <TextField fx:id="comment" layoutX="26.0" layoutY="92.0" prefHeight="25.0" prefWidth="448.0" />
+      <Label layoutX="26.0" layoutY="75.0" text="Description" />
+      <TextField fx:id="description" layoutX="26.0" layoutY="92.0" prefHeight="25.0" prefWidth="448.0" />
       <Button layoutX="26.0" layoutY="144.0" mnemonicParsing="false" onAction="#saveAsNew" text="Save as new" />
       <Button layoutX="422.0" layoutY="144.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
       <Button layoutX="202.0" layoutY="144.0" mnemonicParsing="false" onAction="#updateExisted" text="Update existed" />

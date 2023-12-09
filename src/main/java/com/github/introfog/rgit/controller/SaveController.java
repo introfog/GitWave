@@ -32,9 +32,9 @@ public class SaveController extends BaseController {
 
     @FXML
     private TextField command;
-    // TODO what if define long command or comment? Set some limit.
+    // TODO what if define long command or description? Set some limit.
     @FXML
-    private TextField comment;
+    private TextField description;
 
     private ExploreController exploreController;
 
@@ -61,7 +61,7 @@ public class SaveController extends BaseController {
         if (command.getText().isEmpty()) {
             DialogFactory.createErrorAlert("Invalid command", "Command can't be empty");
         } else if (exploreController != null){
-            final CommandDto commandDto = new CommandDto(command.getText(), comment.getText());
+            final CommandDto commandDto = new CommandDto(command.getText(), description.getText());
             if (AppConfig.getInstance().containsCommand(commandDto)) {
                 DialogFactory.createErrorAlert("Save error", "The same command already exists");
             } else {

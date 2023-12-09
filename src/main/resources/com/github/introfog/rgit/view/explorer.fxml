@@ -9,7 +9,7 @@
       <TableView fx:id="commandsTable" editable="true" prefHeight="223.0" prefWidth="600.0">
         <columns>
           <TableColumn onEditCommit="#commitCommand" prefWidth="299.0" text="Command" />
-          <TableColumn onEditCommit="#commitComment" prefWidth="300.0" text="Comment" />
+          <TableColumn onEditCommit="#commitDescription" prefWidth="300.0" text="Description" />
         </columns>
       </TableView>
       <Button layoutX="72.0" layoutY="236.0" mnemonicParsing="false" onAction="#removeSelectedCommand" text="Remove selected" />

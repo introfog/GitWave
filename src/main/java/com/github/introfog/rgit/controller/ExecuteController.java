@@ -44,7 +44,7 @@ public class ExecuteController extends BaseController {
     private TextField command;
 
     @FXML
-    private TextField comment;
+    private TextField description;
 
     @FXML
     private Button run;
@@ -101,7 +101,7 @@ public class ExecuteController extends BaseController {
     @FXML
     protected void cleanSavedCommand() {
         command.clear();
-        comment.clear();
+        description.clear();
         savedCommand = null;
         switchToSavedCommand(false);
     }
@@ -121,7 +121,7 @@ public class ExecuteController extends BaseController {
         if (command.getText().isEmpty()) {
             DialogFactory.createErrorAlert("Invalid command", "Command can't be empty");
         } else {
-            final CommandDto commandDto = new CommandDto(command.getText(), comment.getText());
+            final CommandDto commandDto = new CommandDto(command.getText(), description.getText());
             AppConfig.getInstance().addCommand(commandDto);
             setCommand(commandDto);
         }
@@ -173,7 +173,7 @@ public class ExecuteController extends BaseController {
 
     void setCommand(CommandDto commandDto) {
         command.setText(commandDto.getCommand());
-        comment.setText(commandDto.getComment());
+        description.setText(commandDto.getDescription());
         savedCommand = commandDto;
         switchToSavedCommand(true);
     }
