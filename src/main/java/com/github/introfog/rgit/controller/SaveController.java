@@ -22,6 +22,7 @@ import com.github.introfog.rgit.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.rgit.model.dto.CommandDto;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import org.slf4j.Logger;
@@ -35,6 +36,8 @@ public class SaveController extends BaseController {
     // TODO what if define long command or description? Set some limit.
     @FXML
     private TextField description;
+    @FXML
+    private Button save;
 
     private ExploreController exploreController;
 
@@ -49,6 +52,7 @@ public class SaveController extends BaseController {
                 fxmlStageHolder.getStage().close();
             }
         });
+        save.requestFocus();
     }
 
     @FXML

@@ -94,7 +94,7 @@ public class ExploreController extends BaseController {
 
     @FXML
     protected void addNewCommand() {
-        FxmlStageHolder holder = StageFactory.createModalStage("view/saver.fxml", "Command saver");
+        FxmlStageHolder holder = StageFactory.createModalSaveWindow();
 
         SaveController saveController = holder.getFxmlLoader().getController();
         saveController.setExploreController(this);

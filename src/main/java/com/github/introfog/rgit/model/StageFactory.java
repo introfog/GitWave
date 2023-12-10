@@ -35,6 +35,15 @@ public final class StageFactory {
         // private constructor
     }
 
+    public static FxmlStageHolder createModalSaveWindow() {
+        FxmlStageHolder holder = createModalStage("view/saver.fxml", "Command saver");
+        holder.getStage().setMinWidth(300);
+        holder.getStage().setMinHeight(220);
+        holder.getStage().setMaxHeight(220);
+        holder.getStage().setResizable(true);
+        return holder;
+    }
+
     public static FxmlStageHolder createModalStage(String fxmlPath, String title) {
         Stage modalStage = new Stage();
         modalStage.initModality(Modality.APPLICATION_MODAL);
