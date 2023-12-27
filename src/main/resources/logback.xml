@@ -2,7 +2,7 @@
   <timestamp key="logFileTime" datePattern="yyyy-MM-dd'_'HH-mm-ss.SSS"/>
 
   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-    <file>logs/rGit-${logFileTime}.log</file>
+    <file>logs/GitWave-${logFileTime}.log</file>
     <encoder>
       <pattern>%date %level %msg%n</pattern>
     </encoder>

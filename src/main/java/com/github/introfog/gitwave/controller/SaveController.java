@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.github.introfog.rgit.controller;
+package com.github.introfog.gitwave.controller;
 
-import com.github.introfog.rgit.model.AppConfig;
-import com.github.introfog.rgit.model.DialogFactory;
-import com.github.introfog.rgit.model.StageFactory.FxmlStageHolder;
-import com.github.introfog.rgit.model.dto.CommandDto;
+import com.github.introfog.gitwave.model.AppConfig;
+import com.github.introfog.gitwave.model.DialogFactory;
+import com.github.introfog.gitwave.model.StageFactory.FxmlStageHolder;
+import com.github.introfog.gitwave.model.dto.CommandDto;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

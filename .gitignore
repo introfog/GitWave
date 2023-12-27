@@ -33,7 +33,7 @@ target/
 *.iml
 *.ipr
 
-# rGit util folders
+# GitWave util folders
 logs/
 config/
 temp/

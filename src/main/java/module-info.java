@@ -1,4 +1,4 @@
-module com.github.introfog.rgit {
+module com.github.introfog.gitwave {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.desktop;
@@ -11,9 +11,9 @@ module com.github.introfog.rgit {
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.core;
 
-    opens com.github.introfog.rgit to javafx.fxml;
-    opens com.github.introfog.rgit.model.dto to com.fasterxml.jackson.core, com.fasterxml.jackson.annotation, com.fasterxml.jackson.databind, javafx.base;
-    opens com.github.introfog.rgit.controller to javafx.fxml;
+    opens com.github.introfog.gitwave to javafx.fxml;
+    opens com.github.introfog.gitwave.model.dto to com.fasterxml.jackson.core, com.fasterxml.jackson.annotation, com.fasterxml.jackson.databind, javafx.base;
+    opens com.github.introfog.gitwave.controller to javafx.fxml;
 
-    exports com.github.introfog.rgit;
+    exports com.github.introfog.gitwave;
 }

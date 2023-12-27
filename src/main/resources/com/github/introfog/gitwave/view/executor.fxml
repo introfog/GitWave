@@ -9,7 +9,7 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="290.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.rgit.controller.ExecuteController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="290.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.gitwave.controller.ExecuteController">
    <children>
       <Label layoutX="32.0" layoutY="52.0" prefWidth="270.0" text="Choose directory where git command will be run" />
       <TextField fx:id="directory" layoutX="32.0" layoutY="78.0" prefHeight="25.0" prefWidth="378.0" />

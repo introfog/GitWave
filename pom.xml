@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.introfog</groupId>
-    <artifactId>rGit</artifactId>
+    <artifactId>gitwave</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>rGit</name> <!-- TODO rename app to something better -->
+    <name>GitWave</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -76,7 +76,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.github.introfog.rgit.RGitLauncher</mainClass>
+                            <mainClass>com.github.introfog.gitwave.gitwaveLauncher</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -109,7 +109,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>com.github.introfog.rgit/com.github.introfog.rgit.RGitLauncher</mainClass>
+                    <mainClass>com.github.introfog.gitwave/com.github.introfog.gitwave.GitWaveLauncher</mainClass>
                     <launcher>${project.name}</launcher>
                     <jlinkImageName>javaImage</jlinkImageName>
                     <noManPages>true</noManPages>
@@ -133,7 +133,9 @@
                             <executable>cmd</executable>
                             <arguments>
                                 <argument>/c</argument>
-                                <argument>echo "javaImage/bin/java" -m com.github.introfog.rgit/com.github.introfog.rgit.RGitLauncher > target/launcher.bat</argument>
+                                <argument>echo "javaImage/bin/java" -m
+                                    com.github.introfog.gitwave/com.github.introfog.gitwave.GitWaveLauncher >
+                                    target/launcher.bat</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -187,7 +189,7 @@
                                 <descriptor>src/assembly/zip.xml</descriptor>
                             </descriptors>
                             <appendAssemblyId>false</appendAssemblyId>
-                            <finalName>rGit</finalName>
+                            <finalName>GitWave</finalName>
                         </configuration>
                     </execution>
                 </executions>

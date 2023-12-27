@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.introfog.rgit.model.dto;
+package com.github.introfog.gitwave.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;

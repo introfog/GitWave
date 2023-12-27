@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.github.introfog.rgit.model;
+package com.github.introfog.gitwave.model;
 
-import com.github.introfog.rgit.model.dto.CommandDto;
-import com.github.introfog.rgit.model.dto.ConfigDto;
+import com.github.introfog.gitwave.model.dto.CommandDto;
+import com.github.introfog.gitwave.model.dto.ConfigDto;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.util.DefaultIndenter;

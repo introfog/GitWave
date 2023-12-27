@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package com.github.introfog.rgit;
+package com.github.introfog.gitwave;
 
-import com.github.introfog.rgit.model.AppConfig;
-import com.github.introfog.rgit.model.StageFactory;
+import com.github.introfog.gitwave.model.AppConfig;
+import com.github.introfog.gitwave.model.StageFactory;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-public class RGitLauncher extends Application {
+public class GitWaveLauncher extends Application {
     @Override
     public void start(Stage stage) {
-        StageFactory.createPrimaryStage("view/executor.fxml", "rGit", stage).getStage().show();
+        StageFactory.createPrimaryStage("view/executor.fxml", "GitWave", stage).getStage().show();
         AppConfig.getInstance().setHostServices(getHostServices());
     }
 

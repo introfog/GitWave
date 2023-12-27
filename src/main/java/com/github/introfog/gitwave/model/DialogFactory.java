@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.introfog.rgit.model;
+package com.github.introfog.gitwave.model;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -28,10 +28,11 @@ public final class DialogFactory {
     }
 
     public static void createErrorAlert(String header, String msg) {
+        // TODO don't forget to update design also for dialog windows
         Alert alert = new Alert(AlertType.ERROR);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image(StageFactory.class.getResourceAsStream(AppConstants.PATH_TO_LOGO)));
-        alert.setTitle("rGit error");
+        alert.setTitle("GitWave error");
         alert.setHeaderText(header);
         alert.setContentText(msg);
         alert.showAndWait();

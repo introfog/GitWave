@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.introfog.rgit.model;
+package com.github.introfog.gitwave.model;
 
 import java.io.BufferedReader;
 import java.io.File;

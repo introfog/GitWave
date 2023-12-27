@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.github.introfog.rgit.model;
+package com.github.introfog.gitwave.model;
 
 public final class AppConstants {
     public static final String VERSION = "1.0.0-SNAPSHOT";
-    public static final String LINK_TO_GIT_CONTRIBUTING_FILE = "https://github.com/introfog/rGit/blob/master/CONTRIBUTING.md";
-    public static final String LINK_TO_GIT_REPO = "https://github.com/introfog/rGit";
+    public static final String LINK_TO_GIT_CONTRIBUTING_FILE = "https://github.com/introfog/GitWave/blob/master/CONTRIBUTING.md";
+    public static final String LINK_TO_GIT_REPO = "https://github.com/introfog/GitWave";
     public static final String PATH_TO_LOGO = "/logo.png";
 
     private AppConstants() {

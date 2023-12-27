@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.github.introfog.rgit.model;
+package com.github.introfog.gitwave.model;
 
-import com.github.introfog.rgit.RGitLauncher;
-import com.github.introfog.rgit.controller.BaseController;
+import com.github.introfog.gitwave.GitWaveLauncher;
+import com.github.introfog.gitwave.controller.BaseController;
 
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
@@ -55,7 +55,7 @@ public final class StageFactory {
     }
 
     private static FxmlStageHolder creteStage(String fxmlPath, String title, Stage stage) {
-        FXMLLoader fxmlLoader = new FXMLLoader(RGitLauncher.class.getResource(fxmlPath));
+        FXMLLoader fxmlLoader = new FXMLLoader(GitWaveLauncher.class.getResource(fxmlPath));
         Scene scene;
         try {
             scene = new Scene(fxmlLoader.load());

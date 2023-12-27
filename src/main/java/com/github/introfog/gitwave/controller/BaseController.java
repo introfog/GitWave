@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.github.introfog.rgit.controller;
+package com.github.introfog.gitwave.controller;
 
-import com.github.introfog.rgit.model.StageFactory.FxmlStageHolder;
+import com.github.introfog.gitwave.model.StageFactory.FxmlStageHolder;
 
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;

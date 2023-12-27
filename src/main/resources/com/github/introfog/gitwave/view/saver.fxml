@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<AnchorPane maxHeight="180.0" maxWidth="-Infinity" minHeight="180.0" minWidth="-Infinity" prefHeight="180.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.rgit.controller.SaveController">
+<AnchorPane maxHeight="180.0" maxWidth="-Infinity" minHeight="180.0" minWidth="-Infinity" prefHeight="180.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.gitwave.controller.SaveController">
    <children>
       <GridPane vgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>

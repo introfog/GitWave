@@ -1,4 +1,4 @@
-# Code of Conduct for rGit
+# Code of Conduct for GitWave
 
 ## Our Pledge
 In the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge 
@@ -45,7 +45,7 @@ confidentiality with regard to the reporter of an incident.
 This Code of Conduct is adapted from the Contributor Covenant, version 1.4, available at
 https://contributor-covenant.org/version/1/4.
 
-rGit is committed to upholding these standards and fostering an inclusive environment. 
+GitWave is committed to upholding these standards and fostering an inclusive environment. 
 We expect all contributors to do the same.
 
 Thank you for helping us make the community a better place.

@@ -7,7 +7,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="377.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.rgit.controller.AboutController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="377.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.gitwave.controller.AboutController">
    <children>
       <ImageView fitHeight="86.0" fitWidth="80.0" layoutX="32.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -16,7 +16,7 @@
       <Button layoutX="178.0" layoutY="330.0" mnemonicParsing="false" onAction="#close" text="Close" />
       <Label fx:id="version" layoutX="134.0" layoutY="40.0" text="VERSION">
          <graphic>
-            <Label text="rGit">
+            <Label text="GitWave">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -25,9 +25,9 @@
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Label>
-      <Label layoutX="134.0" layoutY="72.0" prefHeight="142.0" prefWidth="236.0" text="rGit is the ultimate tool for developers who work with multiple repositories on Windows. The app is designed to streamline your workflow by allowing you to run any bash commands across several repositories simultaneously. It’s a powerful companion for any developer looking to save time and effort when managing their Git projects." wrapText="true" />
-      <Label layoutX="134.0" layoutY="233.0" prefHeight="39.0" prefWidth="236.0" text="rGit is a open source project, which you can find on" wrapText="true" />
-      <Hyperlink layoutX="172.0" layoutY="251.0" onAction="#openGitHub" prefHeight="12.0" prefWidth="46.0" text="GitHub" />
+      <Label layoutX="134.0" layoutY="72.0" prefHeight="142.0" prefWidth="236.0" text="GitWave is the ultimate tool for developers who work with multiple repositories on Windows. The app is designed to streamline your workflow by allowing you to run any bash commands across several repositories simultaneously. It’s a powerful companion for any developer looking to save time and effort when managing their Git projects." wrapText="true" />
+      <Label layoutX="134.0" layoutY="233.0" prefHeight="39.0" prefWidth="236.0" text="GitWave is a open source project, which you can find on" wrapText="true" />
+      <Hyperlink layoutX="193.0" layoutY="251.0" onAction="#openGitHub" prefHeight="12.0" prefWidth="46.0" text="GitHub" />
       <Label layoutX="133.0" layoutY="293.0" text="Copyright 2023-2024 Dmitry Chubrick" />
    </children>
 </AnchorPane>
