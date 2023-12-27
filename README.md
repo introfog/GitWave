@@ -31,7 +31,7 @@ Explore, contribute, and customize the application according to your preferences
 - Any IDE for Java
 ### Build Options
 - To run application execute `mvn javafx:run`.
-- To create ready to use app, archived into .zip, run `mvn package`. GitWave will be in `target/GitWaveImage/GitWave.zip` archive.
+- To create ready to use app, archived into .zip, run `mvn package`. GitWave will be in `target/GitWave.zip` archive.
   - Windows can consider `GitWave.exe` or `batToExe.exe` as a dangerous files and remove them. In that case add repository folder to [Windows Security exclusion][winSecurity].
 
 ## Ideas For Further Releases

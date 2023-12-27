@@ -133,9 +133,7 @@
                             <executable>cmd</executable>
                             <arguments>
                                 <argument>/c</argument>
-                                <argument>echo "javaImage/bin/java" -m
-                                    com.github.introfog.gitwave/com.github.introfog.gitwave.GitWaveLauncher >
-                                    target/launcher.bat</argument>
+                                <argument>echo "javaImage/bin/java" -m com.github.introfog.gitwave/com.github.introfog.gitwave.GitWaveLauncher > target/launcher.bat</argument>
                             </arguments>
                         </configuration>
                     </execution>
