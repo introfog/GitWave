@@ -51,7 +51,9 @@ public final class StageFactory {
     }
 
     public static FxmlStageHolder createPrimaryStage(String fxmlPath, String title, Stage stage) {
-        return creteStage(fxmlPath, title, stage);
+        final FxmlStageHolder holder = creteStage(fxmlPath, title, stage);
+        holder.getStage().setResizable(true);
+        return holder;
     }
 
     private static FxmlStageHolder creteStage(String fxmlPath, String title, Stage stage) {

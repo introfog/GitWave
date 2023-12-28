@@ -89,6 +89,8 @@ public class ExecuteController extends BaseController {
 
     @FXML
     protected void updateSavedCommand() {
+        // TODO get rid of special window for updating saved command, just add buttons "update existed" and "save as new" to execute window
+        // TODO when the saved command hasn't been changed, write it green, when you change it, write red, and show buttons "update existed" and "save as new"
         FxmlStageHolder holder = StageFactory.createModalStage("view/updater.fxml", "Command updater");
 
         UpdateController updateController = holder.getFxmlLoader().getController();

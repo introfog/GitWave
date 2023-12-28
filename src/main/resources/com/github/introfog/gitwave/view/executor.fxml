@@ -7,32 +7,79 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="290.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.gitwave.controller.ExecuteController">
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.gitwave.controller.ExecuteController">
    <children>
-      <Label layoutX="32.0" layoutY="52.0" prefWidth="270.0" text="Choose directory where git command will be run" />
-      <TextField fx:id="directory" layoutX="32.0" layoutY="78.0" prefHeight="25.0" prefWidth="378.0" />
-      <Button layoutX="470.0" layoutY="78.0" mnemonicParsing="false" onAction="#browseDirectory" text="Browse" />
-      <TextField fx:id="command" layoutX="32.0" layoutY="146.0" prefHeight="25.0" prefWidth="378.0" />
-      <Label layoutX="32.0" layoutY="115.0" text="Command" />
-      <Button fx:id="run" layoutX="452.0" layoutY="146.0" mnemonicParsing="false" onAction="#runCommand" text="Run" />
-      <Button fx:id="save" layoutX="525.0" layoutY="146.0" mnemonicParsing="false" onAction="#saveCommand" text="Save" />
-      <Button layoutX="243.0" layoutY="251.0" mnemonicParsing="false" onAction="#chooseFromSaved" text="Choose from saved" />
-      <TextField fx:id="description" layoutX="32.0" layoutY="207.0" prefHeight="25.0" prefWidth="378.0" />
-      <Label layoutX="32.0" layoutY="180.0" text="Description" />
-      <Button fx:id="update" disable="true" layoutX="443.0" layoutY="207.0" mnemonicParsing="false" onAction="#updateSavedCommand" text="Update" />
-      <Button fx:id="clean" disable="true" layoutX="523.0" layoutY="207.0" mnemonicParsing="false" onAction="#cleanSavedCommand" text="Clean" />
-      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="600.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="Menu">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#openSettings" text="Settings" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" onAction="#openAbout" text="About" />
-               </items></Menu>
-        </menus>
-      </MenuBar>
-      <Hyperlink layoutX="507.0" layoutY="265.0" onAction="#foundIssue" text="Found an issue?" />
+      <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="NEVER" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+        </rowConstraints>
+         <children>
+            <MenuBar prefHeight="25.0" prefWidth="450.0" GridPane.vgrow="NEVER">
+              <menus>
+                <Menu mnemonicParsing="false" text="Menu">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#openSettings" text="Settings" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#openAbout" text="About" />
+                     </items>
+                  </Menu>
+              </menus>
+            </MenuBar>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
+               <children>
+                  <Hyperlink layoutY="25.0" onAction="#foundIssue" text="Found an issue?" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" />
+                  <Button fx:id="run" layoutX="386.0" layoutY="36.0" mnemonicParsing="false" onAction="#runCommand" text="4. Run" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+               </children>
+            </AnchorPane>
+            <TabPane prefHeight="204.0" prefWidth="450.0" style="-fx-border-color: black;" tabClosingPolicy="UNAVAILABLE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+              <tabs>
+                <Tab text="1. Directory">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Label prefWidth="270.0" text="Choose directory where git command will be run" />
+                              <TextField fx:id="directory" layoutY="40.0" prefHeight="25.0" prefWidth="378.0" />
+                              <Button layoutY="88.0" mnemonicParsing="false" onAction="#browseDirectory" text="Browse" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="2. Command">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Label text="Command" />
+                              <TextField fx:id="command" layoutY="37.0" prefHeight="25.0" prefWidth="378.0" />
+                              <Label layoutX="8.0" layoutY="71.0" text="Description" />
+                              <TextField fx:id="description" layoutY="88.0" prefHeight="25.0" prefWidth="378.0" />
+                              <Button fx:id="save" layoutX="48.0" layoutY="138.0" mnemonicParsing="false" onAction="#saveCommand" text="Save" />
+                              <Button layoutX="130.0" layoutY="138.0" mnemonicParsing="false" onAction="#chooseFromSaved" text="Choose from saved" />
+                              <Button fx:id="update" disable="true" layoutX="351.0" layoutY="138.0" mnemonicParsing="false" onAction="#updateSavedCommand" text="Update" />
+                              <Button fx:id="clean" disable="true" layoutX="287.0" layoutY="138.0" mnemonicParsing="false" onAction="#cleanSavedCommand" text="Clean" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="3. Parameters">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+      </GridPane>
    </children>
 </AnchorPane>
