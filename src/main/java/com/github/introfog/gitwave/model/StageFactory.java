@@ -35,11 +35,8 @@ public final class StageFactory {
         // private constructor
     }
 
-    public static FxmlStageHolder createModalSaveWindow() {
-        FxmlStageHolder holder = createModalStage("view/saver.fxml", "Command saver");
-        holder.getStage().setMinWidth(300);
-        holder.getStage().setMinHeight(220);
-        holder.getStage().setMaxHeight(220);
+    public static FxmlStageHolder createModalExploreWindow() {
+        FxmlStageHolder holder = StageFactory.createModalStage("view/explorer.fxml", "Command explorer");
         holder.getStage().setResizable(true);
         return holder;
     }
@@ -50,8 +47,8 @@ public final class StageFactory {
         return creteStage(fxmlPath, title, modalStage);
     }
 
-    public static FxmlStageHolder createPrimaryStage(String fxmlPath, String title, Stage stage) {
-        final FxmlStageHolder holder = creteStage(fxmlPath, title, stage);
+    public static FxmlStageHolder createPrimaryExecuteWindow(Stage stage) {
+        final FxmlStageHolder holder = creteStage("view/executor.fxml", "GitWave", stage);
         holder.getStage().setMinWidth(400);
         holder.getStage().setMinHeight(340);
         holder.getStage().setResizable(true);

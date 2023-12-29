@@ -17,23 +17,21 @@
 package com.github.introfog.gitwave.controller;
 
 import com.github.introfog.gitwave.model.AppConfig;
-import com.github.introfog.gitwave.model.DialogFactory;
-import com.github.introfog.gitwave.model.StageFactory;
 import com.github.introfog.gitwave.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.gitwave.model.dto.CommandDto;
 
 import java.util.List;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 
 public class ExploreController extends BaseController {
     @FXML
@@ -54,52 +52,17 @@ public class ExploreController extends BaseController {
                 fxmlStageHolder.getStage().close();
             }
         });
-        Platform.runLater(() -> addNew.requestFocus());
     }
 
     @FXML
-    protected void commitCommand(CellEditEvent<CommandDto, String> event) {
-        event.getRowValue().setCommand(event.getNewValue());
-        AppConfig.getInstance().updateCommandScript(event.getRowValue(), event.getNewValue());
-    }
-
-    @FXML
-    protected void commitDescription(CellEditEvent<CommandDto, String> event) {
-        event.getRowValue().setDescription(event.getNewValue());
-        AppConfig.getInstance().updateCommandDescription(event.getRowValue(), event.getNewValue());
-    }
-
-    @FXML
-    protected void removeSelectedCommand() {
-        CommandDto selectedItem = commandsTable.getSelectionModel().getSelectedItem();
-        if (selectedItem != null) {
-            commandsTable.getItems().remove(selectedItem);
-            executeController.removeSavedCommand(selectedItem);
-            AppConfig.getInstance().removeCommand(selectedItem);
-        } else {
-            DialogFactory.createErrorAlert("No row selected", "Please select a row to remove.");
+    protected void mouseClick(MouseEvent event) {
+        if (event.getClickCount() >= 2) {
+            final CommandDto selectedItem = commandsTable.getSelectionModel().getSelectedItem();
+            if (selectedItem != null) {
+                executeController.setCommand(selectedItem);
+                closeStage();
+            }
         }
-    }
-
-    @FXML
-    protected void runSelectedCommand() {
-        CommandDto selectedItem = commandsTable.getSelectionModel().getSelectedItem();
-        if (selectedItem != null) {
-            executeController.setCommand(selectedItem);
-            closeStage();
-        } else {
-            DialogFactory.createErrorAlert("No row selected", "Please select a row to run.");
-        }
-    }
-
-    @FXML
-    protected void addNewCommand() {
-        FxmlStageHolder holder = StageFactory.createModalSaveWindow();
-
-        SaveController saveController = holder.getFxmlLoader().getController();
-        saveController.setExploreController(this);
-
-        holder.getStage().showAndWait();
     }
 
     void setExecuteController(ExecuteController executeController) {
@@ -109,6 +72,15 @@ public class ExploreController extends BaseController {
     void addNewCommand(CommandDto commandDto) {
         AppConfig.getInstance().addCommand(commandDto);
         commandsTable.getItems().add(commandDto);
+    }
+
+    private void removeCommand(CommandDto item) {
+        if (item == null) {
+            return;
+        }
+        commandsTable.getItems().remove(item);
+        executeController.removeSavedCommand(item);
+        AppConfig.getInstance().removeCommand(item);
     }
 
     private void fillTable() {
@@ -123,5 +95,34 @@ public class ExploreController extends BaseController {
         final TableColumn<CommandDto, String> descriptionTableColumn = (TableColumn<CommandDto, String>) commandsTable.getColumns().get(1);
         descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         descriptionTableColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        TableColumn<CommandDto, String> removeTableColumn = (TableColumn<CommandDto, String>) commandsTable.getColumns().get(2);
+        removeTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        removeTableColumn.setCellFactory(column -> new RemoveTableCell(this));
+    }
+
+    private static class RemoveTableCell extends TableCell<CommandDto, String> {
+        private final Button removeButton = new Button("X");
+
+        private final ExploreController exploreController;
+
+        public RemoveTableCell(ExploreController exploreController) {
+            this.exploreController = exploreController;
+        }
+
+        @Override
+        protected void updateItem(String item, boolean empty) {
+            super.updateItem(item, empty);
+            if (item == null || empty) {
+                setGraphic(null);
+                setText(null);
+            } else {
+                setGraphic(removeButton);
+                removeButton.setOnAction(event -> {
+                    CommandDto selectedItem = getTableView().getItems().get(getIndex());
+                    exploreController.removeCommand(selectedItem);
+                });
+            }
+        }
     }
 }

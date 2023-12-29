@@ -109,14 +109,14 @@
             </TabPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
                <children>
-                  <Hyperlink layoutY="25.0" onAction="#foundIssue" text="Found an issue?" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
-                     <font>
-                        <Font name="Verdana" size="12.0" />
-                     </font></Hyperlink>
                   <Button fx:id="run" layoutX="386.0" layoutY="36.0" mnemonicParsing="false" onAction="#runCommand" text="4. Run" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
                      <font>
                         <Font name="Verdana" size="12.0" />
                      </font></Button>
+                  <Hyperlink layoutY="25.0" onAction="#foundIssue" text="Found an issue?" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Hyperlink>
                </children>
             </AnchorPane>
          </children>

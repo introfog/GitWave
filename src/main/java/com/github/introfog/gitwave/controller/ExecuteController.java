@@ -110,7 +110,7 @@ public class ExecuteController extends BaseController {
 
     @FXML
     protected void chooseFromSaved() {
-        FxmlStageHolder holder = StageFactory.createModalStage("view/explorer.fxml", "Command explorer");
+        FxmlStageHolder holder = StageFactory.createModalExploreWindow();
 
         ExploreController exploreController = holder.getFxmlLoader().getController();
         exploreController.setExecuteController(this);

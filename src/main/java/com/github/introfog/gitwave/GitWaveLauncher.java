@@ -25,7 +25,7 @@ import javafx.stage.Stage;
 public class GitWaveLauncher extends Application {
     @Override
     public void start(Stage stage) {
-        StageFactory.createPrimaryStage("view/executor.fxml", "GitWave", stage).getStage().show();
+        StageFactory.createPrimaryExecuteWindow(stage).getStage().show();
         AppConfig.getInstance().setHostServices(getHostServices());
     }
 

@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="275.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.gitwave.controller.ExploreController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="275.0" prefWidth="600.0" style="-fx-font-family: verdana; -fx-font-size: 12;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.gitwave.controller.ExploreController">
    <children>
-      <TableView fx:id="commandsTable" editable="true" prefHeight="223.0" prefWidth="600.0">
+      <TableView fx:id="commandsTable" onMouseClicked="#mouseClick" prefHeight="223.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
-          <TableColumn onEditCommit="#commitCommand" prefWidth="299.0" text="Command" />
-          <TableColumn onEditCommit="#commitDescription" prefWidth="300.0" text="Description" />
+          <TableColumn minWidth="283.0" prefWidth="-1.0" text="Command" />
+          <TableColumn minWidth="283.0" prefWidth="-1.0" text="Description" />
+            <TableColumn maxWidth="30.0" minWidth="30.0" prefWidth="30.0" resizable="false" />
         </columns>
       </TableView>
-      <Button layoutX="72.0" layoutY="236.0" mnemonicParsing="false" onAction="#removeSelectedCommand" text="Remove selected" />
-      <Button fx:id="addNew" layoutX="269.0" layoutY="236.0" mnemonicParsing="false" onAction="#addNewCommand" text="Add new" />
-      <Button layoutX="423.0" layoutY="236.0" mnemonicParsing="false" onAction="#runSelectedCommand" text="Run selected" />
    </children>
 </AnchorPane>
