@@ -14,7 +14,8 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.gitwave.controller.ExecuteController">
+<?import javafx.scene.text.Font?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="450.0" style="-fx-font-family: verdana; -fx-font-size: 12;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.gitwave.controller.ExecuteController">
    <children>
       <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -37,21 +38,24 @@
                   </Menu>
               </menus>
             </MenuBar>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
-               <children>
-                  <Hyperlink layoutY="25.0" onAction="#foundIssue" text="Found an issue?" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" />
-                  <Button fx:id="run" layoutX="386.0" layoutY="36.0" mnemonicParsing="false" onAction="#runCommand" text="4. Run" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" />
-               </children>
-            </AnchorPane>
-            <TabPane prefHeight="204.0" prefWidth="450.0" style="-fx-border-color: black;" tabClosingPolicy="UNAVAILABLE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+            <TabPane prefHeight="204.0" prefWidth="450.0" style="-fx-border-color: black; -fx-border-style: solid none; -fx-border-width: 2;" tabClosingPolicy="UNAVAILABLE" tabMinWidth="100.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
               <tabs>
                 <Tab text="1. Directory">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Label prefWidth="270.0" text="Choose directory where git command will be run" />
-                              <TextField fx:id="directory" layoutY="40.0" prefHeight="25.0" prefWidth="378.0" />
-                              <Button layoutY="88.0" mnemonicParsing="false" onAction="#browseDirectory" text="Browse" />
+                              <Label layoutX="21.0" layoutY="20.0" prefHeight="18.0" prefWidth="282.0" text="Choose directory where command will be run" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+                                 <font>
+                                    <Font name="Verdana" size="12.0" />
+                                 </font></Label>
+                              <TextField fx:id="directory" layoutY="40.0" prefHeight="25.0" prefWidth="378.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="40.0">
+                                 <font>
+                                    <Font name="Verdana" size="12.0" />
+                                 </font></TextField>
+                              <Button layoutX="20.0" layoutY="84.0" mnemonicParsing="false" onAction="#browseDirectory" text="Browse" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="80.0">
+                                 <font>
+                                    <Font name="Verdana" size="12.0" />
+                                 </font></Button>
                            </children>
                         </AnchorPane>
                   </content>
@@ -60,14 +64,38 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Label text="Command" />
-                              <TextField fx:id="command" layoutY="37.0" prefHeight="25.0" prefWidth="378.0" />
-                              <Label layoutX="8.0" layoutY="71.0" text="Description" />
-                              <TextField fx:id="description" layoutY="88.0" prefHeight="25.0" prefWidth="378.0" />
-                              <Button fx:id="save" layoutX="48.0" layoutY="138.0" mnemonicParsing="false" onAction="#saveCommand" text="Save" />
-                              <Button layoutX="130.0" layoutY="138.0" mnemonicParsing="false" onAction="#chooseFromSaved" text="Choose from saved" />
-                              <Button fx:id="update" disable="true" layoutX="351.0" layoutY="138.0" mnemonicParsing="false" onAction="#updateSavedCommand" text="Update" />
-                              <Button fx:id="clean" disable="true" layoutX="287.0" layoutY="138.0" mnemonicParsing="false" onAction="#cleanSavedCommand" text="Clean" />
+                              <Label text="Command" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+                                 <font>
+                                    <Font name="Verdana" size="12.0" />
+                                 </font></Label>
+                              <TextField fx:id="command" layoutY="37.0" prefHeight="25.0" prefWidth="378.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="40.0">
+                                 <font>
+                                    <Font name="Verdana" size="12.0" />
+                                 </font></TextField>
+                              <Label layoutX="8.0" layoutY="71.0" text="Description" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="80.0">
+                                 <font>
+                                    <Font name="Verdana" size="12.0" />
+                                 </font></Label>
+                              <TextField fx:id="description" layoutY="88.0" prefHeight="25.0" prefWidth="378.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="100.0">
+                                 <font>
+                                    <Font name="Verdana" size="12.0" />
+                                 </font></TextField>
+                              <Button fx:id="save" layoutX="48.0" layoutY="138.0" mnemonicParsing="false" onAction="#saveCommand" text="Save" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="140.0">
+                                 <font>
+                                    <Font name="Verdana" size="12.0" />
+                                 </font></Button>
+                              <Button layoutX="130.0" layoutY="138.0" mnemonicParsing="false" onAction="#chooseFromSaved" text="Choose from saved" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="140.0">
+                                 <font>
+                                    <Font name="Verdana" size="12.0" />
+                                 </font></Button>
+                              <Button fx:id="update" disable="true" layoutX="351.0" layoutY="138.0" mnemonicParsing="false" onAction="#updateSavedCommand" text="Update" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="140.0">
+                                 <font>
+                                    <Font name="Verdana" size="12.0" />
+                                 </font></Button>
+                              <Button fx:id="clean" disable="true" layoutX="287.0" layoutY="138.0" mnemonicParsing="false" onAction="#cleanSavedCommand" text="Clean" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="140.0">
+                                 <font>
+                                    <Font name="Verdana" size="12.0" />
+                                 </font></Button>
                            </children>
                         </AnchorPane>
                   </content>
@@ -79,6 +107,18 @@
                 </Tab>
               </tabs>
             </TabPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
+               <children>
+                  <Hyperlink layoutY="25.0" onAction="#foundIssue" text="Found an issue?" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Hyperlink>
+                  <Button fx:id="run" layoutX="386.0" layoutY="36.0" mnemonicParsing="false" onAction="#runCommand" text="4. Run" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Button>
+               </children>
+            </AnchorPane>
          </children>
       </GridPane>
    </children>
