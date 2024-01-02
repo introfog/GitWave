@@ -60,7 +60,7 @@ public class ExploreController extends BaseController {
         if (event.getClickCount() >= 2) {
             final CommandDto selectedItem = commandsTable.getSelectionModel().getSelectedItem();
             if (selectedItem != null) {
-                executeController.setCommand(selectedItem);
+                executeController.specifySourceCommand(selectedItem);
                 closeStage();
             }
         }

@@ -64,7 +64,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Label text="Command" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+                              <Label text="Command*" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
                                  <font>
                                     <Font name="Verdana" size="12.0" />
                                  </font></Label>
@@ -80,7 +80,7 @@
                                  <font>
                                     <Font name="Verdana" size="12.0" />
                                  </font></TextField>
-                              <Button fx:id="save" layoutX="48.0" layoutY="138.0" mnemonicParsing="false" onAction="#saveCommand" text="Save" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="140.0">
+                              <Button fx:id="save" disable="true" layoutX="48.0" layoutY="138.0" mnemonicParsing="false" onAction="#saveCommand" text="Save" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="140.0">
                                  <font>
                                     <Font name="Verdana" size="12.0" />
                                  </font></Button>
@@ -88,11 +88,7 @@
                                  <font>
                                     <Font name="Verdana" size="12.0" />
                                  </font></Button>
-                              <Button fx:id="update" disable="true" layoutX="351.0" layoutY="138.0" mnemonicParsing="false" onAction="#updateSavedCommand" text="Update" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="140.0">
-                                 <font>
-                                    <Font name="Verdana" size="12.0" />
-                                 </font></Button>
-                              <Button fx:id="clean" disable="true" layoutX="287.0" layoutY="138.0" mnemonicParsing="false" onAction="#cleanSavedCommand" text="Clean" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="140.0">
+                              <Button layoutX="287.0" layoutY="138.0" mnemonicParsing="false" onAction="#clean" text="Clean" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="140.0">
                                  <font>
                                     <Font name="Verdana" size="12.0" />
                                  </font></Button>
@@ -109,7 +105,7 @@
             </TabPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
                <children>
-                  <Button fx:id="run" layoutX="386.0" layoutY="36.0" mnemonicParsing="false" onAction="#runCommand" text="4. Run" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+                  <Button layoutX="386.0" layoutY="36.0" mnemonicParsing="false" onAction="#runCommand" text="4. Run" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
                      <font>
                         <Font name="Verdana" size="12.0" />
                      </font></Button>

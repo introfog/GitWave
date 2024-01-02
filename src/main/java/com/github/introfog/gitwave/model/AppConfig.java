@@ -94,22 +94,6 @@ public final class AppConfig {
         saveConfig();
     }
 
-    public boolean containsCommand(CommandDto commandDto) {
-        return config.getCommands().contains(commandDto);
-    }
-
-    public void updateCommandScript(CommandDto commandDto, String newCommand) {
-        final List<CommandDto> commands = config.getCommands();
-        commands.get(commands.indexOf(commandDto)).setCommand(newCommand);
-        saveConfig();
-    }
-
-    public void updateCommandDescription(CommandDto commandDto, String newDescription) {
-        final List<CommandDto> commands = config.getCommands();
-        commands.get(commands.indexOf(commandDto)).setDescription(newDescription);
-        saveConfig();
-    }
-
     public void updateExistedCommand(CommandDto initial, CommandDto current) {
         final List<CommandDto> commands = config.getCommands();
         if (initial != null && commands.contains(initial)) {

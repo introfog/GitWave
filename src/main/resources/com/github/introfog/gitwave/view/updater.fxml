@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.gitwave.controller.UpdateController">
+<?import javafx.scene.text.Font?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="500.0" style="-fx-font-family: verdana;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.gitwave.controller.UpdateController">
    <children>
-      <Label layoutX="26.0" layoutY="22.0" text="Command" />
-      <TextField fx:id="command" layoutX="26.0" layoutY="39.0" prefHeight="25.0" prefWidth="448.0" />
-      <Label layoutX="26.0" layoutY="75.0" text="Description" />
-      <TextField fx:id="description" layoutX="26.0" layoutY="92.0" prefHeight="25.0" prefWidth="448.0" />
+      <Label layoutX="26.0" layoutY="24.0" prefHeight="39.0" prefWidth="381.0" style="-fx-font-size: 20;" text="How do you want to save command?" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <font>
+            <Font name="Verdana" size="36.0" />
+         </font>
+      </Label>
       <Button layoutX="26.0" layoutY="144.0" mnemonicParsing="false" onAction="#saveAsNew" text="Save as new" />
       <Button layoutX="422.0" layoutY="144.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
       <Button layoutX="202.0" layoutY="144.0" mnemonicParsing="false" onAction="#updateExisted" text="Update existed" />
    </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
 </AnchorPane>

@@ -17,26 +17,14 @@
 package com.github.introfog.gitwave.controller;
 
 import com.github.introfog.gitwave.model.AppConfig;
-import com.github.introfog.gitwave.model.DialogFactory;
 import com.github.introfog.gitwave.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.gitwave.model.dto.CommandDto;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class UpdateController extends BaseController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UpdateController.class);
-
-    @FXML
-    private TextField command;
-
-    @FXML
-    private TextField description;
-
-    private CommandDto initialCommand;
-
+    private CommandDto oldCommand;
+    private CommandDto newCommand;
     private ExecuteController executeController;
 
     @Override
@@ -52,43 +40,21 @@ public class UpdateController extends BaseController {
 
     @FXML
     protected void saveAsNew() {
-        if (command.getText().isEmpty()) {
-            DialogFactory.createErrorAlert("Invalid command", "Command can't be empty");
-        } else if (executeController != null) {
-            final CommandDto commandDto = new CommandDto(command.getText(), description.getText());
-            if (commandDto.equals(initialCommand)) {
-                DialogFactory.createErrorAlert("Save error", "The same command already exists");
-            } else {
-                AppConfig.getInstance().addCommand(commandDto);
-                executeController.setCommand(commandDto);
-                closeStage();
-            }
-        } else {
-            LOGGER.error("Edit controller isn't called correctly, execute controller are null.");
-        }
+        AppConfig.getInstance().addCommand(newCommand);
+        executeController.specifySourceCommand(newCommand);
+        closeStage();
     }
 
     @FXML
     protected void updateExisted() {
-        if (command.getText().isEmpty()) {
-            DialogFactory.createErrorAlert("Invalid command", "Command can't be empty");
-        } else if (executeController != null) {
-            final CommandDto currentCommand = new CommandDto(command.getText(), description.getText());
-            AppConfig.getInstance().updateExistedCommand(initialCommand, currentCommand);
-            executeController.setCommand(currentCommand);
-            closeStage();
-        } else {
-            LOGGER.error("Edit controller isn't called correctly, execute controller are null.");
-        }
+        AppConfig.getInstance().updateExistedCommand(oldCommand, newCommand);
+        executeController.specifySourceCommand(newCommand);
+        closeStage();
     }
 
-    void setExecuteController(ExecuteController executeController) {
+    void setRequiredFields(ExecuteController executeController, CommandDto oldCommand, CommandDto newCommand) {
         this.executeController = executeController;
-    }
-
-    void setCommand(CommandDto commandDto) {
-        this.initialCommand = commandDto;
-        command.setText(commandDto.getCommand());
-        description.setText(commandDto.getDescription());
+        this.oldCommand = oldCommand;
+        this.newCommand = newCommand;
     }
 }

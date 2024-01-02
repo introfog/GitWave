@@ -36,6 +36,9 @@ import org.slf4j.LoggerFactory;
 
 public class ExecuteController extends BaseController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExecuteController.class);
+    private static final String GREEN_TEXT_CSS_STYLE = "-fx-text-fill: green";
+    private static final String RED_TEXT_CSS_STYLE = "-fx-text-fill: red";
+    private static final String BLACK_TEXT_CSS_STYLE = "-fx-text-fill: black";
 
     @FXML
     private TextField directory;
@@ -47,18 +50,9 @@ public class ExecuteController extends BaseController {
     private TextField description;
 
     @FXML
-    private Button run;
-
-    @FXML
-    private Button update;
-
-    @FXML
-    private Button clean;
-
-    @FXML
     private Button save;
 
-    private CommandDto savedCommand;
+    private CommandDto sourceCommand;
 
     @Override
     public void initialize(FxmlStageHolder fxmlStageHolder) {
@@ -68,6 +62,35 @@ public class ExecuteController extends BaseController {
             event.consume();
             DialogFactory.createCloseConfirmationAlert(primaryStage);
         });
+
+        command.textProperty().addListener((obs, oldText, newText) -> {
+            if (sourceCommand != null) {
+                updateFields(newText, command, true);
+            } else {
+                save.setDisable(newText.isEmpty());
+            }
+        });
+        description.textProperty().addListener((obs, oldText, newText) -> {
+            if (sourceCommand != null) {
+                updateFields(newText, description, false);
+            }
+        });
+    }
+
+    private void updateFields(String currentMainText, TextField field, boolean isCommand) {
+        final String sourceMainText = isCommand ? sourceCommand.getCommand() : sourceCommand.getDescription();
+        final String sourceSecText = isCommand ? sourceCommand.getDescription() : sourceCommand.getCommand();
+        final String currentSecText = isCommand ? description.getText() : command.getText();
+
+        if (sourceMainText.equals(currentMainText)){
+            field.setStyle(GREEN_TEXT_CSS_STYLE);
+            if (sourceSecText.equals(currentSecText)) {
+                save.setDisable(true);
+            }
+        } else {
+            save.setDisable(false);
+            field.setStyle(RED_TEXT_CSS_STYLE);
+        }
     }
 
     @FXML
@@ -88,24 +111,8 @@ public class ExecuteController extends BaseController {
     }
 
     @FXML
-    protected void updateSavedCommand() {
-        // TODO get rid of special window for updating saved command, just add buttons "update existed" and "save as new" to execute window
-        // TODO when the saved command hasn't been changed, write it green, when you change it, write red, and show buttons "update existed" and "save as new"
-        FxmlStageHolder holder = StageFactory.createModalStage("view/updater.fxml", "Command updater");
-
-        UpdateController updateController = holder.getFxmlLoader().getController();
-        updateController.setExecuteController(this);
-        updateController.setCommand(savedCommand);
-
-        holder.getStage().showAndWait();
-    }
-
-    @FXML
-    protected void cleanSavedCommand() {
-        command.clear();
-        description.clear();
-        savedCommand = null;
-        switchToSavedCommand(false);
+    protected void clean() {
+        specifySourceCommand(null);
     }
 
     @FXML
@@ -120,12 +127,17 @@ public class ExecuteController extends BaseController {
 
     @FXML
     protected void saveCommand() {
-        if (command.getText().isEmpty()) {
-            DialogFactory.createErrorAlert("Invalid command", "Command can't be empty");
-        } else {
-            final CommandDto commandDto = new CommandDto(command.getText(), description.getText());
+        final CommandDto commandDto = new CommandDto(command.getText(), description.getText());
+        if (sourceCommand == null) {
             AppConfig.getInstance().addCommand(commandDto);
-            setCommand(commandDto);
+            specifySourceCommand(commandDto);
+            // TODO MINOR if DTO is already existed, nothing was happened, is it OK?
+        } else {
+            FxmlStageHolder holder = StageFactory.createModalStage("view/updater.fxml", "Command updater");
+            UpdateController updateController = holder.getFxmlLoader().getController();
+            // TODO add required methods for all stages where necessary
+            updateController.setRequiredFields(this, sourceCommand, commandDto);
+            holder.getStage().showAndWait();
         }
     }
 
@@ -173,23 +185,28 @@ public class ExecuteController extends BaseController {
         AppConfig.getInstance().getHostServices().showDocument(AppConstants.LINK_TO_GIT_CONTRIBUTING_FILE);
     }
 
-    void setCommand(CommandDto commandDto) {
-        command.setText(commandDto.getCommand());
-        description.setText(commandDto.getDescription());
-        savedCommand = commandDto;
-        switchToSavedCommand(true);
-    }
-
-    void removeSavedCommand(CommandDto commandDto) {
-        if (Objects.equals(commandDto, savedCommand)) {
-            savedCommand = null;
-            switchToSavedCommand(false);
+    void specifySourceCommand(CommandDto commandDto) {
+        save.setDisable(true);
+        sourceCommand = commandDto;
+        if (commandDto == null) {
+            command.clear();
+            command.setStyle(BLACK_TEXT_CSS_STYLE);
+            description.clear();
+            description.setStyle(BLACK_TEXT_CSS_STYLE);
+        } else {
+            command.setText(commandDto.getCommand());
+            command.setStyle(GREEN_TEXT_CSS_STYLE);
+            description.setText(commandDto.getDescription());
+            description.setStyle(GREEN_TEXT_CSS_STYLE);
         }
     }
 
-    private void switchToSavedCommand(boolean switchToSavedCommand) {
-        update.setDisable(!switchToSavedCommand);
-        clean.setDisable(!switchToSavedCommand);
-        save.setDisable(switchToSavedCommand);
+    void removeSavedCommand(CommandDto commandDto) {
+        if (Objects.equals(commandDto, sourceCommand)) {
+            sourceCommand = null;
+            command.setStyle(BLACK_TEXT_CSS_STYLE);
+            description.setStyle(BLACK_TEXT_CSS_STYLE);
+            save.setDisable(false);
+        }
     }
 }
