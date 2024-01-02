@@ -55,7 +55,6 @@ public final class CommandExecutor {
                 }
             }
         } else {
-            // TODO all logs must be stored in one static class as constants
             LOGGER.error("Specified folder either doesn't exist or isn't a directory, running git command was skipped.");
         }
     }

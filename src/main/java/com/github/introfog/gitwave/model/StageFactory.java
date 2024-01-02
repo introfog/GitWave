@@ -37,7 +37,23 @@ public final class StageFactory {
 
     public static FxmlStageHolder createModalExploreWindow() {
         FxmlStageHolder holder = StageFactory.createModalStage("view/explorer.fxml", "Command explorer");
+        holder.getStage().setMinWidth(400);
+        holder.getStage().setMinHeight(200);
         holder.getStage().setResizable(true);
+        return holder;
+    }
+
+    public static FxmlStageHolder createModalSettingsWindow() {
+        FxmlStageHolder holder = StageFactory.createModalStage("view/settings.fxml", "Settings");
+        holder.getStage().setMinWidth(500);
+        holder.getStage().setMinHeight(240);
+        holder.getStage().setResizable(true);
+        return holder;
+    }
+
+    public static FxmlStageHolder createModalAboutWindow() {
+        FxmlStageHolder holder = StageFactory.createModalStage("view/about.fxml", "About");
+        holder.getStage().setResizable(false);
         return holder;
     }
 

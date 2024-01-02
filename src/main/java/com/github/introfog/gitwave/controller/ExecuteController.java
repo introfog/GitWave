@@ -133,7 +133,7 @@ public class ExecuteController extends BaseController {
     protected void runCommand() {
         final String pathToGitBashExe = AppConfig.getInstance().getPathToGitBashExe();
         if (pathToGitBashExe == null || pathToGitBashExe.isEmpty()) {
-            StageFactory.createModalStage("view/settings.fxml", "Settings").getStage().showAndWait();
+            StageFactory.createModalSettingsWindow().getStage().showAndWait();
         } else if (!(new File(pathToGitBashExe)).exists()) {
             LOGGER.error("Specified GitBash.exe path '{}' points to not-existent file, running git command was skipped.", pathToGitBashExe);
             DialogFactory.createErrorAlert("Invalid path to GitBash.exe", "Specified path \"" + pathToGitBashExe +
@@ -160,12 +160,12 @@ public class ExecuteController extends BaseController {
 
     @FXML
     protected void openSettings() {
-        StageFactory.createModalStage("view/settings.fxml", "Settings").getStage().showAndWait();
+        StageFactory.createModalSettingsWindow().getStage().showAndWait();
     }
 
     @FXML
     protected void openAbout() {
-        StageFactory.createModalStage("view/about.fxml", "About").getStage().showAndWait();
+        StageFactory.createModalAboutWindow().getStage().showAndWait();
     }
 
     @FXML

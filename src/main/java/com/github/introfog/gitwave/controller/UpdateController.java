@@ -31,7 +31,7 @@ public class UpdateController extends BaseController {
 
     @FXML
     private TextField command;
-    // TODO what if define long command or description? Set some limit.
+
     @FXML
     private TextField description;
 
