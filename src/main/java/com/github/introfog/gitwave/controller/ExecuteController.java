@@ -78,22 +78,6 @@ public class ExecuteController extends BaseController {
         });
     }
 
-    private void updateFields(String currentMainText, TextField field, boolean isCommand) {
-        final String sourceMainText = isCommand ? sourceCommand.getCommand() : sourceCommand.getDescription();
-        final String sourceSecText = isCommand ? sourceCommand.getDescription() : sourceCommand.getCommand();
-        final String currentSecText = isCommand ? description.getText() : command.getText();
-
-        if (sourceMainText.equals(currentMainText)){
-            field.setStyle(GREEN_TEXT_CSS_STYLE);
-            if (sourceSecText.equals(currentSecText)) {
-                save.setDisable(true);
-            }
-        } else {
-            save.setDisable(false);
-            field.setStyle(RED_TEXT_CSS_STYLE);
-        }
-    }
-
     @FXML
     protected void browseDirectory() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -119,11 +103,15 @@ public class ExecuteController extends BaseController {
     @FXML
     protected void chooseFromSaved() {
         FxmlStageHolder holder = StageFactory.createModalExploreWindow();
-
-        ExploreController exploreController = holder.getFxmlLoader().getController();
-        exploreController.setExecuteController(this);
-
         holder.getStage().showAndWait();
+        ExploreController exploreController = holder.getFxmlLoader().getController();
+        final CommandDto pickedItem = exploreController.getPickedItem();
+        if (pickedItem != null) {
+            specifySourceCommand(pickedItem);
+        }
+        for (CommandDto removed : exploreController.getRemovedItems()) {
+            removeSourceCommand(removed);
+        }
     }
 
     @FXML
@@ -189,7 +177,23 @@ public class ExecuteController extends BaseController {
         AppConfig.getInstance().getHostServices().showDocument(AppConstants.LINK_TO_GIT_CONTRIBUTING_FILE);
     }
 
-    void specifySourceCommand(CommandDto commandDto) {
+    private void updateFields(String currentMainText, TextField field, boolean isCommand) {
+        final String sourceMainText = isCommand ? sourceCommand.getCommand() : sourceCommand.getDescription();
+        final String sourceSecText = isCommand ? sourceCommand.getDescription() : sourceCommand.getCommand();
+        final String currentSecText = isCommand ? description.getText() : command.getText();
+
+        if (sourceMainText.equals(currentMainText)){
+            field.setStyle(GREEN_TEXT_CSS_STYLE);
+            if (sourceSecText.equals(currentSecText)) {
+                save.setDisable(true);
+            }
+        } else {
+            save.setDisable(false);
+            field.setStyle(RED_TEXT_CSS_STYLE);
+        }
+    }
+
+    private void specifySourceCommand(CommandDto commandDto) {
         save.setDisable(true);
         sourceCommand = commandDto;
         if (commandDto == null) {
@@ -205,7 +209,8 @@ public class ExecuteController extends BaseController {
         }
     }
 
-    void removeSavedCommand(CommandDto commandDto) {
+    private void removeSourceCommand(CommandDto commandDto) {
+        AppConfig.getInstance().removeCommand(commandDto);
         if (Objects.equals(commandDto, sourceCommand)) {
             sourceCommand = null;
             command.setStyle(BLACK_TEXT_CSS_STYLE);

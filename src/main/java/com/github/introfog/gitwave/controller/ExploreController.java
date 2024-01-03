@@ -20,6 +20,7 @@ import com.github.introfog.gitwave.model.AppConfig;
 import com.github.introfog.gitwave.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.gitwave.model.dto.CommandDto;
 
+import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -40,8 +41,8 @@ public class ExploreController extends BaseController {
 
     @FXML
     private AnchorPane anchor;
-
-    private ExecuteController executeController;
+    private CommandDto pickedItem;
+    private final List<CommandDto> removedItems = new ArrayList<>();
 
     @Override
     public void initialize(FxmlStageHolder fxmlStageHolder) {
@@ -60,23 +61,18 @@ public class ExploreController extends BaseController {
         if (event.getClickCount() >= 2) {
             final CommandDto selectedItem = commandsTable.getSelectionModel().getSelectedItem();
             if (selectedItem != null) {
-                executeController.specifySourceCommand(selectedItem);
+                pickedItem = selectedItem;
                 closeStage();
             }
         }
     }
 
-    void setExecuteController(ExecuteController executeController) {
-        this.executeController = executeController;
+    public CommandDto getPickedItem() {
+        return pickedItem;
     }
 
-    private void removeCommand(CommandDto item) {
-        if (item == null) {
-            return;
-        }
-        commandsTable.getItems().remove(item);
-        executeController.removeSavedCommand(item);
-        AppConfig.getInstance().removeCommand(item);
+    public List<CommandDto> getRemovedItems() {
+        return removedItems;
     }
 
     private void setUpAndFillTable() {
@@ -124,7 +120,10 @@ public class ExploreController extends BaseController {
                 setGraphic(removeButton);
                 removeButton.setOnAction(event -> {
                     CommandDto selectedItem = getTableView().getItems().get(getIndex());
-                    exploreController.removeCommand(selectedItem);
+                    if (selectedItem != null) {
+                        exploreController.commandsTable.getItems().remove(selectedItem);
+                        exploreController.removedItems.add(selectedItem);
+                    }
                 });
             }
         }
