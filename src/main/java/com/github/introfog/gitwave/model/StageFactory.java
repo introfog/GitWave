@@ -39,7 +39,6 @@ public final class StageFactory {
         FxmlStageHolder holder = StageFactory.createModalStage("view/explorer.fxml", "Command explorer");
         holder.getStage().setMinWidth(400);
         holder.getStage().setMinHeight(200);
-        holder.getStage().setResizable(true);
         return holder;
     }
 
@@ -47,7 +46,6 @@ public final class StageFactory {
         FxmlStageHolder holder = StageFactory.createModalStage("view/settings.fxml", "Settings");
         holder.getStage().setMinWidth(500);
         holder.getStage().setMinHeight(240);
-        holder.getStage().setResizable(true);
         return holder;
     }
 
@@ -57,18 +55,17 @@ public final class StageFactory {
         return holder;
     }
 
-    public static FxmlStageHolder createModalStage(String fxmlPath, String title) {
-        Stage modalStage = new Stage();
-        modalStage.initModality(Modality.APPLICATION_MODAL);
-        return creteStage(fxmlPath, title, modalStage);
-    }
-
     public static FxmlStageHolder createPrimaryExecuteWindow(Stage stage) {
         final FxmlStageHolder holder = creteStage("view/executor.fxml", "GitWave", stage);
         holder.getStage().setMinWidth(400);
         holder.getStage().setMinHeight(340);
-        holder.getStage().setResizable(true);
         return holder;
+    }
+
+    private static FxmlStageHolder createModalStage(String fxmlPath, String title) {
+        Stage modalStage = new Stage();
+        modalStage.initModality(Modality.APPLICATION_MODAL);
+        return creteStage(fxmlPath, title, modalStage);
     }
 
     private static FxmlStageHolder creteStage(String fxmlPath, String title, Stage stage) {
@@ -84,8 +81,7 @@ public final class StageFactory {
 
         stage.setTitle(title);
         stage.setScene(scene);
-        // TODO make design flexible and allow resizing
-        stage.setResizable(false);
+        stage.setResizable(true);
         stage.getIcons().add(new Image(StageFactory.class.getResourceAsStream(AppConstants.PATH_TO_LOGO)));
         BaseController controller = fxmlLoader.getController();
         final FxmlStageHolder fxmlStageHolder = new FxmlStageHolder(stage, fxmlLoader, scene);

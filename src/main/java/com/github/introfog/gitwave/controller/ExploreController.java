@@ -95,7 +95,7 @@ public class ExploreController extends BaseController {
 
         anchor.widthProperty().addListener((obs, oldVal, newVal) -> {
             double width = (newVal.doubleValue() - removeTableColumn.getWidth() - 4) * 0.5;
-            // TODO there is a bug that when user change column width manually, and after that resize window, it automatically reset user changes
+            // TODO MINOR there is a bug that when user change column width manually, and after that resize window, it automatically reset user changes
             commandTableColumn.setPrefWidth(width);
             descriptionTableColumn.setPrefWidth(width);
         });
