@@ -28,6 +28,7 @@ import java.io.File;
 import java.util.Objects;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -133,11 +134,14 @@ public class ExecuteController extends BaseController {
             specifySourceCommand(commandDto);
             // TODO MINOR if DTO is already existed, nothing was happened, is it OK?
         } else {
-            FxmlStageHolder holder = StageFactory.createModalStage("view/updater.fxml", "Command updater");
-            UpdateController updateController = holder.getFxmlLoader().getController();
-            // TODO add required methods for all stages where necessary
-            updateController.setRequiredFields(this, sourceCommand, commandDto);
-            holder.getStage().showAndWait();
+            ButtonType result = DialogFactory.createSaveOrUpdateAlert();
+            if (ButtonType.YES == result) {
+                AppConfig.getInstance().addCommand(commandDto);
+                specifySourceCommand(commandDto);
+            } else if (ButtonType.NO == result) {
+                AppConfig.getInstance().updateExistedCommand(sourceCommand, commandDto);
+                specifySourceCommand(commandDto);
+            }
         }
     }
 

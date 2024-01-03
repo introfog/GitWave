@@ -52,4 +52,17 @@ public final class DialogFactory {
             }
         });
     }
+
+    public static ButtonType createSaveOrUpdateAlert() {
+        Alert confirmationDialog = new Alert(AlertType.CONFIRMATION);
+        Stage stage = (Stage) confirmationDialog.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image(StageFactory.class.getResourceAsStream(AppConstants.PATH_TO_LOGO)));
+        confirmationDialog.setTitle("Confirmation");
+        confirmationDialog.setHeaderText("Do you want to save command as a new instance?\nSelect 'No' if update existed.");
+        confirmationDialog.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+
+        ButtonType[] pressedButton = {null};
+        confirmationDialog.showAndWait().ifPresent(response -> pressedButton[0] = response);
+        return pressedButton[0];
+    }
 }
