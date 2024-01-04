@@ -23,19 +23,33 @@ import com.github.introfog.gitwave.model.DialogFactory;
 import com.github.introfog.gitwave.model.StageFactory;
 import com.github.introfog.gitwave.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.gitwave.model.dto.CommandDto;
+import com.github.introfog.gitwave.model.dto.ParameterDto;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ExecuteController extends BaseController {
+    // TODO add opportunity to check if new release is available for GitWave
+    private static final Pattern CURL_BRACKETS_PATTERN = Pattern.compile("\\{(\\S+)\\}");
     private static final Logger LOGGER = LoggerFactory.getLogger(ExecuteController.class);
     private static final String GREEN_TEXT_CSS_STYLE = "-fx-text-fill: green";
     private static final String RED_TEXT_CSS_STYLE = "-fx-text-fill: red";
@@ -53,6 +67,12 @@ public class ExecuteController extends BaseController {
     @FXML
     private Button save;
 
+    @FXML
+    private Label parametersText;
+
+    @FXML
+    private TableView<ParameterDto> parametersTable;
+
     private CommandDto sourceCommand;
 
     @Override
@@ -64,18 +84,7 @@ public class ExecuteController extends BaseController {
             DialogFactory.createCloseConfirmationAlert(primaryStage);
         });
 
-        command.textProperty().addListener((obs, oldText, newText) -> {
-            if (sourceCommand != null) {
-                updateFields(newText, command, true);
-            } else {
-                save.setDisable(newText.isEmpty());
-            }
-        });
-        description.textProperty().addListener((obs, oldText, newText) -> {
-            if (sourceCommand != null) {
-                updateFields(newText, description, false);
-            }
-        });
+        setUpSaveIndication();
     }
 
     @FXML
@@ -177,7 +186,23 @@ public class ExecuteController extends BaseController {
         AppConfig.getInstance().getHostServices().showDocument(AppConstants.LINK_TO_GIT_CONTRIBUTING_FILE);
     }
 
-    private void updateFields(String currentMainText, TextField field, boolean isCommand) {
+    private void setUpSaveIndication() {
+        command.textProperty().addListener((obs, oldText, newText) -> {
+            parseCommandParameters();
+            if (sourceCommand != null) {
+                updateSaveIndication(newText, command, true);
+            } else {
+                save.setDisable(newText.isEmpty());
+            }
+        });
+        description.textProperty().addListener((obs, oldText, newText) -> {
+            if (sourceCommand != null) {
+                updateSaveIndication(newText, description, false);
+            }
+        });
+    }
+
+    private void updateSaveIndication(String currentMainText, TextField field, boolean isCommand) {
         final String sourceMainText = isCommand ? sourceCommand.getCommand() : sourceCommand.getDescription();
         final String sourceSecText = isCommand ? sourceCommand.getDescription() : sourceCommand.getCommand();
         final String currentSecText = isCommand ? description.getText() : command.getText();
@@ -193,6 +218,39 @@ public class ExecuteController extends BaseController {
         }
     }
 
+    private void parseCommandParameters() {
+        final Set<ParameterDto> parameters = new HashSet<>();
+        Matcher matcher = CURL_BRACKETS_PATTERN.matcher(command.getText());
+        while (matcher.find()) {
+            final String name = matcher.group(1);
+            parameters.add(new ParameterDto(name, ""));
+        }
+        if (parameters.isEmpty()) {
+            parametersText.setVisible(true);
+
+            parametersTable.setDisable(true);
+            parametersTable.setVisible(false);
+            parametersTable.getItems().clear();
+        } else {
+            parametersText.setVisible(false);
+
+            parametersTable.setDisable(false);
+            parametersTable.setVisible(true);
+
+            ObservableList<ParameterDto> itemList = FXCollections.observableArrayList(parameters);
+            parametersTable.getItems().clear();
+            parametersTable.setItems(itemList);
+
+            final TableColumn<ParameterDto, String> nameTableColumn = (TableColumn<ParameterDto, String>) parametersTable.getColumns().get(0);
+            nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+            nameTableColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+            final TableColumn<ParameterDto, String> valueTableColumn = (TableColumn<ParameterDto, String>) parametersTable.getColumns().get(1);
+            valueTableColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+            valueTableColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        }
+    }
+
     private void specifySourceCommand(CommandDto commandDto) {
         save.setDisable(true);
         sourceCommand = commandDto;
@@ -203,6 +261,7 @@ public class ExecuteController extends BaseController {
             description.setStyle(BLACK_TEXT_CSS_STYLE);
         } else {
             command.setText(commandDto.getCommand());
+            parseCommandParameters();
             command.setStyle(GREEN_TEXT_CSS_STYLE);
             description.setText(commandDto.getDescription());
             description.setStyle(GREEN_TEXT_CSS_STYLE);

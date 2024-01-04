@@ -33,14 +33,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 
 public class ExploreController extends BaseController {
     @FXML
     private TableView<CommandDto> commandsTable;
 
-    @FXML
-    private AnchorPane anchor;
     private CommandDto pickedItem;
     private final List<CommandDto> removedItems = new ArrayList<>();
 
@@ -91,14 +88,6 @@ public class ExploreController extends BaseController {
         TableColumn<CommandDto, String> removeTableColumn = (TableColumn<CommandDto, String>) commandsTable.getColumns().get(2);
         removeTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         removeTableColumn.setCellFactory(column -> new RemoveTableCell(this));
-
-
-        anchor.widthProperty().addListener((obs, oldVal, newVal) -> {
-            double width = (newVal.doubleValue() - removeTableColumn.getWidth() - 4) * 0.5;
-            // TODO MINOR there is a bug that when user change column width manually, and after that resize window, it automatically reset user changes
-            commandTableColumn.setPrefWidth(width);
-            descriptionTableColumn.setPrefWidth(width);
-        });
     }
 
     private static class RemoveTableCell extends TableCell<CommandDto, String> {

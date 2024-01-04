@@ -21,6 +21,7 @@ public final class AppConstants {
     public static final String LINK_TO_GIT_CONTRIBUTING_FILE = "https://github.com/introfog/GitWave/blob/master/CONTRIBUTING.md";
     public static final String LINK_TO_GIT_REPO = "https://github.com/introfog/GitWave";
     public static final String PATH_TO_LOGO = "/logo.png";
+    // TODO make pretty logo
 
     private AppConstants() {
         // empty
