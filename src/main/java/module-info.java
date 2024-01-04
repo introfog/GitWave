@@ -14,6 +14,7 @@ module com.github.introfog.gitwave {
     opens com.github.introfog.gitwave to javafx.fxml;
     opens com.github.introfog.gitwave.model.dto to com.fasterxml.jackson.core, com.fasterxml.jackson.annotation, com.fasterxml.jackson.databind, javafx.base;
     opens com.github.introfog.gitwave.controller to javafx.fxml;
+    opens com.github.introfog.gitwave.controller.main to javafx.fxml;
 
     exports com.github.introfog.gitwave;
 }

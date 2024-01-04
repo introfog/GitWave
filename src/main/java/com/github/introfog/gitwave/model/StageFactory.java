@@ -56,7 +56,7 @@ public final class StageFactory {
     }
 
     public static FxmlStageHolder createPrimaryExecuteWindow(Stage stage) {
-        final FxmlStageHolder holder = creteStage("view/executor.fxml", "GitWave", stage);
+        final FxmlStageHolder holder = creteStage("view/main.fxml", "GitWave", stage);
         holder.getStage().setMinWidth(400);
         holder.getStage().setMinHeight(340);
         return holder;
