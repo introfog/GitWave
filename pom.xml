@@ -138,6 +138,7 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <!-- TODO Try to create .exe by C++ -->
                         <id>create-exe-based-on-launcher</id>
                         <phase>package</phase>
                         <goals>

@@ -25,20 +25,15 @@ import com.github.introfog.gitwave.model.StageFactory;
 import com.github.introfog.gitwave.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.gitwave.model.dto.ParameterDto;
 
-import java.io.File;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class MainController extends BaseController {
     // TODO add opportunity to check if new release is available for GitWave
-    private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
-
     private DirectoryTabController directoryTabController;
     @FXML
     private TextField directory;
@@ -51,11 +46,13 @@ public class MainController extends BaseController {
     @FXML
     private Button save;
 
-    private PropertiesTabController propertiesTabController;
+    private ParametersTabController parametersTabController;
     @FXML
     private Label parametersText;
     @FXML
     private TableView<ParameterDto> parametersTable;
+
+    private SettingsController settingsController;
 
     @Override
     public void initialize(FxmlStageHolder fxmlStageHolder) {
@@ -66,8 +63,10 @@ public class MainController extends BaseController {
             DialogFactory.createCloseConfirmationAlert(primaryStage);
         });
         directoryTabController = new DirectoryTabController(fxmlStageHolder, directory);
-        propertiesTabController = new PropertiesTabController(fxmlStageHolder, parametersTable, parametersText);
-        commandTabController = new CommandTabController(fxmlStageHolder, command, description, save, propertiesTabController);
+        parametersTabController = new ParametersTabController(fxmlStageHolder, parametersTable, parametersText);
+        commandTabController = new CommandTabController(fxmlStageHolder, command, description, save,
+                parametersTabController);
+        settingsController = new SettingsController(fxmlStageHolder);
     }
 
     @FXML
@@ -92,36 +91,20 @@ public class MainController extends BaseController {
 
     @FXML
     protected void runCommand() {
-        final String pathToGitBashExe = AppConfig.getInstance().getPathToGitBashExe();
-        if (pathToGitBashExe == null || pathToGitBashExe.isEmpty()) {
-            StageFactory.createModalSettingsWindow().getStage().showAndWait();
-        } else if (!(new File(pathToGitBashExe)).exists()) {
-            LOGGER.error("Specified GitBash.exe path '{}' points to not-existent file, running git command was skipped.", pathToGitBashExe);
-            DialogFactory.createErrorAlert("Invalid path to GitBash.exe", "Specified path \"" + pathToGitBashExe +
-                    "\" points to not-existent file. Specify correct path in settings.");
-        } else {
-            if (command.getText().isEmpty()) {
-                LOGGER.warn("Command '{}' is empty, running git command was skipped.", command.getText());
-                DialogFactory.createErrorAlert("Invalid command", "Command can't be empty");
-                return;
-            }
-            if (directory.getText().isEmpty()) {
-                LOGGER.warn("Directory '{}' is empty, running git command was skipped.", directory.getText());
-                DialogFactory.createErrorAlert("Invalid directory", "Directory can't be empty");
-                return;
-            }
+        if (settingsController.isValid() && directoryTabController.isValid()
+                && commandTabController.isValid() && parametersTabController.isValid()) {
 
-            AppConfig.getInstance().setLastRunFolder(directory.getText());
+            AppConfig.getInstance().setLastRunFolder(directoryTabController.getDirectory());
 
             new Thread(() -> {
-                CommandExecutor.searchGitReposAndExecuteCommand(directory.getText(), command.getText());
+                CommandExecutor.searchGitReposAndExecuteCommand(directoryTabController.getDirectory(), command.getText());
             }).start();
         }
     }
 
     @FXML
     protected void openSettings() {
-        StageFactory.createModalSettingsWindow().getStage().showAndWait();
+        settingsController.openSettings();
     }
 
     @FXML

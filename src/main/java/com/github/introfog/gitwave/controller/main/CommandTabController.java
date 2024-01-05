@@ -28,24 +28,37 @@ import java.util.Objects;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CommandTabController extends SupportController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommandTabController.class);
     private static final String GREEN_TEXT_CSS_STYLE = "-fx-text-fill: green";
     private static final String RED_TEXT_CSS_STYLE = "-fx-text-fill: red";
     private static final String BLACK_TEXT_CSS_STYLE = "-fx-text-fill: black";
     private final TextField command;
     private final TextField description;
     private final Button save;
-    private final PropertiesTabController propertiesTabController;
+    private final ParametersTabController parametersTabController;
     private CommandDto sourceCommand;
 
-    public CommandTabController(FxmlStageHolder fxmlStageHolder, TextField command, TextField description, Button save, PropertiesTabController propertiesTabController) {
+    public CommandTabController(FxmlStageHolder fxmlStageHolder, TextField command, TextField description, Button save, ParametersTabController parametersTabController) {
         super(fxmlStageHolder);
         this.command = command;
         this.description = description;
         this.save = save;
-        this.propertiesTabController = propertiesTabController;
+        this.parametersTabController = parametersTabController;
         setUpSaveIndication();
+    }
+
+    @Override
+    public boolean isValid() {
+        if (command.getText().isEmpty()) {
+            LOGGER.warn("Command '{}' is empty, running git command was skipped.", command.getText());
+            DialogFactory.createErrorAlert("Invalid command", "Command can't be empty.");
+            return false;
+        }
+        return true;
     }
 
     public void clean() {
@@ -85,7 +98,7 @@ public class CommandTabController extends SupportController {
 
     private void setUpSaveIndication() {
         command.textProperty().addListener((obs, oldText, newText) -> {
-            propertiesTabController.parseCommandParameters(newText);
+            parametersTabController.parseCommandParameters(newText);
             if (sourceCommand != null) {
                 updateSaveIndication(newText, command, true);
             } else {
@@ -125,7 +138,7 @@ public class CommandTabController extends SupportController {
             description.setStyle(BLACK_TEXT_CSS_STYLE);
         } else {
             command.setText(commandDto.getCommand());
-            propertiesTabController.parseCommandParameters(commandDto.getCommand());
+            parametersTabController.parseCommandParameters(commandDto.getCommand());
             command.setStyle(GREEN_TEXT_CSS_STYLE);
             description.setText(commandDto.getDescription());
             description.setStyle(GREEN_TEXT_CSS_STYLE);

@@ -38,6 +38,7 @@ Explore, contribute, and customize the application according to your preferences
 - Allow working with app by using only keyboard (with correct Tabs, Esc and so on work).
 - Exclude sub-directories from command running.
 - Allow export and import config.
+- Release version for Linux and macOS.
 
 ## License
 GitWave is licensed under the [Apache license](LICENSE.md), providing you with the freedom to use, modify, and distribute the software.

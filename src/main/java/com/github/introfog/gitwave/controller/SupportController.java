@@ -6,4 +6,6 @@ public abstract class SupportController extends BaseController {
     public SupportController(FxmlStageHolder fxmlStageHolder) {
         initialize(fxmlStageHolder);
     }
+
+    public abstract boolean isValid();
 }

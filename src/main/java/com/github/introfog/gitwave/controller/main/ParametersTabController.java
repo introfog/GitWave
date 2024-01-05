@@ -17,6 +17,7 @@
 package com.github.introfog.gitwave.controller.main;
 
 import com.github.introfog.gitwave.controller.SupportController;
+import com.github.introfog.gitwave.model.DialogFactory;
 import com.github.introfog.gitwave.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.gitwave.model.dto.ParameterDto;
 
@@ -31,22 +32,40 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class PropertiesTabController extends SupportController {
-    private static final Pattern CURL_BRACKETS_PATTERN = Pattern.compile("\\{(\\S+)\\}");
+public class ParametersTabController extends SupportController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ParametersTabController.class);
+    private static final Pattern PARAMETERS_PATTERN = Pattern.compile("\\{(\\S+)\\}");
+    private static final Pattern ONLY_SPACES_PATTERN = Pattern.compile("^\\s*$");
     private final Label parametersText;
-
     private final TableView<ParameterDto> parametersTable;
 
-    public PropertiesTabController(FxmlStageHolder fxmlStageHolder, TableView<ParameterDto> parametersTable, Label parametersText) {
+    public ParametersTabController(FxmlStageHolder fxmlStageHolder, TableView<ParameterDto> parametersTable, Label parametersText) {
         super(fxmlStageHolder);
         this.parametersTable = parametersTable;
         this.parametersText = parametersText;
     }
 
+    @Override
+    public boolean isValid() {
+        for (ParameterDto parameter : parametersTable.getItems()) {
+            final String value = parameter.getValue();
+            final String name = parameter.getName();
+            if (value == null |  | ONLY_SPACES_PATTERN.matcher(value).matches()) {
+                LOGGER.warn("Parameter '{}' hasn't been specified yet, either remove or set value.", name);
+                DialogFactory.createErrorAlert("Invalid parameter",
+                        "Parameter {" + name + "} hasn't been specified yet, either remove or set value.");
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void parseCommandParameters(String command) {
         final Set<ParameterDto> parameters = new HashSet<>();
-        Matcher matcher = CURL_BRACKETS_PATTERN.matcher(command);
+        Matcher matcher = PARAMETERS_PATTERN.matcher(command);
         while (matcher.find()) {
             final String name = matcher.group(1);
             parameters.add(new ParameterDto(name, null));

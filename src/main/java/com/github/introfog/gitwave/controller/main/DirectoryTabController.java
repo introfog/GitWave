@@ -18,18 +18,36 @@ package com.github.introfog.gitwave.controller.main;
 
 import com.github.introfog.gitwave.controller.SupportController;
 import com.github.introfog.gitwave.model.AppConfig;
+import com.github.introfog.gitwave.model.DialogFactory;
 import com.github.introfog.gitwave.model.StageFactory.FxmlStageHolder;
 
 import java.io.File;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DirectoryTabController extends SupportController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DirectoryTabController.class);
     private final TextField directory;
 
     public DirectoryTabController(FxmlStageHolder fxmlStageHolder, TextField directory) {
         super(fxmlStageHolder);
         this.directory = directory;
+    }
+
+    @Override
+    public boolean isValid() {
+        if (directory.getText().isEmpty()) {
+            LOGGER.warn("Directory '{}' is empty, running git command was skipped.", directory.getText());
+            DialogFactory.createErrorAlert("Invalid directory", "Directory can't be empty.");
+            return false;
+        }
+        return true;
+    }
+
+    public String getDirectory() {
+        return directory.getText();
     }
 
     protected void browseDirectory() {
