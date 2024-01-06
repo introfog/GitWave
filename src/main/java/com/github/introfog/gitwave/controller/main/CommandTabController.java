@@ -61,6 +61,10 @@ public class CommandTabController extends SupportController {
         return true;
     }
 
+    public String getCommandWithParameters() {
+        return parametersTabController.applyParameters(command.getText());
+    }
+
     public void clean() {
         specifySourceCommand(null);
     }

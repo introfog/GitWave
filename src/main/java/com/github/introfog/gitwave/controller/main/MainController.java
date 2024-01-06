@@ -97,7 +97,8 @@ public class MainController extends BaseController {
             AppConfig.getInstance().setLastRunFolder(directoryTabController.getDirectory());
 
             new Thread(() -> {
-                CommandExecutor.searchGitReposAndExecuteCommand(directoryTabController.getDirectory(), command.getText());
+                CommandExecutor.searchGitReposAndExecuteCommand(directoryTabController.getDirectory(),
+                        commandTabController.getCommandWithParameters());
             }).start();
         }
     }

@@ -41,6 +41,7 @@ public class ParametersTabController extends SupportController {
     private static final Pattern ONLY_SPACES_PATTERN = Pattern.compile("^\\s*$");
     private final Label parametersText;
     private final TableView<ParameterDto> parametersTable;
+    private final Set<ParameterDto> parameters = new HashSet<>();
 
     public ParametersTabController(FxmlStageHolder fxmlStageHolder, TableView<ParameterDto> parametersTable, Label parametersText) {
         super(fxmlStageHolder);
@@ -50,21 +51,30 @@ public class ParametersTabController extends SupportController {
 
     @Override
     public boolean isValid() {
-        for (ParameterDto parameter : parametersTable.getItems()) {
+        for (ParameterDto parameter : parameters) {
             final String value = parameter.getValue();
             final String name = parameter.getName();
-            if (value == null |  | ONLY_SPACES_PATTERN.matcher(value).matches()) {
-                LOGGER.warn("Parameter '{}' hasn't been specified yet, either remove or set value.", name);
+            if (value == null || ONLY_SPACES_PATTERN.matcher(value).matches()) {
+                LOGGER.warn("Parameter '{}' hasn't been specified yet.", name);
                 DialogFactory.createErrorAlert("Invalid parameter",
-                        "Parameter {" + name + "} hasn't been specified yet, either remove or set value.");
+                        "Parameter {" + name + "} hasn't been specified yet, either remove or set not empty value.");
                 return false;
             }
         }
         return true;
     }
 
+    public String applyParameters(String command) {
+        for (ParameterDto param : parameters) {
+            final String name = param.getName();
+            final String value = param.getValue();
+            command = command.replaceAll("\\{" + name + "\\}", value);
+        }
+        return command;
+    }
+
     public void parseCommandParameters(String command) {
-        final Set<ParameterDto> parameters = new HashSet<>();
+        parameters.clear();
         Matcher matcher = PARAMETERS_PATTERN.matcher(command);
         while (matcher.find()) {
             final String name = matcher.group(1);
@@ -93,6 +103,16 @@ public class ParametersTabController extends SupportController {
             final TableColumn<ParameterDto, String> valueTableColumn = (TableColumn<ParameterDto, String>) parametersTable.getColumns().get(1);
             valueTableColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
             valueTableColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+            valueTableColumn.setOnEditCommit(event -> {
+                ParameterDto editedDto = event.getRowValue();
+                ParameterDto found = parameters.stream().filter(item -> item.equals(editedDto)).findFirst().orElse(null);
+                if (found == null) {
+                    LOGGER.error("While updating parameters table, parameter '{}' wasn't found.", editedDto);
+                } else {
+                    found.setValue(event.getNewValue());
+                }
+            });
         }
     }
 }
