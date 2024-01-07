@@ -21,7 +21,7 @@
       <outputDirectory>/</outputDirectory>
     </fileSet>
     <fileSet>
-      <directory>target</directory>
+      <directory>tools</directory>
       <includes>
         <include>GitWave.exe</include>
       </includes>

@@ -37,3 +37,7 @@ target/
 logs/
 config/
 temp/
+
+# GitWave executor peojct
+tools/GitWaveExecutor/.vs/
+tools/GitWaveExecutor/GitWaveExecutor/x64/

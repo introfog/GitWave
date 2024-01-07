@@ -24,7 +24,6 @@
         <maven-assembly-plugin.version>3.6.0</maven-assembly-plugin.version>
         <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
         <javafx-maven-plugin.version>0.0.8</javafx-maven-plugin.version>
-        <exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -76,7 +75,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.github.introfog.gitwave.gitwaveLauncher</mainClass>
+                            <mainClass>com.github.introfog.gitwave.GitWaveLauncher</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -116,60 +115,6 @@
                     <stripDebug>true</stripDebug>
                     <noHeaderFiles>true</noHeaderFiles>
                 </configuration>
-            </plugin>
-            <plugin>
-                <!-- To run different command\tools -->
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>${exec-maven-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>create-launcher-bat</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>cmd</executable>
-                            <arguments>
-                                <argument>/c</argument>
-                                <argument>echo "javaImage/bin/java" -m com.github.introfog.gitwave/com.github.introfog.gitwave.GitWaveLauncher > target/launcher.bat</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <!-- TODO Try to create .exe by C++ -->
-                        <id>create-exe-based-on-launcher</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>tools/batToExe.exe</executable>
-                            <arguments>
-                                <argument>/bat</argument>
-                                <argument>target/launcher.bat</argument>
-                                <argument>/exe</argument>
-                                <argument>target/${project.name}.exe</argument>
-                                <argument>/invisible</argument>
-                                <argument>/x64</argument>
-                                <argument>/overwrite</argument>
-                                <argument>/fileversion</argument>
-                                <argument>1.0.0.0</argument>
-                                <argument>/productversion</argument>
-                                <argument>${project.version}</argument>
-                                <argument>/productname</argument>
-                                <argument>${project.name}</argument>
-                                <argument>/company</argument>
-                                <argument>${project.groupId}</argument>
-                                <argument>/copyright</argument>
-                                <argument>2023-2024 Dmitry Chubrick</argument>
-                                <argument>/icon</argument>
-                                <argument>src/main/resources/logo.ico</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>
