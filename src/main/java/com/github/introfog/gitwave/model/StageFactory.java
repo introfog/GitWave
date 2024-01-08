@@ -55,6 +55,12 @@ public final class StageFactory {
         return holder;
     }
 
+    public static FxmlStageHolder createModalUpdateWindow() {
+        FxmlStageHolder holder = StageFactory.createModalStage("view/update.fxml", "New Version Available!");
+        holder.getStage().setResizable(false);
+        return holder;
+    }
+
     public static FxmlStageHolder createPrimaryExecuteWindow(Stage stage) {
         final FxmlStageHolder holder = creteStage("view/main.fxml", "GitWave", stage);
         holder.getStage().setMinWidth(400);

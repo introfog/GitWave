@@ -21,13 +21,16 @@ import com.github.introfog.gitwave.model.AppConfig;
 import com.github.introfog.gitwave.model.AppConstants;
 import com.github.introfog.gitwave.model.CommandExecutor;
 import com.github.introfog.gitwave.model.DialogFactory;
-import com.github.introfog.gitwave.model.StageFactory;
 import com.github.introfog.gitwave.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.gitwave.model.dto.ParameterDto;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -52,7 +55,13 @@ public class MainController extends BaseController {
     @FXML
     private TableView<ParameterDto> parametersTable;
 
-    private SettingsController settingsController;
+    private MenuController menuController;
+    @FXML
+    private Menu menu;
+    @FXML
+    private MenuItem updateMenuItem;
+    @FXML
+    private SeparatorMenuItem updateMenuItemSeparator;
 
     @Override
     public void initialize(FxmlStageHolder fxmlStageHolder) {
@@ -60,13 +69,15 @@ public class MainController extends BaseController {
         final Stage primaryStage = fxmlStageHolder.getStage();
         primaryStage.setOnCloseRequest(event -> {
             event.consume();
-            DialogFactory.createCloseConfirmationAlert(primaryStage);
+            if (DialogFactory.createCloseConfirmationAlert() == ButtonType.OK) {
+                primaryStage.close();
+            };
         });
         directoryTabController = new DirectoryTabController(fxmlStageHolder, directory);
         parametersTabController = new ParametersTabController(fxmlStageHolder, parametersTable, parametersText);
         commandTabController = new CommandTabController(fxmlStageHolder, command, description, save,
                 parametersTabController);
-        settingsController = new SettingsController(fxmlStageHolder);
+        menuController = new MenuController(fxmlStageHolder, menu, updateMenuItem, updateMenuItemSeparator);
     }
 
     @FXML
@@ -91,7 +102,8 @@ public class MainController extends BaseController {
 
     @FXML
     protected void runCommand() {
-        if (settingsController.isValid() && directoryTabController.isValid()
+        // TODO MINOR: it is possible to define all action in code, consider is it worth to do it in that way, or leave @FXML methods
+        if (menuController.isValid() && directoryTabController.isValid()
                 && commandTabController.isValid() && parametersTabController.isValid()) {
 
             AppConfig.getInstance().setLastRunFolder(directoryTabController.getDirectory());
@@ -105,12 +117,17 @@ public class MainController extends BaseController {
 
     @FXML
     protected void openSettings() {
-        settingsController.openSettings();
+        menuController.openSettings();
     }
 
     @FXML
     protected void openAbout() {
-        StageFactory.createModalAboutWindow().getStage().showAndWait();
+        menuController.openAbout();
+    }
+
+    @FXML
+    protected void openUpdate() {
+        menuController.openUpdate();
     }
 
     @FXML

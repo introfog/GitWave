@@ -32,11 +32,13 @@
          <children>
             <MenuBar prefHeight="25.0" prefWidth="450.0" GridPane.vgrow="NEVER">
               <menus>
-                <Menu mnemonicParsing="false" text="Menu">
+                <Menu fx:id="menu" mnemonicParsing="false" text="Menu">
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#openSettings" text="Settings" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#openAbout" text="About" />
+                        <SeparatorMenuItem fx:id="updateMenuItemSeparator" disable="true" mnemonicParsing="false" visible="false" />
+                        <MenuItem fx:id="updateMenuItem" disable="true" mnemonicParsing="false" onAction="#openUpdate" text="Update*" visible="false" />
                      </items>
                   </Menu>
               </menus>

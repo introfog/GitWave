@@ -5,16 +5,33 @@ import com.github.introfog.gitwave.model.AppConfig;
 import com.github.introfog.gitwave.model.DialogFactory;
 import com.github.introfog.gitwave.model.StageFactory;
 import com.github.introfog.gitwave.model.StageFactory.FxmlStageHolder;
+import com.github.introfog.gitwave.model.UpdateChecker;
 
 import java.io.File;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SettingsController extends SupportController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SettingsController.class);
+public class MenuController extends SupportController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MenuController.class);
+    private Menu menu;
+    private MenuItem updateMenuItem;
+    private SeparatorMenuItem updateMenuItemSeparator;
 
-    public SettingsController(FxmlStageHolder fxmlStageHolder) {
+    public MenuController(FxmlStageHolder fxmlStageHolder, Menu menu, MenuItem updateMenuItem, SeparatorMenuItem updateMenuItemSeparator) {
         super(fxmlStageHolder);
+        this.menu = menu;
+        this.updateMenuItem = updateMenuItem;
+        this.updateMenuItemSeparator = updateMenuItemSeparator;
+        if (UpdateChecker.isNewReleaseAvailable()) {
+            this.menu.setText("Menu*");
+            this.updateMenuItem.setDisable(false);
+            this.updateMenuItem.setVisible(true);
+            this.updateMenuItemSeparator.setDisable(false);
+            this.updateMenuItemSeparator.setVisible(true);
+        }
     }
 
     @Override
@@ -34,5 +51,13 @@ public class SettingsController extends SupportController {
 
     public void openSettings() {
         StageFactory.createModalSettingsWindow().getStage().showAndWait();
+    }
+
+    public void openAbout() {
+        StageFactory.createModalAboutWindow().getStage().showAndWait();
+    }
+
+    public void openUpdate() {
+        StageFactory.createModalUpdateWindow().getStage().showAndWait();
     }
 }

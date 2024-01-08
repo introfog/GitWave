@@ -23,6 +23,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public final class DialogFactory {
+    private static final String COMMON_STYLES = "-fx-font-family: verdana; -fx-font-size: 12";
     private DialogFactory() {
         // private constructor
     }
@@ -34,37 +35,36 @@ public final class DialogFactory {
         alert.setTitle("GitWave error");
         alert.setHeaderText(header);
         alert.setContentText(msg);
-        alert.getDialogPane().setStyle("-fx-font-family: verdana; -fx-font-size: 12");
+        alert.getDialogPane().setStyle(COMMON_STYLES);
         alert.showAndWait();
     }
 
-    public static void createCloseConfirmationAlert(Stage primaryStage) {
-        Alert confirmationDialog = new Alert(AlertType.CONFIRMATION);
-        Stage stage = (Stage) confirmationDialog.getDialogPane().getScene().getWindow();
+    public static ButtonType createCloseConfirmationAlert() {
+        Alert dialog = new Alert(AlertType.CONFIRMATION);
+        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image(StageFactory.class.getResourceAsStream(AppConstants.PATH_TO_LOGO)));
-        confirmationDialog.setTitle("Confirmation");
-        confirmationDialog.setHeaderText("Do you really want to close the application?");
-        confirmationDialog.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
+        dialog.setTitle("Confirmation");
+        dialog.setHeaderText("Do you really want to close the application?");
+        dialog.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
 
-        confirmationDialog.getDialogPane().setStyle("-fx-font-family: verdana; -fx-font-size: 12");
-        confirmationDialog.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                primaryStage.close();
-            }
-        });
+        dialog.getDialogPane().setStyle(COMMON_STYLES);
+        ButtonType[] pressedButton = {null};
+        dialog.showAndWait().ifPresent(response -> pressedButton[0] = response);
+        return pressedButton[0];
     }
 
     public static ButtonType createSaveOrUpdateAlert() {
-        Alert confirmationDialog = new Alert(AlertType.CONFIRMATION);
-        Stage stage = (Stage) confirmationDialog.getDialogPane().getScene().getWindow();
+        Alert dialog = new Alert(AlertType.CONFIRMATION);
+        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image(StageFactory.class.getResourceAsStream(AppConstants.PATH_TO_LOGO)));
-        confirmationDialog.setTitle("Confirmation");
-        confirmationDialog.setHeaderText("Do you want to save command as a new instance?\nSelect 'No' if update existed.");
-        confirmationDialog.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
 
-        confirmationDialog.getDialogPane().setStyle("-fx-font-family: verdana; -fx-font-size: 12");
+        dialog.setTitle("Confirmation");
+        dialog.setHeaderText("Do you want to save command as a new instance?\nSelect 'No' if update existed.");
+        dialog.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+
+        dialog.getDialogPane().setStyle(COMMON_STYLES);
         ButtonType[] pressedButton = {null};
-        confirmationDialog.showAndWait().ifPresent(response -> pressedButton[0] = response);
+        dialog.showAndWait().ifPresent(response -> pressedButton[0] = response);
         return pressedButton[0];
     }
 }

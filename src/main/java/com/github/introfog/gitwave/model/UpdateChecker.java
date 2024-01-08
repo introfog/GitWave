@@ -16,15 +16,12 @@
 
 package com.github.introfog.gitwave.model;
 
-public final class AppConstants {
-    public static final String VERSION = "1.0.0-SNAPSHOT";
-    public static final String LINK_TO_GIT_CONTRIBUTING_FILE = "https://github.com/introfog/GitWave/blob/master/CONTRIBUTING.md";
-    public static final String LINK_TO_GIT_REPO = "https://github.com/introfog/GitWave";
-    public static final String LINK_TO_GIT_RELEASES = "https://github.com/introfog/GitWave/releases";
-    public static final String PATH_TO_LOGO = "/logo.png";
-    // TODO make pretty logo
+public final class UpdateChecker {
+    private UpdateChecker() {
+        // Do nothing
+    }
 
-    private AppConstants() {
-        // empty
+    public static boolean isNewReleaseAvailable() {
+        return true;
     }
 }
