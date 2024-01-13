@@ -36,7 +36,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class MainController extends BaseController {
-    // TODO add opportunity to check if new release is available for GitWave
     private DirectoryTabController directoryTabController;
     @FXML
     private TextField directory;

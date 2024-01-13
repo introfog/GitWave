@@ -10,9 +10,6 @@ This software uses following Maven dependencies under the following licenses:
 | com.fasterxml.jackson.core:jackson-annotations:2.15.3 | Apache-2.0    |
 | com.fasterxml.jackson.core:jackson-core:2.15.3        | Apache-2.0    |
 
-This software uses following dependencies under the following licenses:
-| Bat To Exe Converter v3.2                             | Freeware      |
-
 
 
 
