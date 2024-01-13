@@ -33,50 +33,58 @@ public final class CommandExecutor {
         // Empty constructor
     }
 
-    public static void searchGitReposAndExecuteCommand(String folderPath, String command) {
-        LOGGER.info("Start searching git repositories in '{}' path and execute '{}' command", folderPath, command);
+    public static File searchGitRepositoriesAndCreateScriptFile(String folderPath, String command) {
         File folder = new File(folderPath);
         if (folder.exists() && folder.isDirectory()) {
+            LOGGER.info("Start searching git repositories in '{}' path.", folderPath);
             List<File> repositoriesToRunCommand = new ArrayList<>();
             searchGitRepositories(folder, repositoriesToRunCommand);
-            File scriptFile = null;
+            LOGGER.info("'{}' git repositories were found to run command.", repositoriesToRunCommand.size());
             try {
-                scriptFile = createAndFillTempFileWithCommand(command, repositoriesToRunCommand);
-                executeCommand(scriptFile);
+                return createAndFillScriptFileWithCommand(command, repositoriesToRunCommand);
             } catch (IOException e) {
-                LOGGER.error("Something goes wrong with creation or executing of temp script file with git command.", e);
-            } finally {
-                if (scriptFile != null && scriptFile.exists()) {
-                    if (scriptFile.delete()) {
-                        LOGGER.info("Temp file '{}' was removed.", scriptFile.getAbsolutePath());
-                    } else {
-                        LOGGER.warn("Temp script file '{}' with git command wasn't removed.", scriptFile.getAbsolutePath());
-                    }
-                }
+                LOGGER.error("Something goes wrong with creation temp script file with command.", e);
             }
         } else {
-            LOGGER.error("Specified folder either doesn't exist or isn't a directory, running git command was skipped.");
+            LOGGER.error("'{}' folder either doesn't exist or isn't a directory, running command was skipped.", folderPath);
+        }
+        return null;
+    }
+
+    public static void executeScriptFileWithCommand(File scriptFile) {
+        try {
+            LOGGER.info("Start executing script file '{}'.", scriptFile.getAbsolutePath());
+            executeScriptFile(scriptFile);
+            LOGGER.info("Finish executing git command.");
+        } catch (IOException e) {
+            LOGGER.error("Something goes wrong with executing temp script file with command.", e);
+        } finally {
+            if (scriptFile != null && scriptFile.exists()) {
+                if (scriptFile.delete()) {
+                    LOGGER.info("Temp script file '{}' was removed.", scriptFile.getAbsolutePath());
+                } else {
+                    LOGGER.warn("Temp script file '{}' with command wasn't removed.", scriptFile.getAbsolutePath());
+                }
+            }
         }
     }
 
-    private static void executeCommand(File scriptFile) throws IOException {
+    private static void executeScriptFile(File scriptFile) throws IOException {
         Process powerShellProcess = Runtime.getRuntime().exec(constructCmdCommand(scriptFile));
         String line;
 
         BufferedReader stdout = new BufferedReader(new InputStreamReader(powerShellProcess.getInputStream()));
         while ((line = stdout.readLine()) != null) {
-            LOGGER.info("Standard output of executed git command '{}'", line);
+            LOGGER.info("Standard output of executed command '{}'", line);
         }
         stdout.close();
 
         BufferedReader stderr = new BufferedReader(new InputStreamReader(
                 powerShellProcess.getErrorStream()));
         while ((line = stderr.readLine()) != null) {
-            LOGGER.error("Error output of executed git command '{}'", line);
+            LOGGER.error("Error output of executed command '{}'", line);
         }
         stderr.close();
-
-        LOGGER.info("Finish executing git command.");
     }
 
     private static String[] constructCmdCommand(File scriptFile) {
@@ -91,14 +99,14 @@ public final class CommandExecutor {
         return cmdCommand.toArray(new String[]{});
     }
 
-    private static File createAndFillTempFileWithCommand(String gitCommand, List<File> repositoriesToRunCommand) throws IOException {
+    private static File createAndFillScriptFileWithCommand(String gitCommand, List<File> repositoriesToRunCommand) throws IOException {
         File tempDir = new File("temp");
         if (!tempDir.exists() && !tempDir.mkdirs()) {
             LOGGER.error("Failed to create the temp directory '{}'.", "temp");
         }
 
         File scriptFile = File.createTempFile("script", ".sh", tempDir);
-        LOGGER.info("Temp file '{}' was created", scriptFile.getAbsolutePath());
+        LOGGER.info("Temp script file '{}' was created", scriptFile.getAbsolutePath());
 
         FileWriter writer = new FileWriter(scriptFile);
         writer.write("#!/bin/bash\n");
@@ -110,7 +118,7 @@ public final class CommandExecutor {
             writer.write(gitCommand + "\n");
         }
         writer.close();
-        LOGGER.info("Git command '{}' was written to temp file.", gitCommand);
+        LOGGER.info("Command '{}' was written to temp script file.", gitCommand);
         return scriptFile;
     }
 

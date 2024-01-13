@@ -24,12 +24,14 @@ import com.github.introfog.gitwave.model.DialogFactory;
 import com.github.introfog.gitwave.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.gitwave.model.dto.ParameterDto;
 
+import java.io.File;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -61,6 +63,11 @@ public class MainController extends BaseController {
     private MenuItem updateMenuItem;
     @FXML
     private SeparatorMenuItem updateMenuItemSeparator;
+
+    @FXML
+    private ProgressIndicator runProgress;
+    @FXML
+    private Button run;
 
     @Override
     public void initialize(FxmlStageHolder fxmlStageHolder) {
@@ -108,8 +115,11 @@ public class MainController extends BaseController {
             AppConfig.getInstance().setLastRunFolder(directoryTabController.getDirectory());
 
             new Thread(() -> {
-                CommandExecutor.searchGitReposAndExecuteCommand(directoryTabController.getDirectory(),
-                        commandTabController.getCommandWithParameters());
+                switchRunButton(true);
+                final File scriptFile = CommandExecutor.searchGitRepositoriesAndCreateScriptFile(
+                        directoryTabController.getDirectory(), commandTabController.getCommandWithParameters());
+                switchRunButton(false);
+                CommandExecutor.executeScriptFileWithCommand(scriptFile);
             }).start();
         }
     }
@@ -132,5 +142,10 @@ public class MainController extends BaseController {
     @FXML
     protected void foundIssue() {
         AppConfig.getInstance().getHostServices().showDocument(AppConstants.LINK_TO_GIT_CONTRIBUTING_FILE);
+    }
+
+    private void switchRunButton(boolean inProgress) {
+        run.setDisable(inProgress);
+        runProgress.setVisible(inProgress);
     }
 }
