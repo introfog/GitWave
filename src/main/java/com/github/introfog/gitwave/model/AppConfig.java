@@ -27,6 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.application.HostServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +41,8 @@ public final class AppConfig {
 
     private final ConfigDto config;
     private HostServices hostServices;
+
+    private final AtomicBoolean appWasClosed = new AtomicBoolean(false);
 
 
     private AppConfig() {
@@ -100,6 +103,14 @@ public final class AppConfig {
             commands.set(commands.indexOf(initial), current);
         }
         saveConfig();
+    }
+
+    public synchronized boolean appWasClosed() {
+        return appWasClosed.get();
+    }
+
+    public synchronized void closeApp() {
+        appWasClosed.set(true);
     }
 
     private void saveConfig() {

@@ -37,9 +37,16 @@ public final class CommandExecutor {
         LOGGER.info("Start searching git repositories in '{}' path.", directory.getAbsolutePath());
         List<File> repositoriesToRunCommand = new ArrayList<>();
         searchGitRepositories(directory, repositoriesToRunCommand);
+        if (AppConfig.getInstance().appWasClosed()) {
+            return null;
+        }
         LOGGER.info("'{}' git repositories were found to run command.", repositoriesToRunCommand.size());
         try {
-            return createAndFillScriptFileWithCommand(command, repositoriesToRunCommand);
+            final File scriptFile = createAndFillScriptFileWithCommand(command, repositoriesToRunCommand);
+            if (AppConfig.getInstance().appWasClosed()) {
+                removeScriptFile(scriptFile);
+            }
+            return scriptFile;
         } catch (IOException e) {
             LOGGER.error("Something goes wrong with creation temp script file with command.", e);
         }
@@ -48,6 +55,9 @@ public final class CommandExecutor {
     }
 
     public static void executeScriptFileWithCommand(File scriptFile) {
+        if (scriptFile == null || AppConfig.getInstance().appWasClosed()) {
+            return;
+        }
         try {
             LOGGER.info("Start executing script file '{}'.", scriptFile.getAbsolutePath());
             executeScriptFile(scriptFile);
@@ -55,13 +65,7 @@ public final class CommandExecutor {
         } catch (IOException e) {
             LOGGER.error("Something goes wrong with executing temp script file with command.", e);
         } finally {
-            if (scriptFile != null && scriptFile.exists()) {
-                if (scriptFile.delete()) {
-                    LOGGER.info("Temp script file '{}' was removed.", scriptFile.getAbsolutePath());
-                } else {
-                    LOGGER.warn("Temp script file '{}' with command wasn't removed.", scriptFile.getAbsolutePath());
-                }
-            }
+            removeScriptFile(scriptFile);
         }
     }
 
@@ -107,6 +111,9 @@ public final class CommandExecutor {
         writer.write("#!/bin/bash\n");
         writer.write("echo -e \"\\033[0;32m\" \"" + gitCommand + "\" \"\\033[0m\"\n");
         for (File currentFolder : repositoriesToRunCommand) {
+            if (AppConfig.getInstance().appWasClosed()) {
+                break;
+            }
             writer.write("cd \"" + currentFolder.getAbsolutePath().replace("\\", "\\\\") + "\"\n");
             writer.write("echo -e \"\\033[0;36m\" $PWD \"\\033[0m\"\n");
 
@@ -118,6 +125,9 @@ public final class CommandExecutor {
     }
 
     private static void searchGitRepositories(File folder, List<File> repositoriesToRunCommand) {
+        if (AppConfig.getInstance().appWasClosed()) {
+            return;
+        }
         if (isGitRepository(folder)) {
             repositoriesToRunCommand.add(folder);
         } else {
@@ -132,6 +142,16 @@ public final class CommandExecutor {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private static void removeScriptFile(File scriptFile) {
+        if (scriptFile != null && scriptFile.exists()) {
+            if (scriptFile.delete()) {
+                LOGGER.info("Temp script file '{}' was removed.", scriptFile.getAbsolutePath());
+            } else {
+                LOGGER.warn("Temp script file '{}' with command wasn't removed.", scriptFile.getAbsolutePath());
             }
         }
     }

@@ -76,6 +76,7 @@ public class MainController extends BaseController {
         primaryStage.setOnCloseRequest(event -> {
             event.consume();
             if (DialogFactory.createCloseConfirmationAlert() == ButtonType.OK) {
+                AppConfig.getInstance().closeApp();
                 primaryStage.close();
             };
         });
