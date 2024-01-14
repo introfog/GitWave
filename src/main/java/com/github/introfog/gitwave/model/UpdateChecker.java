@@ -36,7 +36,6 @@ public final class UpdateChecker {
     }
 
     public static boolean isNewReleaseAvailable() {
-        // TODO MINOR fetch and check update in the separate thread, to quicker open app.
         final String latestTag = fetchLatestTag(AppConstants.GIT_HUB_REPO_OWNER, AppConstants.APP_NAME);
         LOGGER.info("Fetch '{}' tag from GitHub repo.", latestTag);
         return latestTag != null && !AppConstants.VERSION.equals(latestTag);

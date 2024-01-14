@@ -8,6 +8,7 @@ import com.github.introfog.gitwave.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.gitwave.model.UpdateChecker;
 
 import java.io.File;
+import javafx.concurrent.Task;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
@@ -16,22 +17,16 @@ import org.slf4j.LoggerFactory;
 
 public class MenuController extends SupportController {
     private static final Logger LOGGER = LoggerFactory.getLogger(MenuController.class);
-    private Menu menu;
-    private MenuItem updateMenuItem;
-    private SeparatorMenuItem updateMenuItemSeparator;
+    private final Menu menu;
+    private final MenuItem updateMenuItem;
+    private final SeparatorMenuItem updateMenuItemSeparator;
 
     public MenuController(FxmlStageHolder fxmlStageHolder, Menu menu, MenuItem updateMenuItem, SeparatorMenuItem updateMenuItemSeparator) {
         super(fxmlStageHolder);
         this.menu = menu;
         this.updateMenuItem = updateMenuItem;
         this.updateMenuItemSeparator = updateMenuItemSeparator;
-        if (UpdateChecker.isNewReleaseAvailable()) {
-            this.menu.setText("Menu*");
-            this.updateMenuItem.setDisable(false);
-            this.updateMenuItem.setVisible(true);
-            this.updateMenuItemSeparator.setDisable(false);
-            this.updateMenuItemSeparator.setVisible(true);
-        }
+        new Thread(createCheckForUpdateTask()).start();
     }
 
     @Override
@@ -59,5 +54,25 @@ public class MenuController extends SupportController {
 
     public void openUpdate() {
         StageFactory.createModalUpdateWindow().getStage().showAndWait();
+    }
+
+    private Task<Boolean> createCheckForUpdateTask() {
+        Task<Boolean> checkForUpdate = new Task<>() {
+            @Override
+            protected Boolean call() {
+                return UpdateChecker.isNewReleaseAvailable();
+            }
+        };
+        checkForUpdate.setOnSucceeded((e) -> {
+            boolean isNewReleaseAvailable = checkForUpdate.getValue();
+            if (isNewReleaseAvailable) {
+                this.menu.setText("Menu*");
+                this.updateMenuItem.setDisable(false);
+                this.updateMenuItem.setVisible(true);
+                this.updateMenuItemSeparator.setDisable(false);
+                this.updateMenuItemSeparator.setVisible(true);
+            }
+        });
+        return checkForUpdate;
     }
 }
