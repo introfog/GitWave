@@ -39,6 +39,17 @@ public final class DialogFactory {
         alert.showAndWait();
     }
 
+    public static void createInfoAlert(String header, String msg) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image(StageFactory.class.getResourceAsStream(AppConstants.PATH_TO_LOGO)));
+        alert.setTitle("GitWave info");
+        alert.setHeaderText(header);
+        alert.setContentText(msg);
+        alert.getDialogPane().setStyle(COMMON_STYLES);
+        alert.showAndWait();
+    }
+
     public static ButtonType createCloseConfirmationAlert() {
         Alert dialog = new Alert(AlertType.CONFIRMATION);
         Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();

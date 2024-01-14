@@ -112,12 +112,18 @@ public class MainController extends BaseController {
         if (menuController.isValid() && directoryTabController.isValid()
                 && commandTabController.isValid() && parametersTabController.isValid()) {
 
-            AppConfig.getInstance().setLastRunFolder(directoryTabController.getDirectory());
+            File directoryToRunIn = new File(directoryTabController.getDirectory());
+            if (!directoryToRunIn.exists() || !directoryToRunIn.isDirectory()) {
+                DialogFactory.createInfoAlert("Invalid directory",
+                        "Specified directory either doesn't exist or isn't a directory.");
+                return;
+            }
+            AppConfig.getInstance().setLastRunFolder(directoryToRunIn.getAbsolutePath());
 
             new Thread(() -> {
                 switchRunButton(true);
-                final File scriptFile = CommandExecutor.searchGitRepositoriesAndCreateScriptFile(
-                        directoryTabController.getDirectory(), commandTabController.getCommandWithParameters());
+                final File scriptFile = CommandExecutor.searchGitRepositoriesAndCreateScriptFile(directoryToRunIn,
+                        commandTabController.getCommandWithParameters());
                 switchRunButton(false);
                 CommandExecutor.executeScriptFileWithCommand(scriptFile);
             }).start();

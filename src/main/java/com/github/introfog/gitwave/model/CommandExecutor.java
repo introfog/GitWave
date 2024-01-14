@@ -33,21 +33,17 @@ public final class CommandExecutor {
         // Empty constructor
     }
 
-    public static File searchGitRepositoriesAndCreateScriptFile(String folderPath, String command) {
-        File folder = new File(folderPath);
-        if (folder.exists() && folder.isDirectory()) {
-            LOGGER.info("Start searching git repositories in '{}' path.", folderPath);
-            List<File> repositoriesToRunCommand = new ArrayList<>();
-            searchGitRepositories(folder, repositoriesToRunCommand);
-            LOGGER.info("'{}' git repositories were found to run command.", repositoriesToRunCommand.size());
-            try {
-                return createAndFillScriptFileWithCommand(command, repositoriesToRunCommand);
-            } catch (IOException e) {
-                LOGGER.error("Something goes wrong with creation temp script file with command.", e);
-            }
-        } else {
-            LOGGER.error("'{}' folder either doesn't exist or isn't a directory, running command was skipped.", folderPath);
+    public static File searchGitRepositoriesAndCreateScriptFile(File directory, String command) {
+        LOGGER.info("Start searching git repositories in '{}' path.", directory.getAbsolutePath());
+        List<File> repositoriesToRunCommand = new ArrayList<>();
+        searchGitRepositories(directory, repositoriesToRunCommand);
+        LOGGER.info("'{}' git repositories were found to run command.", repositoriesToRunCommand.size());
+        try {
+            return createAndFillScriptFileWithCommand(command, repositoriesToRunCommand);
+        } catch (IOException e) {
+            LOGGER.error("Something goes wrong with creation temp script file with command.", e);
         }
+
         return null;
     }
 
@@ -79,8 +75,7 @@ public final class CommandExecutor {
         }
         stdout.close();
 
-        BufferedReader stderr = new BufferedReader(new InputStreamReader(
-                powerShellProcess.getErrorStream()));
+        BufferedReader stderr = new BufferedReader(new InputStreamReader(powerShellProcess.getErrorStream()));
         while ((line = stderr.readLine()) != null) {
             LOGGER.error("Error output of executed command '{}'", line);
         }
