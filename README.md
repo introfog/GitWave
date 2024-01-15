@@ -10,7 +10,8 @@ It’s a powerful companion for any developer looking to save time and effort wh
 ### 1. Multi-Repository Command Execution
 Execute bash commands in multiple repositories with a single command, making it easier to manage complex workflows.
 ### 2. Command Management
-Save your most used or tricky commands with notes, so you never have to remember the syntax again.
+Save your most used or tricky commands with notes, so you never have to remember the syntax again. 
+Specify `{parameters}` for the command, to quickly run different scenarios.
 ### 3. Standalone Application
 GitWave is a standalone application that doesn't leave any footprint on your PC. It respects your 
 system's cleanliness by ensuring that no unnecessary files or configurations are left behind, 
@@ -43,7 +44,7 @@ Explore, contribute, and customize the application according to your preferences
 GitWave is licensed under the [Apache license](LICENSE.md), providing you with the freedom to use, modify, and distribute the software.
 
 ## Contributions
-We welcome contributions to my project. If you're interested in helping, please read 
+I welcome contributions to my project. If you're interested in helping, please read 
 [CONTRIBUTING.md](CONTRIBUTING.md) file for more information on how to get started.
 
 

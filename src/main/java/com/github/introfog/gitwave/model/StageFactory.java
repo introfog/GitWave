@@ -49,6 +49,13 @@ public final class StageFactory {
         return holder;
     }
 
+    public static FxmlStageHolder createModalSetupWindow() {
+        FxmlStageHolder holder = StageFactory.createModalStage("view/setup.fxml", "Setup");
+        holder.getStage().setMinWidth(520);
+        holder.getStage().setMinHeight(280);
+        return holder;
+    }
+
     public static FxmlStageHolder createModalAboutWindow() {
         FxmlStageHolder holder = StageFactory.createModalStage("view/about.fxml", "About");
         holder.getStage().setResizable(false);

@@ -1,6 +1,6 @@
 # Contributing to GitWave
 
-We welcome contributions to GitWave and are grateful for every pull request or issue submitted. 
+I welcome contributions to GitWave and are grateful for every pull request or issue submitted. 
 Below are the guidelines for contributing to our project.
 
 ## Reporting Issues
@@ -21,7 +21,7 @@ If you've identified a problem with the app, please follow these steps to report
 
 ### After Submitting an Issue
 Once you've submitted an issue, the maintainers will review it and respond accordingly. 
-We may ask for further information or clarification if needed. We appreciate your patience
+I may ask for further information or clarification if needed. I appreciate your patience
 and cooperation during this process.
 
 ## Pull Requests

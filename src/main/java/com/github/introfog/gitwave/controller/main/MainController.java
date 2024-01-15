@@ -122,6 +122,7 @@ public class MainController extends BaseController {
             AppConfig.getInstance().setLastRunFolder(directoryToRunIn.getAbsolutePath());
 
             new Thread(() -> {
+                // TODO MINOR rewrite using javafx.concurrent.Task, because it is a native JavaFx way to do smth in background
                 switchRunButton(true);
                 final File scriptFile = CommandExecutor.searchGitRepositoriesAndCreateScriptFile(directoryToRunIn,
                         commandTabController.getCommandWithParameters());

@@ -27,6 +27,10 @@ public class GitWaveLauncher extends Application {
     public void start(Stage stage) {
         StageFactory.createPrimaryExecuteWindow(stage).getStage().show();
         AppConfig.getInstance().setHostServices(getHostServices());
+        final String pathToGitBashExe = AppConfig.getInstance().getPathToGitBashExe();
+        if (pathToGitBashExe == null || pathToGitBashExe.isEmpty()) {
+            StageFactory.createModalSetupWindow().getStage().showAndWait();
+        }
     }
 
     public static void main(String[] args) {

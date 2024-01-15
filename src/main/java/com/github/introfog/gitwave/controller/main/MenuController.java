@@ -33,7 +33,7 @@ public class MenuController extends SupportController {
     public boolean isValid() {
         final String pathToGitBashExe = AppConfig.getInstance().getPathToGitBashExe();
         if (pathToGitBashExe == null || pathToGitBashExe.isEmpty()) {
-            StageFactory.createModalSettingsWindow().getStage().showAndWait();
+            DialogFactory.createErrorAlert("GitBash path hasn't been specified", "Specify path to GitBash in Menu->Settings.");
             return false;
         } if (!(new File(pathToGitBashExe)).exists()) {
             LOGGER.error("Specified GitBash.exe path '{}' points to not-existent file, running git command was skipped.", pathToGitBashExe);
@@ -63,7 +63,7 @@ public class MenuController extends SupportController {
                 return UpdateChecker.isNewReleaseAvailable();
             }
         };
-        checkForUpdate.setOnSucceeded((e) -> {
+        checkForUpdate.setOnSucceeded(e -> {
             boolean isNewReleaseAvailable = checkForUpdate.getValue();
             if (isNewReleaseAvailable) {
                 this.menu.setText("Menu*");
