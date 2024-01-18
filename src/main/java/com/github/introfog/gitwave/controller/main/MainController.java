@@ -93,8 +93,8 @@ public class MainController extends BaseController {
     }
 
     @FXML
-    protected void clean() {
-        commandTabController.clean();
+    protected void reset() {
+        commandTabController.reset();
     }
 
     @FXML
@@ -103,8 +103,8 @@ public class MainController extends BaseController {
     }
 
     @FXML
-    protected void saveCommand() {
-        commandTabController.saveCommand();
+    protected void saveOrEditCommand() {
+        commandTabController.saveOrEditCommand();
     }
 
     @FXML

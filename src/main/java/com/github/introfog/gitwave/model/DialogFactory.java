@@ -63,19 +63,4 @@ public final class DialogFactory {
         dialog.showAndWait().ifPresent(response -> pressedButton[0] = response);
         return pressedButton[0];
     }
-
-    public static ButtonType createSaveOrUpdateAlert() {
-        Alert dialog = new Alert(AlertType.CONFIRMATION);
-        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(StageFactory.class.getResourceAsStream(AppConstants.PATH_TO_LOGO)));
-
-        dialog.setTitle("Confirmation");
-        dialog.setHeaderText("Do you want to save command as a new instance?\nSelect 'No' if update existed.");
-        dialog.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
-
-        dialog.getDialogPane().setStyle(COMMON_STYLES);
-        ButtonType[] pressedButton = {null};
-        dialog.showAndWait().ifPresent(response -> pressedButton[0] = response);
-        return pressedButton[0];
-    }
 }

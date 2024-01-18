@@ -18,6 +18,8 @@ package com.github.introfog.gitwave.model;
 
 import com.github.introfog.gitwave.GitWaveLauncher;
 import com.github.introfog.gitwave.controller.BaseController;
+import com.github.introfog.gitwave.controller.EditController;
+import com.github.introfog.gitwave.model.dto.CommandDto;
 
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
@@ -39,6 +41,15 @@ public final class StageFactory {
         FxmlStageHolder holder = StageFactory.createModalStage("view/explorer.fxml", "Command explorer");
         holder.getStage().setMinWidth(400);
         holder.getStage().setMinHeight(200);
+        return holder;
+    }
+
+    public static FxmlStageHolder createModalEditWindow(CommandDto commandDto) {
+        FxmlStageHolder holder = StageFactory.createModalStage("view/edit.fxml", "Command editor");
+        holder.getStage().setMinWidth(400);
+        holder.getStage().setMinHeight(210);
+        EditController editController = holder.getFxmlLoader().getController();
+        editController.setCommand(commandDto);
         return holder;
     }
 
