@@ -28,7 +28,7 @@
         <rowConstraints>
           <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="NEVER" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+          <RowConstraints maxHeight="63.0" minHeight="63.0" prefHeight="63.0" vgrow="NEVER" />
         </rowConstraints>
          <children>
             <MenuBar prefHeight="25.0" prefWidth="450.0" GridPane.vgrow="NEVER">
@@ -127,7 +127,7 @@
                      <font>
                         <Font name="Verdana" size="12.0" />
                      </font></Button>
-                  <Hyperlink focusTraversable="false" layoutY="25.0" onAction="#foundIssue" text="Found an issue?" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+                  <Hyperlink focusTraversable="false" layoutY="25.0" onAction="#foundIssue" text="Found an issue?" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0">
                      <font>
                         <Font name="Verdana" size="12.0" />
                      </font></Hyperlink>
