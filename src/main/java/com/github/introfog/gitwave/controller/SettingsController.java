@@ -74,7 +74,7 @@ public class SettingsController extends BaseController {
         } else {
             LOGGER.error("Wrong path to GitBash.exe '{}'", bashExeFile.getAbsolutePath());
             DialogFactory.createErrorAlert("Git Bash executable hasn't been specified",
-                    "Git Bash executable hasn't been specified correctly. Either specify path manually or find via file browser.");
+                    "Git Bash executable hasn't been specified correctly. Either specify path manually or find via file browser.", 210);
         }
     }
 

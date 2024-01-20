@@ -29,9 +29,16 @@ public final class DialogFactory {
     }
 
     public static void createErrorAlert(String header, String msg) {
+        createErrorAlert(header, msg, null);
+    }
+
+    public static void createErrorAlert(String header, String msg, Integer height) {
         Alert alert = new Alert(AlertType.ERROR);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image(StageFactory.class.getResourceAsStream(AppConstants.PATH_TO_LOGO)));
+        if (height != null) {
+            stage.setMinHeight(height);
+        }
         alert.setTitle("GitWave error");
         alert.setHeaderText(header);
         alert.setContentText(msg);

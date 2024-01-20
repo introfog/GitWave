@@ -57,7 +57,7 @@ public class ParametersTabController extends SupportController {
             if (value == null || ONLY_SPACES_PATTERN.matcher(value).matches()) {
                 LOGGER.warn("Parameter '{}' hasn't been specified yet.", name);
                 DialogFactory.createErrorAlert("Invalid parameter",
-                        "Parameter {" + name + "} hasn't been specified yet, either remove or set not empty value.");
+                        "Parameter {" + name + "} hasn't been specified yet, either remove or set not empty value.", 210);
                 return false;
             }
         }

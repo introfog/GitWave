@@ -38,7 +38,7 @@ public class MenuController extends SupportController {
         } if (!(new File(pathToGitBashExe)).exists()) {
             LOGGER.error("Specified GitBash.exe path '{}' points to not-existent file, running git command was skipped.", pathToGitBashExe);
             DialogFactory.createErrorAlert("Invalid path to GitBash.exe", "Specified path \"" + pathToGitBashExe +
-                    "\" points to not-existent file. Specify correct path in settings.");
+                    "\" points to not-existent file. Specify correct path in settings.", 210);
             return false;
         }
         return true;
