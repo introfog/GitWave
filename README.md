@@ -1,3 +1,7 @@
+<p align="left">
+    <img src="./src/main/resources/logo256.png" alt="GitWave Logo">
+</p>
+
 # GitWave - Multi-Repository Bash Command Runner
 [![Apache License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/introfog/GitWave/blob/master/LICENSE.md)
 
