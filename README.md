@@ -1,11 +1,7 @@
-<p align="left">
-    <img src="./src/main/resources/logo256.png" alt="GitWave Logo">
-</p>
-
 # GitWave - Multi-Repository Bash Command Runner
 [![Apache License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/introfog/GitWave/blob/master/LICENSE.md)
 
-## Overview
+## Overview <img src="./src/main/resources/logo16.png"  alt="GitWave Logo">
 Welcome to GitWave – the ultimate tool for developers who work with multiple repositories on Windows. GitWave is 
 designed to streamline your workflow by allowing you to run any bash commands across several repositories simultaneously.
 It’s a powerful companion for any developer looking to save time and effort when managing their Git projects.
