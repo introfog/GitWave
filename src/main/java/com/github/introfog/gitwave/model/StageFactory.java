@@ -106,7 +106,7 @@ public final class StageFactory {
         stage.setTitle(title);
         stage.setScene(scene);
         stage.setResizable(true);
-        stage.getIcons().add(new Image(StageFactory.class.getResourceAsStream(AppConstants.PATH_TO_LOGO)));
+        stage.getIcons().add(new Image(StageFactory.class.getResourceAsStream(AppConstants.PATH_TO_LOGO_128)));
         BaseController controller = fxmlLoader.getController();
         final FxmlStageHolder fxmlStageHolder = new FxmlStageHolder(stage, fxmlLoader, scene);
         controller.initialize(fxmlStageHolder);

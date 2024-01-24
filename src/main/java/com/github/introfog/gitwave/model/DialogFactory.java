@@ -35,7 +35,7 @@ public final class DialogFactory {
     public static void createErrorAlert(String header, String msg, Integer height) {
         Alert alert = new Alert(AlertType.ERROR);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(StageFactory.class.getResourceAsStream(AppConstants.PATH_TO_LOGO)));
+        stage.getIcons().add(new Image(StageFactory.class.getResourceAsStream(AppConstants.PATH_TO_LOGO_32)));
         if (height != null) {
             stage.setMinHeight(height);
         }
@@ -49,7 +49,7 @@ public final class DialogFactory {
     public static void createInfoAlert(String header, String msg) {
         Alert alert = new Alert(AlertType.INFORMATION);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(StageFactory.class.getResourceAsStream(AppConstants.PATH_TO_LOGO)));
+        stage.getIcons().add(new Image(StageFactory.class.getResourceAsStream(AppConstants.PATH_TO_LOGO_32)));
         alert.setTitle("GitWave info");
         alert.setHeaderText(header);
         alert.setContentText(msg);
@@ -60,7 +60,7 @@ public final class DialogFactory {
     public static ButtonType createCloseConfirmationAlert() {
         Alert dialog = new Alert(AlertType.CONFIRMATION);
         Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(StageFactory.class.getResourceAsStream(AppConstants.PATH_TO_LOGO)));
+        stage.getIcons().add(new Image(StageFactory.class.getResourceAsStream(AppConstants.PATH_TO_LOGO_32)));
         dialog.setTitle("Confirmation");
         dialog.setHeaderText("Do you really want to close the application?");
         dialog.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);

@@ -95,13 +95,13 @@
     <ClCompile Include="GitWaveExecutor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource1.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="GitWaveExecutor1.rc" />
+    <ResourceCompile Include="GitWaveExecutor.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\src\main\resources\logo.ico" />
+    <Image Include="..\..\..\src\main\resources\logo256.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

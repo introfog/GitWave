@@ -11,7 +11,7 @@
    <children>
       <ImageView fitHeight="86.0" fitWidth="80.0" layoutX="32.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../logo.png" />
+            <Image url="@../../../../../logo256.png" />
          </image></ImageView>
       <Button layoutX="178.0" layoutY="330.0" mnemonicParsing="false" onAction="#close" text="Close" />
       <Label fx:id="version" layoutX="134.0" layoutY="40.0" text="VERSION">
