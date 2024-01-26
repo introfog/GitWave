@@ -1,4 +1,4 @@
-name: Java CI with Maven
+name: Build App
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 jobs:
   build:
 
-    runs-on: windows-latest
+    runs-on: [windows-latest, macos-latest]
 
     steps:
     - uses: actions/checkout@v3
