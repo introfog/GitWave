@@ -68,7 +68,7 @@ public class SettingsController extends BaseController {
         if (bashExeFile.exists() && bashExeFile.getAbsolutePath().endsWith(".exe")) {
             final String absolutePath = bashExeFile.getAbsolutePath();
             AppConfig.getInstance().setPathToGitBashExe(absolutePath);
-            // TODO MINOR add check that path is specified to GitBash.exe not for any other .exe
+            // TODO #7 add check that path is specified to GitBash.exe not for any other .exe
             LOGGER.info("Path to GitBash.exe registered to '{}'", absolutePath);
             closeStage();
         } else {

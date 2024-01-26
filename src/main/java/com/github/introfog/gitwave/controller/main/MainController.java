@@ -109,7 +109,7 @@ public class MainController extends BaseController {
 
     @FXML
     protected void runCommand() {
-        // TODO MINOR: it is possible to define all action in code, consider is it worth to do it in that way, or leave @FXML methods
+        // TODO #9 it is possible to define all action in code, consider is it worth to do it in that way, or leave @FXML methods
         if (menuController.isValid() && directoryTabController.isValid()
                 && commandTabController.isValid() && parametersTabController.isValid()) {
 
@@ -122,7 +122,7 @@ public class MainController extends BaseController {
             AppConfig.getInstance().setLastRunFolder(directoryToRunIn.getAbsolutePath());
 
             new Thread(() -> {
-                // TODO MINOR rewrite using javafx.concurrent.Task, because it is a native JavaFx way to do smth in background
+                // TODO #8 rewrite using javafx.concurrent.Task, because it is a native JavaFx way to do smth in background
                 switchRunButton(true);
                 final File scriptFile = CommandExecutor.searchGitRepositoriesAndCreateScriptFile(directoryToRunIn,
                         commandTabController.getCommandWithParameters());
