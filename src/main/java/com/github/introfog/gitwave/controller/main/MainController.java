@@ -25,6 +25,7 @@ import com.github.introfog.gitwave.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.gitwave.model.dto.ParameterDto;
 
 import java.io.File;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -121,14 +122,8 @@ public class MainController extends BaseController {
             }
             AppConfig.getInstance().setLastRunFolder(directoryToRunIn.getAbsolutePath());
 
-            new Thread(() -> {
-                // TODO #8 rewrite using javafx.concurrent.Task, because it is a native JavaFx way to do smth in background
-                switchRunButton(true);
-                final File scriptFile = CommandExecutor.searchGitRepositoriesAndCreateScriptFile(directoryToRunIn,
-                        commandTabController.getCommandWithParameters());
-                switchRunButton(false);
-                CommandExecutor.executeScriptFileWithCommand(scriptFile);
-            }).start();
+            Task<Void> runCommandTask = createRunCommandTask(directoryToRunIn);
+            new Thread(runCommandTask).start();
         }
     }
 
@@ -155,5 +150,18 @@ public class MainController extends BaseController {
     private void switchRunButton(boolean inProgress) {
         run.setDisable(inProgress);
         runProgress.setVisible(inProgress);
+    }
+
+    private Task<Void> createRunCommandTask(File directoryToRunIn) {
+        return new Task<Void>() {
+            @Override protected Void call() {
+                switchRunButton(true);
+                final File scriptFile = CommandExecutor.searchGitRepositoriesAndCreateScriptFile(directoryToRunIn,
+                        commandTabController.getCommandWithParameters());
+                switchRunButton(false);
+                CommandExecutor.executeScriptFileWithCommand(scriptFile);
+                return null;
+            }
+        };
     }
 }
