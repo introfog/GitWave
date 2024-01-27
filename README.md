@@ -21,9 +21,9 @@ GitWave is an open-source project, that encourages collaboration and community i
 Explore, contribute, and customize the application according to your preferences.
 
 ## :checkered_flag: Getting Started
-1. Download the latest release from the [releases page](https://github.com/introfog/GitWave/releases).
-2. Download and unpack GitWave.zip archive to your local machine. 
-3. Launch GitWave.exe and begin executing bash commands across multiple repositories effortlessly.
+1. Download `GitWave.zip` from the [latest release](https://github.com/introfog/GitWave/releases).
+2. Unpack archive to your local machine and launch `GitWave.exe`.
+3. Begin executing bash commands across multiple repositories effortlessly.
 
 ## :hammer: Build Locally
 ### Software Requirements
@@ -38,6 +38,7 @@ Explore, contribute, and customize the application according to your preferences
 - GitWave is built on openjdk 11 + openjfx 11.
 - All commands and settings are stored in `config/config.json` in JSON format. So it is possible to edit them manually in any text editor.
 - On opening the app makes a lenient request to GitHub API to check for the new available release, see `com.github.introfog.gitwave.model.UpdateChecker#isNewReleaseAvailable`.
+- The `temp` folder is used to save bash scripts to run, they are automatically removed after the command completes.
 
 ## :bulb: Ideas For Further Releases
 - Allow working with the app by using only the keyboard (with correct Tabs, Esc and so on work).
