@@ -25,7 +25,7 @@ Explore, contribute, and customize the application according to your preferences
 2. Unpack archive to your local machine and launch `GitWave.exe`.
 3. Begin executing bash commands across multiple repositories effortlessly.
 
-![Sample saved command](samples/Sample_Saved_Commands.gif)
+<img src=samples/Sample_Saved_Commands.gif>
 
 ## :hammer: Build Locally
 ### Software Requirements
