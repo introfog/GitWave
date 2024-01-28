@@ -24,6 +24,7 @@ Explore, contribute, and customize the application according to your preferences
 1. Download `GitWave.zip` from the [latest release](https://github.com/introfog/GitWave/releases).
 2. Unpack archive to your local machine and launch `GitWave.exe`.
 3. Begin executing bash commands across multiple repositories effortlessly.
+4. You check my personal [GitWave config](https://gist.github.com/introfog/10a0a3f6c0b069c4132f8ac18b73dff5) with bash commands which i use on regular basis.
 
 <img src=samples/Sample_Saved_Commands.gif>
 
