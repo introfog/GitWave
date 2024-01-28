@@ -132,7 +132,7 @@
                         <Font name="Verdana" size="12.0" />
                      </font></Hyperlink>
                   <Separator layoutY="17.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  <ProgressIndicator fx:id="runProgress" layoutX="345.0" layoutY="9.0" prefHeight="20.0" prefWidth="20.0" visible="false" />
+                  <ProgressIndicator fx:id="runProgress" layoutX="345.0" layoutY="9.0" prefHeight="20.0" prefWidth="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="85.0" />
                </children>
             </AnchorPane>
          </children>

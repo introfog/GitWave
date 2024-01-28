@@ -81,6 +81,8 @@ public class MainController extends BaseController {
                 primaryStage.close();
             };
         });
+        switchRunButton(false);
+
         directoryTabController = new DirectoryTabController(fxmlStageHolder, directory);
         parametersTabController = new ParametersTabController(fxmlStageHolder, parametersTable, parametersText);
         commandTabController = new CommandTabController(fxmlStageHolder, command, description, save,
@@ -153,8 +155,9 @@ public class MainController extends BaseController {
     }
 
     private Task<Void> createRunCommandTask(File directoryToRunIn) {
-        return new Task<Void>() {
-            @Override protected Void call() {
+        return new Task<>() {
+            @Override
+            protected Void call() {
                 switchRunButton(true);
                 final File scriptFile = CommandExecutor.searchGitRepositoriesAndCreateScriptFile(directoryToRunIn,
                         commandTabController.getCommandWithParameters());
