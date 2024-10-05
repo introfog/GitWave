@@ -3,6 +3,7 @@ package com.github.introfog.gitwave.controller.main;
 import com.github.introfog.gitwave.controller.SupportController;
 import com.github.introfog.gitwave.model.AppConfig;
 import com.github.introfog.gitwave.model.DialogFactory;
+import com.github.introfog.gitwave.model.OsRecogniser;
 import com.github.introfog.gitwave.model.StageFactory;
 import com.github.introfog.gitwave.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.gitwave.model.UpdateChecker;
@@ -31,6 +32,9 @@ public class MenuController extends SupportController {
 
     @Override
     public boolean isValid() {
+        if (OsRecogniser.isCurrentOsUnixLike()) {
+            return true;
+        }
         final String pathToGitBashExe = AppConfig.getInstance().getPathToGitBashExe();
         if (pathToGitBashExe == null || pathToGitBashExe.isEmpty()) {
             DialogFactory.createErrorAlert("GitBash path hasn't been specified", "Specify path to GitBash in Menu->Settings.");

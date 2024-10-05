@@ -14,6 +14,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>11</java.version>
 
+        <assembly.file>default.xml</assembly.file>
+
         <javafx.version>11.0.2</javafx.version>
         <slf4j-api.version>2.0.9</slf4j-api.version>
         <logback-classic.version>1.4.11</logback-classic.version>
@@ -141,7 +143,7 @@
                         </goals>
                         <configuration>
                             <descriptors>
-                                <descriptor>src/assembly/zip.xml</descriptor>
+                                <descriptor>src/assembly/${assembly.file}</descriptor>
                             </descriptors>
                             <appendAssemblyId>false</appendAssemblyId>
                             <finalName>GitWave</finalName>
@@ -152,4 +154,43 @@
 
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>windows</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <properties>
+                <assembly.file>zipWindows.xml</assembly.file>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>unix</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+            </activation>
+            <properties>
+                <assembly.file>zipUnix.xml</assembly.file>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>mac</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+            <properties>
+                <assembly.file>zipUnix.xml</assembly.file>
+            </properties>
+        </profile>
+
+    </profiles>
 </project>

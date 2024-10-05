@@ -18,6 +18,7 @@ package com.github.introfog.gitwave.controller;
 
 import com.github.introfog.gitwave.model.AppConfig;
 import com.github.introfog.gitwave.model.DialogFactory;
+import com.github.introfog.gitwave.model.OsRecogniser;
 import com.github.introfog.gitwave.model.StageFactory.FxmlStageHolder;
 
 import java.io.File;
@@ -46,15 +47,27 @@ public class SettingsController extends BaseController {
     private Button save;
 
     @FXML
+    private Button browse;
+
+    @FXML
+    private Label pathToBashText;
+
+    @FXML
     private Label done;
 
     @Override
     public void initialize(FxmlStageHolder fxmlStageHolder) {
         super.initialize(fxmlStageHolder);
         super.setClosingOnEscapePressing(fxmlStageHolder);
-        final String pathToGitBashExeStr = AppConfig.getInstance().getPathToGitBashExe();
-        if (pathToGitBashExeStr != null && !pathToGitBashExeStr.isEmpty()) {
-            pathToBashExe.setText(pathToGitBashExeStr);
+        if (OsRecogniser.isCurrentOsUnixLike()) {
+            pathToBashExe.disableProperty().set(true);
+            browse.setDisable(true);
+            pathToBashText.setDisable(true);
+        } else {
+            final String pathToGitBashExeStr = AppConfig.getInstance().getPathToGitBashExe();
+            if (pathToGitBashExeStr != null && !pathToGitBashExeStr.isEmpty()) {
+                pathToBashExe.setText(pathToGitBashExeStr);
+            }
         }
         save.requestFocus();
         if (done != null) {
