@@ -52,17 +52,17 @@ public final class CommandExecutor {
                     return;
                 }
                 controller.writeDirectory(runnableCommand.path);
-                Process powerShellProcess = Runtime.getRuntime().exec(runnableCommand.params);
+                Process process = Runtime.getRuntime().exec(runnableCommand.params);
 
                 String line;
-                BufferedReader stdout = new BufferedReader(new InputStreamReader(powerShellProcess.getInputStream()));
+                BufferedReader stdout = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
                 while ((line = stdout.readLine()) != null) {
                     controller.writeStandardOutput(line);
                 }
                 stdout.close();
 
-                BufferedReader stderr = new BufferedReader(new InputStreamReader(powerShellProcess.getErrorStream()));
+                BufferedReader stderr = new BufferedReader(new InputStreamReader(process.getErrorStream()));
                 while ((line = stderr.readLine()) != null) {
                     controller.writeErrorOutput(line);
                 }
@@ -86,7 +86,11 @@ public final class CommandExecutor {
 
     private static String[] constructCmdCommand(String gitRepoPath, String command) {
         List<String> cmdCommand = new ArrayList<>();
-        cmdCommand.add(AppConfig.getInstance().getPathToGitBashExe().replace("\\", "/"));
+        if (OsRecogniser.isCurrentOsUnixLike()) {
+            cmdCommand.add("bash");
+        } else {
+            cmdCommand.add(AppConfig.getInstance().getPathToGitBashExe().replace("\\", "/"));
+        }
         cmdCommand.add("-c");
         cmdCommand.add("cd '" + gitRepoPath + "' && " + command);
         return cmdCommand.toArray(new String[]{});

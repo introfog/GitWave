@@ -17,6 +17,7 @@
 package com.github.introfog.gitwave;
 
 import com.github.introfog.gitwave.model.AppConfig;
+import com.github.introfog.gitwave.model.OsRecogniser;
 import com.github.introfog.gitwave.model.StageFactory;
 
 import javafx.application.Application;
@@ -27,9 +28,11 @@ public class GitWaveLauncher extends Application {
     public void start(Stage stage) {
         StageFactory.createPrimaryExecuteWindow(stage).getStage().show();
         AppConfig.getInstance().setHostServices(getHostServices());
-        final String pathToGitBashExe = AppConfig.getInstance().getPathToGitBashExe();
-        if (pathToGitBashExe == null || pathToGitBashExe.isEmpty()) {
-            StageFactory.createModalSetupWindow().getStage().showAndWait();
+        if (!OsRecogniser.isCurrentOsUnixLike()) {
+            final String pathToGitBashExe = AppConfig.getInstance().getPathToGitBashExe();
+            if (pathToGitBashExe == null || pathToGitBashExe.isEmpty()) {
+                StageFactory.createModalSetupWindow().getStage().showAndWait();
+            }
         }
     }
 
