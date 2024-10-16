@@ -16,9 +16,10 @@
 
 package com.github.introfog.gitwave.model;
 
+import com.github.introfog.gitwave.controller.main.ExecutionController;
+
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -33,95 +34,62 @@ public final class CommandExecutor {
         // Empty constructor
     }
 
-    public static File searchGitRepositoriesAndCreateScriptFile(File directory, String command) {
+    public static List<File> searchGitRepositories(File directory) {
         LOGGER.info("Start searching git repositories in '{}' path.", directory.getAbsolutePath());
         List<File> repositoriesToRunCommand = new ArrayList<>();
         searchGitRepositories(directory, repositoriesToRunCommand);
-        if (AppConfig.getInstance().appWasClosed()) {
-            return null;
-        }
         LOGGER.info("'{}' git repositories were found to run command.", repositoriesToRunCommand.size());
+        return repositoriesToRunCommand;
+    }
+
+    public static void executeCommand(List<File> repositoriesToRunCommand, ExecutionController controller, String command) {
+        LOGGER.info("Start executing command '{}'.", command);
         try {
-            final File scriptFile = createAndFillScriptFileWithCommand(command, repositoriesToRunCommand);
-            if (AppConfig.getInstance().appWasClosed()) {
-                removeScriptFile(scriptFile);
+            final List<RunnableCommand> runnableCommands = createRunnableCommands(repositoriesToRunCommand, command);
+            controller.writeCommand(command);
+            for (RunnableCommand runnableCommand : runnableCommands) {
+                if (AppConfig.getInstance().appWasClosed() || controller.wasClosed()) {
+                    return;
+                }
+                controller.writeDirectory(runnableCommand.path);
+                Process powerShellProcess = Runtime.getRuntime().exec(runnableCommand.params);
+
+                String line;
+                BufferedReader stdout = new BufferedReader(new InputStreamReader(powerShellProcess.getInputStream()));
+
+                while ((line = stdout.readLine()) != null) {
+                    controller.writeStandardOutput(line);
+                }
+                stdout.close();
+
+                BufferedReader stderr = new BufferedReader(new InputStreamReader(powerShellProcess.getErrorStream()));
+                while ((line = stderr.readLine()) != null) {
+                    controller.writeErrorOutput(line);
+                }
+                stderr.close();
             }
-            return scriptFile;
+            controller.writeFinishMessage();
+            LOGGER.info("Finish executing git command '{}'.", command);
         } catch (IOException e) {
-            LOGGER.error("Something goes wrong with creation temp script file with command.", e);
-        }
-
-        return null;
-    }
-
-    public static void executeScriptFileWithCommand(File scriptFile) {
-        if (scriptFile == null || AppConfig.getInstance().appWasClosed()) {
-            return;
-        }
-        try {
-            LOGGER.info("Start executing script file '{}'.", scriptFile.getAbsolutePath());
-            executeScriptFile(scriptFile);
-            LOGGER.info("Finish executing git command.");
-        } catch (IOException e) {
-            LOGGER.error("Something goes wrong with executing temp script file with command.", e);
-        } finally {
-            removeScriptFile(scriptFile);
+            LOGGER.error("Something goes wrong with executing command.", e);
         }
     }
 
-    private static void executeScriptFile(File scriptFile) throws IOException {
-        Process powerShellProcess = Runtime.getRuntime().exec(constructCmdCommand(scriptFile));
-        String line;
-
-        BufferedReader stdout = new BufferedReader(new InputStreamReader(powerShellProcess.getInputStream()));
-        while ((line = stdout.readLine()) != null) {
-            LOGGER.info("Standard output of executed command '{}'", line);
+    private static List<RunnableCommand> createRunnableCommands(List<File> repositoriesToRunCommand, String command) {
+        List<RunnableCommand> runnableCommands = new ArrayList<>();
+        for (File gitRepo : repositoriesToRunCommand) {
+            String gitRepoPath = gitRepo.getAbsolutePath().replace("\\", "/");
+            runnableCommands.add(new RunnableCommand(constructCmdCommand(gitRepoPath, command), gitRepoPath));
         }
-        stdout.close();
-
-        BufferedReader stderr = new BufferedReader(new InputStreamReader(powerShellProcess.getErrorStream()));
-        while ((line = stderr.readLine()) != null) {
-            LOGGER.error("Error output of executed command '{}'", line);
-        }
-        stderr.close();
+        return runnableCommands;
     }
 
-    private static String[] constructCmdCommand(File scriptFile) {
+    private static String[] constructCmdCommand(String gitRepoPath, String command) {
         List<String> cmdCommand = new ArrayList<>();
-        cmdCommand.add("cmd");
-        cmdCommand.add("/c");
-        cmdCommand.add("start");
-        cmdCommand.add("\"\"");
-        cmdCommand.add("\"" + AppConfig.getInstance().getPathToGitBashExe() + "\"");
+        cmdCommand.add(AppConfig.getInstance().getPathToGitBashExe().replace("\\", "/"));
         cmdCommand.add("-c");
-        cmdCommand.add(scriptFile.getAbsolutePath().replace("\\", "\\\\\\\\") + ";read -p 'Press Enter to close window...'");
+        cmdCommand.add("cd '" + gitRepoPath + "' && " + command);
         return cmdCommand.toArray(new String[]{});
-    }
-
-    private static File createAndFillScriptFileWithCommand(String gitCommand, List<File> repositoriesToRunCommand) throws IOException {
-        File tempDir = new File("temp");
-        if (!tempDir.exists() && !tempDir.mkdirs()) {
-            LOGGER.error("Failed to create the temp directory '{}'.", "temp");
-        }
-
-        File scriptFile = File.createTempFile("script", ".sh", tempDir);
-        LOGGER.info("Temp script file '{}' was created", scriptFile.getAbsolutePath());
-
-        FileWriter writer = new FileWriter(scriptFile);
-        writer.write("#!/bin/bash\n");
-        writer.write("echo -e \"\\033[0;32m\" \"" + gitCommand + "\" \"\\033[0m\"\n");
-        for (File currentFolder : repositoriesToRunCommand) {
-            if (AppConfig.getInstance().appWasClosed()) {
-                break;
-            }
-            writer.write("cd \"" + currentFolder.getAbsolutePath().replace("\\", "\\\\") + "\"\n");
-            writer.write("echo -e \"\\033[0;36m\" $PWD \"\\033[0m\"\n");
-
-            writer.write(gitCommand + "\n");
-        }
-        writer.close();
-        LOGGER.info("Command '{}' was written to temp script file.", gitCommand);
-        return scriptFile;
     }
 
     private static void searchGitRepositories(File folder, List<File> repositoriesToRunCommand) {
@@ -146,18 +114,19 @@ public final class CommandExecutor {
         }
     }
 
-    private static void removeScriptFile(File scriptFile) {
-        if (scriptFile != null && scriptFile.exists()) {
-            if (scriptFile.delete()) {
-                LOGGER.info("Temp script file '{}' was removed.", scriptFile.getAbsolutePath());
-            } else {
-                LOGGER.warn("Temp script file '{}' with command wasn't removed.", scriptFile.getAbsolutePath());
-            }
-        }
-    }
-
     private static boolean isGitRepository(File folder) {
         File gitFolder = new File(folder, ".git");
         return gitFolder.exists() && gitFolder.isDirectory();
+    }
+
+    private static class RunnableCommand {
+        private final String[] params;
+        private final String path;
+
+
+        private RunnableCommand(String[] params, String path) {
+            this.params = params;
+            this.path = path;
+        }
     }
 }

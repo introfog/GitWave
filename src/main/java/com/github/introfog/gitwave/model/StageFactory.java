@@ -19,9 +19,12 @@ package com.github.introfog.gitwave.model;
 import com.github.introfog.gitwave.GitWaveLauncher;
 import com.github.introfog.gitwave.controller.BaseController;
 import com.github.introfog.gitwave.controller.EditController;
+import com.github.introfog.gitwave.controller.main.ExecutionController;
 import com.github.introfog.gitwave.model.dto.CommandDto;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -33,8 +36,34 @@ import org.slf4j.LoggerFactory;
 public final class StageFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(StageFactory.class);
 
+    private static final Set<ExecutionController> executingControllers = new HashSet<>();
+
     private StageFactory() {
         // private constructor
+    }
+
+    public static void registerExecutionController(ExecutionController executionController) {
+        executingControllers.add(executionController);
+    }
+
+    public static void unregisterExecutingController(ExecutionController executionController) {
+        executingControllers.remove(executionController);
+    }
+
+    public static Set<ExecutionController> getExecutingControllers() {
+        return executingControllers;
+    }
+
+    public static FxmlStageHolder createNoneModalExecutionWindow() {
+        FxmlStageHolder holder = StageFactory.createNoneModalStage("view/execution.fxml", "Command execution result");
+        holder.getStage().setMinWidth(200);
+        holder.getStage().setMinHeight(200);
+        int alreadyOpenedExecutors = getExecutingControllers().size();
+        int shift = 20;
+        holder.getStage().setX(100 + (alreadyOpenedExecutors * shift));
+        holder.getStage().setY(100 + (alreadyOpenedExecutors * shift));
+        registerExecutionController(holder.getFxmlLoader().getController());
+        return holder;
     }
 
     public static FxmlStageHolder createModalExploreWindow() {
@@ -89,6 +118,12 @@ public final class StageFactory {
     private static FxmlStageHolder createModalStage(String fxmlPath, String title) {
         Stage modalStage = new Stage();
         modalStage.initModality(Modality.APPLICATION_MODAL);
+        return creteStage(fxmlPath, title, modalStage);
+    }
+
+    private static FxmlStageHolder createNoneModalStage(String fxmlPath, String title) {
+        Stage modalStage = new Stage();
+        modalStage.initModality(Modality.NONE);
         return creteStage(fxmlPath, title, modalStage);
     }
 

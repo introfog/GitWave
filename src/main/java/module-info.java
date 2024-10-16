@@ -10,6 +10,8 @@ module com.github.introfog.gitwave {
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.core;
+    requires org.fxmisc.richtext;
+    requires org.fxmisc.flowless;
 
     opens com.github.introfog.gitwave to javafx.fxml;
     opens com.github.introfog.gitwave.model.dto to com.fasterxml.jackson.core, com.fasterxml.jackson.annotation, com.fasterxml.jackson.databind, javafx.base;

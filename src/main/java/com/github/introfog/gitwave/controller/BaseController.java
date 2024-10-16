@@ -28,6 +28,10 @@ public abstract class BaseController {
         this.fxmlStageHolder = fxmlStageHolder;
     }
 
+    public Stage getStage() {
+        return fxmlStageHolder.getStage();
+    }
+
     protected void setClosingOnEscapePressing(FxmlStageHolder fxmlStageHolder) {
         fxmlStageHolder.getScene().setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
@@ -38,9 +42,5 @@ public abstract class BaseController {
 
     protected void closeStage() {
         fxmlStageHolder.getStage().close();
-    }
-
-    protected Stage getStage() {
-        return fxmlStageHolder.getStage();
     }
 }

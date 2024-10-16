@@ -6,7 +6,6 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.Tab?>
@@ -19,7 +18,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="450.0" style="-fx-font-family: verdana; -fx-font-size: 12;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.gitwave.controller.main.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="450.0" style="-fx-font-family: verdana; -fx-font-size: 12;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.gitwave.controller.main.MainController">
    <children>
       <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -123,7 +122,7 @@
             </TabPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
                <children>
-                  <Button fx:id="run" layoutX="386.0" layoutY="36.0" mnemonicParsing="false" onAction="#runCommand" text="4. Run" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+                  <Button layoutX="386.0" layoutY="36.0" mnemonicParsing="false" onAction="#runCommand" text="4. Run" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
                      <font>
                         <Font name="Verdana" size="12.0" />
                      </font></Button>
@@ -132,7 +131,6 @@
                         <Font name="Verdana" size="12.0" />
                      </font></Hyperlink>
                   <Separator layoutY="17.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  <ProgressIndicator fx:id="runProgress" layoutX="345.0" layoutY="9.0" prefHeight="20.0" prefWidth="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="85.0" />
                </children>
             </AnchorPane>
          </children>

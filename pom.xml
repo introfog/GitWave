@@ -18,6 +18,7 @@
         <slf4j-api.version>2.0.9</slf4j-api.version>
         <logback-classic.version>1.4.11</logback-classic.version>
         <jackson-databind.version>2.15.3</jackson-databind.version>
+        <richtextfx.version>0.11.3</richtextfx.version>
 
         <maven-bundle-plugin.version>5.1.9</maven-bundle-plugin.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
@@ -36,6 +37,11 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fxmisc.richtext</groupId>
+            <artifactId>richtextfx</artifactId>
+            <version>${richtextfx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

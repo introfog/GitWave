@@ -21,10 +21,12 @@ import com.github.introfog.gitwave.model.AppConfig;
 import com.github.introfog.gitwave.model.AppConstants;
 import com.github.introfog.gitwave.model.CommandExecutor;
 import com.github.introfog.gitwave.model.DialogFactory;
+import com.github.introfog.gitwave.model.StageFactory;
 import com.github.introfog.gitwave.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.gitwave.model.dto.ParameterDto;
 
 import java.io.File;
+import java.util.List;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -32,7 +34,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -65,11 +66,6 @@ public class MainController extends BaseController {
     @FXML
     private SeparatorMenuItem updateMenuItemSeparator;
 
-    @FXML
-    private ProgressIndicator runProgress;
-    @FXML
-    private Button run;
-
     @Override
     public void initialize(FxmlStageHolder fxmlStageHolder) {
         super.initialize(fxmlStageHolder);
@@ -78,10 +74,12 @@ public class MainController extends BaseController {
             event.consume();
             if (DialogFactory.createCloseConfirmationAlert() == ButtonType.OK) {
                 AppConfig.getInstance().closeApp();
+                for (ExecutionController executionController : StageFactory.getExecutingControllers()) {
+                    executionController.getStage().close();
+                }
                 primaryStage.close();
             };
         });
-        switchRunButton(false);
 
         directoryTabController = new DirectoryTabController(fxmlStageHolder, directory);
         parametersTabController = new ParametersTabController(fxmlStageHolder, parametersTable, parametersText);
@@ -124,8 +122,20 @@ public class MainController extends BaseController {
             }
             AppConfig.getInstance().setLastRunFolder(directoryToRunIn.getAbsolutePath());
 
-            Task<Void> runCommandTask = createRunCommandTask(directoryToRunIn);
-            new Thread(runCommandTask).start();
+            final FxmlStageHolder executionWindow = StageFactory.createNoneModalExecutionWindow();
+            executionWindow.getStage().show();
+            ExecutionController executionController = executionWindow.getFxmlLoader().getController();
+
+            new Thread(new Task<>() {
+                @Override
+                protected Void call() {
+                    final List<File> repositoriesToRunCommand = CommandExecutor.searchGitRepositories(directoryToRunIn);
+
+                    CommandExecutor.executeCommand(repositoriesToRunCommand, executionController,
+                            commandTabController.getCommandWithParameters());
+                    return null;
+                }
+            }).start();
         }
     }
 
@@ -147,24 +157,5 @@ public class MainController extends BaseController {
     @FXML
     protected void foundIssue() {
         AppConfig.getInstance().getHostServices().showDocument(AppConstants.LINK_TO_GIT_CONTRIBUTING_FILE);
-    }
-
-    private void switchRunButton(boolean inProgress) {
-        run.setDisable(inProgress);
-        runProgress.setVisible(inProgress);
-    }
-
-    private Task<Void> createRunCommandTask(File directoryToRunIn) {
-        return new Task<>() {
-            @Override
-            protected Void call() {
-                switchRunButton(true);
-                final File scriptFile = CommandExecutor.searchGitRepositoriesAndCreateScriptFile(directoryToRunIn,
-                        commandTabController.getCommandWithParameters());
-                switchRunButton(false);
-                CommandExecutor.executeScriptFileWithCommand(scriptFile);
-                return null;
-            }
-        };
     }
 }
