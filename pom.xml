@@ -42,6 +42,11 @@
             <groupId>org.fxmisc.richtext</groupId>
             <artifactId>richtextfx</artifactId>
             <version>${richtextfx.version}</version>
+            <!-- Jlink doesn't support work with automatic modules. Transitive dependencies of RichTextFX are not
+            modularized and no longer maintained (see https://github.com/FXMisc/RichTextFX/issues/902).
+            So to mitigate that problem local modularized fat jar is used, instead of usual maven central dependency. -->
+            <scope>system</scope>
+            <systemPath>${project.basedir}/tools/richtextfx-fat-0.11.3.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

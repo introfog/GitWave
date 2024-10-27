@@ -36,8 +36,10 @@ target/
 # GitWave util folders
 logs/
 config/
-temp/
 
-# GitWave executor peojct
+# GitWave executor projct
 tools/GitWaveExecutor/.vs/
 tools/GitWaveExecutor/GitWaveExecutor/x64/
+
+# GitWave richtextfx fat jar
+!/tools/richtextfx-fat-*.jar
