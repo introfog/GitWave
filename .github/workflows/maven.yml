@@ -33,5 +33,5 @@ jobs:
       if: success()
       uses: actions/upload-artifact@v4
       with:
-        name: GitWave.zip
+        name: GitWave${{ matrix.java-version }}.zip
         path: target/GitWave.zip
