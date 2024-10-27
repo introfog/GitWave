@@ -33,5 +33,5 @@ jobs:
       if: success()
       uses: actions/upload-artifact@v4
       with:
-        name: GitWave${{ matrix.os }}.zip
-        path: target/GitWave.zip
+        name: GitWave_${{ matrix.os }}
+        path: target/GitWave
