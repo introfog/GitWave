@@ -36,20 +36,19 @@ public class ExecutionController extends BaseController {
     public void initialize(FxmlStageHolder fxmlStageHolder) {
         super.initialize(fxmlStageHolder);
         fxmlStageHolder.getStage().setOnCloseRequest(event -> {
-            wasClosed = true;
-            StageFactory.unregisterExecutingController(this);
+            beforeStageClose();
         });
         canvas.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE || event.getCode() == KeyCode.ENTER) {
                 if (isExecutionFinished) {
-                    fxmlStageHolder.getStage().close();
+                    closeStage();
                 }
             }
         });
         fxmlStageHolder.getScene().setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE || event.getCode() == KeyCode.ENTER) {
                 if (isExecutionFinished) {
-                    fxmlStageHolder.getStage().close();
+                    closeStage();
                 }
             }
         });
@@ -83,11 +82,22 @@ public class ExecutionController extends BaseController {
         return wasClosed;
     }
 
+    @Override
+    protected void closeStage() {
+        beforeStageClose();
+        super.closeStage();
+    }
+
     private void commonWritingPart(String line, String style) {
         Platform.runLater(() -> {
             canvas.appendText(line);
             canvas.setStyle(canvas.getLength() - line.length(), canvas.getLength(), style);
             canvas.requestFollowCaret();
         });
+    }
+
+    private void beforeStageClose() {
+        wasClosed = true;
+        StageFactory.unregisterExecutingController(this);
     }
 }
