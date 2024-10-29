@@ -12,11 +12,11 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
 
         <assembly.file>default.xml</assembly.file>
 
-        <javafx.version>11.0.2</javafx.version>
+        <javafx.version>17.0.13</javafx.version>
         <slf4j-api.version>2.0.9</slf4j-api.version>
         <logback-classic.version>1.4.11</logback-classic.version>
         <jackson-databind.version>2.15.3</jackson-databind.version>
