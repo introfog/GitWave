@@ -1,6 +1,6 @@
 # GitWave - Multi-Repository Bash Command Runner
 [![Apache License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/introfog/GitWave/blob/master/LICENSE.md)
-[![Build and Package](https://github.com/introfog/GitWave/actions/workflows/maven.yml/badge.svg)](https://github.com/introfog/GitWave/actions/workflows/maven.yml)
+[![Build and Package](https://github.com/introfog/GitWave/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/introfog/GitWave/actions/workflows/maven.yml)
 
 ## <img src="./src/main/resources/logo32.png"  alt="GitWave Logo"> Overview
 Welcome to GitWave – the ultimate tool for developers who work with multiple repositories. GitWave is 
