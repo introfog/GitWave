@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="550.0" style="-fx-font-family: verdana; -fx-font-size: 12;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.gitwave.controller.SettingsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="550.0" style="-fx-font-family: verdana; -fx-font-size: 12;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.gitwave.controller.SettingsController">
    <children>
       <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -25,7 +25,7 @@
          <children>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="pathToBashText" prefHeight="17.0" prefWidth="430.0" text="Path to bash.exe on your PC (usually &quot;PATH_TO_GIT/bin/bash.exe&quot;)." AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Label fx:id="pathToBashText" prefHeight="17.0" prefWidth="430.0" text="Path to bash to execute commands" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   <Button fx:id="browse" mnemonicParsing="false" onAction="#browseGitBashExe" text="Browse" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                      <font>
                         <Font name="Verdana" size="12.0" />

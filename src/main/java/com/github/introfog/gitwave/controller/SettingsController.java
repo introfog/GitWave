@@ -18,7 +18,6 @@ package com.github.introfog.gitwave.controller;
 
 import com.github.introfog.gitwave.model.AppConfig;
 import com.github.introfog.gitwave.model.DialogFactory;
-import com.github.introfog.gitwave.model.OsRecogniser;
 import com.github.introfog.gitwave.model.StageFactory.FxmlStageHolder;
 
 import java.io.File;
@@ -33,6 +32,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,15 +59,9 @@ public class SettingsController extends BaseController {
     public void initialize(FxmlStageHolder fxmlStageHolder) {
         super.initialize(fxmlStageHolder);
         super.setClosingOnEscapePressing(fxmlStageHolder);
-        if (OsRecogniser.isCurrentOsUnixLike()) {
-            pathToBashExe.disableProperty().set(true);
-            browse.setDisable(true);
-            pathToBashText.setDisable(true);
-        } else {
-            final String pathToGitBashExeStr = AppConfig.getInstance().getPathToGitBashExe();
-            if (pathToGitBashExeStr != null && !pathToGitBashExeStr.isEmpty()) {
-                pathToBashExe.setText(pathToGitBashExeStr);
-            }
+        final String pathToGitBashExeStr = AppConfig.getInstance().getPathToBash();
+        if (pathToGitBashExeStr != null) {
+            pathToBashExe.setText(pathToGitBashExeStr);
         }
         save.requestFocus();
         if (done != null) {
@@ -77,17 +71,13 @@ public class SettingsController extends BaseController {
 
     @FXML
     protected void save() {
-        File bashExeFile = new File(pathToBashExe.getText());
-        if (bashExeFile.exists() && bashExeFile.getAbsolutePath().endsWith(".exe")) {
-            final String absolutePath = bashExeFile.getAbsolutePath();
-            AppConfig.getInstance().setPathToGitBashExe(absolutePath);
-            // TODO #7 add check that path is specified to GitBash.exe not for any other .exe
-            LOGGER.info("Path to GitBash.exe registered to '{}'", absolutePath);
+        File bashFile = new File(pathToBashExe.getText());
+        if (bashFile.exists() && AppConfig.getInstance().setPathToBash(bashFile.getAbsolutePath())) {
             closeStage();
         } else {
-            LOGGER.error("Wrong path to GitBash.exe '{}'", bashExeFile.getAbsolutePath());
-            DialogFactory.createErrorAlert("Git Bash executable hasn't been specified",
-                    "Git Bash executable hasn't been specified correctly. Either specify path manually or find via file browser.", 210);
+            LOGGER.error("Wrong path to bash '{}'", bashFile.getAbsolutePath());
+            DialogFactory.createErrorAlert("Bash hasn't been specified",
+                    "Bash hasn't been specified correctly. Either specify path manually or find via file browser.", 210);
         }
     }
 
@@ -119,14 +109,14 @@ public class SettingsController extends BaseController {
     @FXML
     protected void browseGitBashExe() {
         FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter exeFilter = new FileChooser.ExtensionFilter("Bash executable (*.exe)", "*.exe");
-        fileChooser.getExtensionFilters().add(exeFilter);
+        FileChooser.ExtensionFilter bashFilter = new ExtensionFilter("Path to bash", "*.*") ;
+        fileChooser.getExtensionFilters().add(bashFilter);
 
-        final String pathToGitBashExeStr = AppConfig.getInstance().getPathToGitBashExe();
-        if (pathToGitBashExeStr != null && !pathToGitBashExeStr.isEmpty()) {
-            File gitBashDir = new File(pathToGitBashExeStr.substring(0, pathToGitBashExeStr.lastIndexOf("\\")));
-            if (gitBashDir.exists() && gitBashDir.isDirectory()) {
-                fileChooser.setInitialDirectory(gitBashDir);
+        final String pathToGitBashStr = AppConfig.getInstance().getPathToBash();
+        if (pathToGitBashStr != null) {
+            File bashDir = new File(pathToGitBashStr.substring(0, pathToGitBashStr.lastIndexOf('/')));
+            if (bashDir.exists() && bashDir.isDirectory()) {
+                fileChooser.setInitialDirectory(bashDir);
             }
         }
 
@@ -135,7 +125,7 @@ public class SettingsController extends BaseController {
             if (selectedFile.exists()) {
                 pathToBashExe.setText(selectedFile.getAbsolutePath());
             } else {
-                LOGGER.error("Wrong browsed path to GitBash.exe '{}'", selectedFile);
+                LOGGER.error("Wrong browsed path to bash '{}'", selectedFile);
                 DialogFactory.createErrorAlert("Provided file wasn't found", "Provided file wasn't found, try again");
             }
         } else {

@@ -3,12 +3,11 @@ package com.github.introfog.gitwave.controller.main;
 import com.github.introfog.gitwave.controller.SupportController;
 import com.github.introfog.gitwave.model.AppConfig;
 import com.github.introfog.gitwave.model.DialogFactory;
-import com.github.introfog.gitwave.model.OsRecogniser;
+import com.github.introfog.gitwave.model.OsHelper;
 import com.github.introfog.gitwave.model.StageFactory;
 import com.github.introfog.gitwave.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.gitwave.model.UpdateChecker;
 
-import java.io.File;
 import javafx.concurrent.Task;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -32,17 +31,14 @@ public class MenuController extends SupportController {
 
     @Override
     public boolean isValid() {
-        if (OsRecogniser.isCurrentOsUnixLike()) {
-            return true;
-        }
-        final String pathToGitBashExe = AppConfig.getInstance().getPathToGitBashExe();
-        if (pathToGitBashExe == null || pathToGitBashExe.isEmpty()) {
-            DialogFactory.createErrorAlert("GitBash path hasn't been specified", "Specify path to GitBash in Menu->Settings.");
+        if (AppConfig.getInstance().getPathToBash() == null) {
+            DialogFactory.createErrorAlert("Bash hasn't been specified", "Specify bash in Menu->Settings.");
             return false;
-        } if (!(new File(pathToGitBashExe)).exists()) {
-            LOGGER.error("Specified GitBash.exe path '{}' points to not-existent file, running git command was skipped.", pathToGitBashExe);
-            DialogFactory.createErrorAlert("Invalid path to GitBash.exe", "Specified path \"" + pathToGitBashExe +
-                    "\" points to not-existent file. Specify correct path in settings.", 210);
+        } if (!OsHelper.isValidPathToBash(AppConfig.getInstance().getPathToBash())) {
+            LOGGER.error("Specified path to bash '{}' doesn't point to bash, running git command was skipped.",
+                    AppConfig.getInstance().getPathToBash());
+            DialogFactory.createErrorAlert("Invalid path to bash", "Specified path \"" + AppConfig.getInstance().getPathToBash() +
+                    "\" doesn't point to bash. Specify correct path in settings.", 210);
             return false;
         }
         return true;

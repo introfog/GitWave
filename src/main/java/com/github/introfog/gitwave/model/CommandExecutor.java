@@ -86,11 +86,7 @@ public final class CommandExecutor {
 
     private static String[] constructCmdCommand(String gitRepoPath, String command) {
         List<String> cmdCommand = new ArrayList<>();
-        if (OsRecogniser.isCurrentOsUnixLike()) {
-            cmdCommand.add("bash");
-        } else {
-            cmdCommand.add(AppConfig.getInstance().getPathToGitBashExe().replace("\\", "/"));
-        }
+        cmdCommand.add(AppConfig.getInstance().getPathToBash());
         cmdCommand.add("-c");
         cmdCommand.add("cd '" + gitRepoPath + "' && " + command);
         return cmdCommand.toArray(new String[]{});

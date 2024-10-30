@@ -16,6 +16,7 @@
 
 package com.github.introfog.gitwave.model;
 
+import com.github.introfog.gitwave.model.OsHelper.CurrentOs;
 import com.github.introfog.gitwave.model.dto.CommandDto;
 import com.github.introfog.gitwave.model.dto.ConfigDto;
 
@@ -41,16 +42,49 @@ public final class AppConfig {
 
     private final ConfigDto config;
     private HostServices hostServices;
+    private final CurrentOs currentOs;
+    private String pathToBash;
 
     private final AtomicBoolean appWasClosed = new AtomicBoolean(false);
 
 
     private AppConfig() {
         this.config = AppConfig.initConfig();
+        this.currentOs = OsHelper.getCurrentOs();
+        final String pathToBashFromConfig = config.getPathToGitBash();
+        if (pathToBashFromConfig != null) {
+            LOGGER.info("Check path to bash from config.");
+            if (OsHelper.isValidPathToBash(pathToBashFromConfig)) {
+                this.pathToBash = pathToBashFromConfig;
+            } else {
+                config.setPathToGitBash(null);
+                saveConfig();
+                DialogFactory.createInfoAlert("Invalid config path to bash", "Path to bash \"" + pathToBashFromConfig + "\" "
+                        + "specified in config invalid, path will be found automatically.");
+            }
+        }
+        if (pathToBash == null) {
+            this.pathToBash = OsHelper.getPathToBash(currentOs);
+        }
     }
 
     public static AppConfig getInstance() {
         return INSTANCE;
+    }
+
+    public String getPathToBash() {
+        return pathToBash;
+    }
+
+    public boolean setPathToBash(String pathToBashParam) {
+        if (OsHelper.isValidPathToBash(pathToBashParam)) {
+            LOGGER.info("Path to bash registered to '{}'", pathToBashParam);
+            this.pathToBash = pathToBashParam;
+            config.setPathToGitBash(pathToBashParam);
+            saveConfig();
+            return true;
+        }
+        return false;
     }
 
     public HostServices getHostServices() {
@@ -59,15 +93,6 @@ public final class AppConfig {
 
     public void setHostServices(HostServices hostServices) {
         this.hostServices = hostServices;
-    }
-
-    public void setPathToGitBashExe(String pathToGitBashExe) {
-        config.setPathToGitBash(pathToGitBashExe);
-        saveConfig();
-    }
-
-    public String getPathToGitBashExe() {
-        return config.getPathToGitBash();
     }
 
     public void setLastRunFolder(String lastRunFolder) {
