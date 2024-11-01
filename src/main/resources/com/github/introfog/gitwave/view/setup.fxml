@@ -23,7 +23,7 @@
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Label prefHeight="30.0" prefWidth="510.0" text="Automatic bash path finding hasn't been success. Set path to bash, it is required to execute git commands." wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  <TextField fx:id="pathToBashExe" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="80.0" />
+                  <TextField fx:id="pathToBash" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="80.0" />
                   <Separator prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                   <Button mnemonicParsing="false" onAction="#browseGitBashExe" text="Browse" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0" />
                   <Label layoutY="62.0" prefHeight="30.0" prefWidth="510.0" text="On Unix likes systems usaully it is &quot;/usr/bin/bash&quot;, on Windows &quot;PATH_TO_GIT/bin/bash.exe&quot;." wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />

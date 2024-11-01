@@ -41,16 +41,10 @@ public class SettingsController extends BaseController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SettingsController.class);
 
     @FXML
-    private TextField pathToBashExe;
+    private TextField pathToBash;
 
     @FXML
     private Button save;
-
-    @FXML
-    private Button browse;
-
-    @FXML
-    private Label pathToBashText;
 
     @FXML
     private Label done;
@@ -59,9 +53,9 @@ public class SettingsController extends BaseController {
     public void initialize(FxmlStageHolder fxmlStageHolder) {
         super.initialize(fxmlStageHolder);
         super.setClosingOnEscapePressing(fxmlStageHolder);
-        final String pathToGitBashExeStr = AppConfig.getInstance().getPathToBash();
-        if (pathToGitBashExeStr != null) {
-            pathToBashExe.setText(pathToGitBashExeStr);
+        final String pathToGitBashStr = AppConfig.getInstance().getPathToBash();
+        if (pathToGitBashStr != null) {
+            pathToBash.setText(pathToGitBashStr);
         }
         save.requestFocus();
         if (done != null) {
@@ -71,11 +65,10 @@ public class SettingsController extends BaseController {
 
     @FXML
     protected void save() {
-        File bashFile = new File(pathToBashExe.getText());
-        if (bashFile.exists() && AppConfig.getInstance().setPathToBash(bashFile.getAbsolutePath())) {
+        if (AppConfig.getInstance().setPathToBash(pathToBash.getText())) {
             closeStage();
         } else {
-            LOGGER.error("Wrong path to bash '{}'", bashFile.getAbsolutePath());
+            LOGGER.error("Wrong path to bash '{}'", pathToBash.getText());
             DialogFactory.createErrorAlert("Bash hasn't been specified",
                     "Bash hasn't been specified correctly. Either specify path manually or find via file browser.", 210);
         }
@@ -122,14 +115,8 @@ public class SettingsController extends BaseController {
 
         File selectedFile = fileChooser.showOpenDialog(getStage());
         if (selectedFile != null) {
-            if (selectedFile.exists()) {
-                pathToBashExe.setText(selectedFile.getAbsolutePath());
-            } else {
-                LOGGER.error("Wrong browsed path to bash '{}'", selectedFile);
-                DialogFactory.createErrorAlert("Provided file wasn't found", "Provided file wasn't found, try again");
-            }
-        } else {
-            // It means that file chooser dialog window was just closed without choosing a file
+            pathToBash.setText(selectedFile.getAbsolutePath());
         }
+        // ELSE: It means that file chooser dialog window was just closed without choosing a file
     }
 }
