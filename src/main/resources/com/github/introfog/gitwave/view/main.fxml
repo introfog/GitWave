@@ -114,7 +114,7 @@
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>
                               </TableView>
-                              <Label fx:id="parametersText" layoutX="28.0" layoutY="14.0" prefHeight="50.0" prefWidth="418.0" text="Current command doesn't define any parameters. Enter your parameter in the format {parameterName}. Ensure that parameterName is not empty and doesn't contain spaces." wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
+                              <Label fx:id="parametersText" layoutX="28.0" layoutY="14.0" prefWidth="418.0" text="Current command doesn't define any parameters. Enter your parameter in the format {parameterName}. Ensure that parameterName is not empty and doesn't contain spaces." wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
                            </children></AnchorPane>
                   </content>
                 </Tab>

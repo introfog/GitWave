@@ -7,29 +7,60 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="377.0" prefWidth="400.0" style="-fx-font-size: 12; -fx-font-family: verdana;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.gitwave.controller.AboutController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="325.0" prefWidth="440.0" style="-fx-font-size: 12; -fx-font-family: verdana;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.introfog.gitwave.controller.AboutController">
    <children>
       <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="32.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
             <Image url="@../../../../../logo256.png" />
          </image></ImageView>
-      <Button layoutX="294.0" layoutY="292.0" mnemonicParsing="false" onAction="#close" text="Close" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-      <Label fx:id="version" layoutX="134.0" layoutY="40.0" text="VERSION" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="20.0">
-         <graphic>
-            <Label text="GitWave">
+      <VBox prefWidth="100.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="version" text="VERSION">
+               <graphic>
+                  <Label text="GitWave">
+                     <font>
+                        <Font name="Verdana Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </graphic>
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font name="Verdana Bold" size="14.0" />
                </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
             </Label>
-         </graphic>
-         <font>
-            <Font name="Verdana Bold" size="14.0" />
-         </font></Label>
-      <Label layoutX="134.0" layoutY="72.0" prefHeight="142.0" prefWidth="236.0" text="GitWave is the ultimate tool for developers who work with multiple repositories on Windows. The app is designed to streamline your workflow by allowing you to run any bash commands across several repositories simultaneously. It’s a powerful companion for any developer looking to save time and effort when managing their Git projects." wrapText="true" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="0.0" />
-      <Label layoutX="134.0" layoutY="233.0" prefHeight="39.0" prefWidth="236.0" text="GitWave is a open source project, which you can find on" wrapText="true" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="0.0" />
-      <Hyperlink layoutX="193.0" layoutY="251.0" onAction="#openGitHub" prefHeight="12.0" prefWidth="46.0" text="GitHub" AnchorPane.leftAnchor="193.0" AnchorPane.rightAnchor="0.0" />
-      <Label layoutX="133.0" layoutY="293.0" text="Copyright 2023-2024 Dmitry Chubrick" AnchorPane.leftAnchor="100.0" />
+            <Label text="GitWave is the ultimate tool for developers who work with multiple repositories. The app is designed to streamline your workflow by allowing you to run any bash commands across several repositories simultaneously. It’s a powerful companion for any developer looking to save time and effort when managing their Git projects." wrapText="true">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <HBox>
+               <children>
+                  <Label text="GitWave is a open source project:" wrapText="true">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <Hyperlink focusTraversable="false" onAction="#openGitHub" text="GitHub">
+                     <HBox.margin>
+                        <Insets top="-3.0" />
+                     </HBox.margin></Hyperlink>
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <Label text="Copyright 2023-2024 Dmitry Chubrick">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Label>
+         </children>
+      </VBox>
+      <Button mnemonicParsing="false" onAction="#close" text="Close" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="147.0" />
    </children>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
