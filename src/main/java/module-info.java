@@ -4,6 +4,8 @@ module com.github.introfog.gitwave {
     requires java.desktop;
     requires java.prefs;
     requires java.naming;
+    requires java.net.http;
+    requires jdk.crypto.ec;
     requires org.slf4j;
     requires ch.qos.logback.classic;
     requires ch.qos.logback.core;
