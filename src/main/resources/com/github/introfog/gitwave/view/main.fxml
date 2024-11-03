@@ -41,6 +41,8 @@
                         <MenuItem mnemonicParsing="false" onAction="#openAbout" text="About" />
                         <SeparatorMenuItem fx:id="updateMenuItemSeparator" disable="true" mnemonicParsing="false" visible="false" />
                         <MenuItem fx:id="updateMenuItem" disable="true" mnemonicParsing="false" onAction="#openUpdate" text="Update*" visible="false" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#exitFromMenu" text="Exit" />
                      </items>
                   </Menu>
               </menus>

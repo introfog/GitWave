@@ -77,14 +77,7 @@ public class MainController extends BaseController {
         super.initialize(fxmlStageHolder);
         final Stage primaryStage = fxmlStageHolder.getStage();
         primaryStage.setOnCloseRequest(event -> {
-            event.consume();
-
-            AppConfig.getInstance().closeApp();
-            for (ExecutionController controller: new ArrayList<>(executionTabs.values())) {
-                controller.close();
-            }
-            executionTabPage.getTabs().clear();
-            primaryStage.close();
+            close();
         });
 
         directoryTabController = new DirectoryTabController(fxmlStageHolder, directory);
@@ -149,6 +142,12 @@ public class MainController extends BaseController {
     }
 
     @FXML
+    protected void exitFromMenu() {
+        close();
+        closeStage();
+    }
+
+    @FXML
     protected void openUpdate() {
         menuController.openUpdate();
     }
@@ -156,5 +155,13 @@ public class MainController extends BaseController {
     @FXML
     protected void foundIssue() {
         AppConfig.getInstance().getHostServices().showDocument(AppConstants.LINK_TO_GIT_CONTRIBUTING_FILE);
+    }
+
+    private void close() {
+        AppConfig.getInstance().closeApp();
+        for (ExecutionController controller: new ArrayList<>(executionTabs.values())) {
+            controller.close();
+        }
+        executionTabPage.getTabs().clear();
     }
 }
