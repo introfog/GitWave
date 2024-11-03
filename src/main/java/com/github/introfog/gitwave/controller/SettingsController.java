@@ -32,7 +32,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,17 +101,6 @@ public class SettingsController extends BaseController {
     @FXML
     protected void browseGitBashExe() {
         FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter bashFilter = new ExtensionFilter("Path to bash", "*.*") ;
-        fileChooser.getExtensionFilters().add(bashFilter);
-
-        final String pathToGitBashStr = AppConfig.getInstance().getPathToBash();
-        if (pathToGitBashStr != null) {
-            File bashDir = new File(pathToGitBashStr.substring(0, pathToGitBashStr.lastIndexOf('/')));
-            if (bashDir.exists() && bashDir.isDirectory()) {
-                fileChooser.setInitialDirectory(bashDir);
-            }
-        }
-
         File selectedFile = fileChooser.showOpenDialog(getStage());
         if (selectedFile != null) {
             pathToBash.setText(selectedFile.getAbsolutePath());
