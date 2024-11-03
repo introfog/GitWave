@@ -15,7 +15,7 @@ Save your most used or tricky commands with notes, so you never have to remember
 Specify `{parameters}` for the command, to quickly run different scenarios.
 ### 3. Multi-OS Compatibility: Windows, macOS & Linux
 Application is fully compatible with Windows x86, macOS arm64 and Linux x86, ensuring a smooth experience across all major operating systems. 
-Corresponding OS-specific artifacts are available for download in the GitHub Releases section.
+Corresponding OS-specific artifacts are available for download in the Releases section.
 ### 4. Standalone Application
 GitWave is a standalone application that doesn't leave any footprint on your PC. It respects your 
 system's cleanliness by ensuring that no unnecessary files or configurations are left behind, 
@@ -28,14 +28,16 @@ Explore, contribute, and customize the application according to your preferences
 To enjoy GitWave you don't need any JDK, because it already includes JDK.
 1. Download `GitWave_yourOS.zip` from the [latest release](https://github.com/introfog/GitWave/releases).
 2. Unpack archive to your local machine and launch `GitWave.exe` (for Windows) or `GitWave.sh` (on macOS and Linux).
-3. Begin executing bash commands across multiple repositories effortlessly.
-4. You can check my personal [GitWave config](https://gist.github.com/introfog/10a0a3f6c0b069c4132f8ac18b73dff5) with bash commands which i use on regular basis.
+   - Before running `GitWave.sh` on MacOs and Linux, make the script executable by running `chmod +x ./GitWave.sh`.
+   - MacOs complains that Apple couldn't verify that `java` is free of malware, go to `Privacy & Security` and allow running `java`.
+4. Begin executing bash commands across multiple repositories effortlessly.
+5. You can check my personal [GitWave config](https://gist.github.com/introfog/10a0a3f6c0b069c4132f8ac18b73dff5) with bash commands which i use on regular basis.
 
 <img src=samples/Sample_Saved_Commands.gif>
 
 ## :hammer: Build Locally
 ### Software Requirements
-- JDK 11 or higher.
+- JDK 17 or higher.
 - Maven.
 ### Build Options
 - To run the application execute `mvn javafx:run`.
@@ -44,7 +46,7 @@ To enjoy GitWave you don't need any JDK, because it already includes JDK.
   - `GitWave.sh`, which is used on macOS and Linux and runs java image, is located in the `tools` folder. 
  
 ## :gear: Under the hood
-- GitWave is built on openjdk 11 + openjfx 11 and wrapped into Java Runtime Image.
+- GitWave is built on openjdk 17 + openjfx 17 and wrapped into Java Runtime Image.
 - All commands and settings are stored in `config/config.json` in JSON format. So it is possible to edit them manually in any text editor.
 - On opening the app makes a lenient request to GitHub API to check for the new available release, see `com.github.introfog.gitwave.model.UpdateChecker#isNewReleaseAvailable`.
 
