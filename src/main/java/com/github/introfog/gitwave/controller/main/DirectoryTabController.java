@@ -42,6 +42,13 @@ public class DirectoryTabController extends SupportController {
             LOGGER.warn("Directory '{}' is empty, running git command was skipped.", directory.getText());
             DialogFactory.createErrorAlert("Invalid directory", "Directory can't be empty.");
             return false;
+        } else {
+            File directoryToRunIn = new File(directory.getText());
+            if (!directoryToRunIn.exists() || !directoryToRunIn.isDirectory()) {
+                DialogFactory.createInfoAlert("Invalid directory",
+                        "Specified directory either doesn't exist or isn't a directory.");
+                return false;
+            }
         }
         return true;
     }

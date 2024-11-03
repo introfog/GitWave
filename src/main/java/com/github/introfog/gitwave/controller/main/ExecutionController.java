@@ -16,39 +16,51 @@
 
 package com.github.introfog.gitwave.controller.main;
 
-import com.github.introfog.gitwave.controller.BaseController;
-import com.github.introfog.gitwave.model.StageFactory;
-import com.github.introfog.gitwave.model.StageFactory.FxmlStageHolder;
-
+import java.util.Map;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
+import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.InlineCssTextArea;
 
-public class ExecutionController extends BaseController {
-    @FXML
-    private InlineCssTextArea canvas;
-
+public class ExecutionController {
     private boolean wasClosed = false;
     private boolean isExecutionFinished = false;
+    private final InlineCssTextArea canvas;
+    private final Tab tab;
+    private final TabPane tabPane;
+    private final Map<Tab, ExecutionController> executionTabs;
 
-    @Override
-    public void initialize(FxmlStageHolder fxmlStageHolder) {
-        super.initialize(fxmlStageHolder);
-        fxmlStageHolder.getStage().setOnCloseRequest(event -> {
-            beforeStageClose();
+    public ExecutionController(TabPane tabPane, Map<Tab, ExecutionController> executionTabs) {
+        canvas = new InlineCssTextArea("Searching git repositories...");
+        canvas.setEditable(false);
+        canvas.setFocusTraversable(false);
+        canvas.setPadding(new Insets(10, 2, 2, 2));
+        canvas.setStyle("-fx-font-family: verdana; -fx-font-size: 12;");
+
+        VirtualizedScrollPane<InlineCssTextArea> scrollPane = new VirtualizedScrollPane<>(canvas);
+
+        tab = new Tab("Execution " + tabPane.getTabs().size());
+        tab.setContent(scrollPane);
+
+        tabPane.getTabs().add(tab);
+        tabPane.getSelectionModel().select(tab);
+        canvas.requestFocus();
+
+        this.executionTabs = executionTabs;
+        this.tabPane = tabPane;
+        executionTabs.put(tab, this);
+
+        tab.setOnCloseRequest(event -> {
+            close();
         });
         canvas.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE || event.getCode() == KeyCode.ENTER) {
                 if (isExecutionFinished) {
-                    closeStage();
-                }
-            }
-        });
-        fxmlStageHolder.getScene().setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ESCAPE || event.getCode() == KeyCode.ENTER) {
-                if (isExecutionFinished) {
-                    closeStage();
+                    tabPane.getTabs().remove(tab);
+                    close();
                 }
             }
         });
@@ -82,10 +94,15 @@ public class ExecutionController extends BaseController {
         return wasClosed;
     }
 
-    @Override
-    protected void closeStage() {
-        beforeStageClose();
-        super.closeStage();
+    public void close() {
+        wasClosed = true;
+        executionTabs.remove(tab);
+        if (!tabPane.getTabs().isEmpty()) {
+            Tab previousTab = tabPane.getTabs().get(tabPane.getTabs().size() - 1);
+            if (executionTabs.get(previousTab) != null) {
+                executionTabs.get(previousTab).canvas.requestFocus();
+            }
+        }
     }
 
     private void commonWritingPart(String line, String style) {
@@ -94,10 +111,5 @@ public class ExecutionController extends BaseController {
             canvas.setStyle(canvas.getLength() - line.length(), canvas.getLength(), style);
             canvas.requestFollowCaret();
         });
-    }
-
-    private void beforeStageClose() {
-        wasClosed = true;
-        StageFactory.unregisterExecutingController(this);
     }
 }

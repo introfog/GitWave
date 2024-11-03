@@ -20,13 +20,14 @@ import com.github.introfog.gitwave.controller.BaseController;
 import com.github.introfog.gitwave.model.AppConfig;
 import com.github.introfog.gitwave.model.AppConstants;
 import com.github.introfog.gitwave.model.CommandExecutor;
-import com.github.introfog.gitwave.model.DialogFactory;
-import com.github.introfog.gitwave.model.StageFactory;
 import com.github.introfog.gitwave.model.StageFactory.FxmlStageHolder;
 import com.github.introfog.gitwave.model.dto.ParameterDto;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -34,6 +35,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -65,6 +68,10 @@ public class MainController extends BaseController {
     @FXML
     private SeparatorMenuItem updateMenuItemSeparator;
 
+    @FXML
+    private TabPane executionTabPage;
+    private final Map<Tab, ExecutionController> executionTabs = new HashMap<>();
+
     @Override
     public void initialize(FxmlStageHolder fxmlStageHolder) {
         super.initialize(fxmlStageHolder);
@@ -73,9 +80,10 @@ public class MainController extends BaseController {
             event.consume();
 
             AppConfig.getInstance().closeApp();
-            for (ExecutionController executionController : StageFactory.getExecutingControllers()) {
-                executionController.getStage().close();
+            for (ExecutionController controller: new ArrayList<>(executionTabs.values())) {
+                controller.close();
             }
+            executionTabPage.getTabs().clear();
             primaryStage.close();
         });
 
@@ -113,23 +121,16 @@ public class MainController extends BaseController {
                 && commandTabController.isValid() && parametersTabController.isValid()) {
 
             File directoryToRunIn = new File(directoryTabController.getDirectory());
-            if (!directoryToRunIn.exists() || !directoryToRunIn.isDirectory()) {
-                DialogFactory.createInfoAlert("Invalid directory",
-                        "Specified directory either doesn't exist or isn't a directory.");
-                return;
-            }
             AppConfig.getInstance().setLastRunFolder(directoryToRunIn.getAbsolutePath());
 
-            final FxmlStageHolder executionWindow = StageFactory.createNoneModalExecutionWindow();
-            executionWindow.getStage().show();
-            ExecutionController executionController = executionWindow.getFxmlLoader().getController();
 
+            ExecutionController controller = new ExecutionController(executionTabPage, executionTabs);
             new Thread(new Task<>() {
                 @Override
                 protected Void call() {
                     final List<File> repositoriesToRunCommand = CommandExecutor.searchGitRepositories(directoryToRunIn);
 
-                    CommandExecutor.executeCommand(repositoriesToRunCommand, executionController,
+                    CommandExecutor.executeCommand(repositoriesToRunCommand, controller,
                             commandTabController.getCommandWithParameters());
                     return null;
                 }
