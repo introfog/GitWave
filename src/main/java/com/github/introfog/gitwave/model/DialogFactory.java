@@ -18,7 +18,6 @@ package com.github.introfog.gitwave.model;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -55,19 +54,5 @@ public final class DialogFactory {
         alert.setContentText(msg);
         alert.getDialogPane().setStyle(COMMON_STYLES);
         alert.showAndWait();
-    }
-
-    public static ButtonType createCloseConfirmationAlert() {
-        Alert dialog = new Alert(AlertType.CONFIRMATION);
-        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(StageFactory.class.getResourceAsStream(AppConstants.PATH_TO_LOGO_32)));
-        dialog.setTitle("Confirmation");
-        dialog.setHeaderText("Do you really want to close the application?");
-        dialog.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
-
-        dialog.getDialogPane().setStyle(COMMON_STYLES);
-        ButtonType[] pressedButton = {null};
-        dialog.showAndWait().ifPresent(response -> pressedButton[0] = response);
-        return pressedButton[0];
     }
 }

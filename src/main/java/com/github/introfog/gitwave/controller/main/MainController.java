@@ -30,7 +30,6 @@ import java.util.List;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -72,13 +71,12 @@ public class MainController extends BaseController {
         final Stage primaryStage = fxmlStageHolder.getStage();
         primaryStage.setOnCloseRequest(event -> {
             event.consume();
-            if (DialogFactory.createCloseConfirmationAlert() == ButtonType.OK) {
-                AppConfig.getInstance().closeApp();
-                for (ExecutionController executionController : StageFactory.getExecutingControllers()) {
-                    executionController.getStage().close();
-                }
-                primaryStage.close();
-            };
+
+            AppConfig.getInstance().closeApp();
+            for (ExecutionController executionController : StageFactory.getExecutingControllers()) {
+                executionController.getStage().close();
+            }
+            primaryStage.close();
         });
 
         directoryTabController = new DirectoryTabController(fxmlStageHolder, directory);
