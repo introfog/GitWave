@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
 
 public class ParametersTabController extends SupportController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ParametersTabController.class);
-    private static final Pattern PARAMETERS_PATTERN = Pattern.compile("\\{(\\S+)\\}");
+    private static final Pattern PARAMETERS_PATTERN = Pattern.compile("\\{([^{}\\s]+)\\}");
     private static final Pattern ONLY_SPACES_PATTERN = Pattern.compile("^\\s*$");
     private final Label parametersText;
     private final TableView<ParameterDto> parametersTable;
