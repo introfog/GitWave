@@ -38,7 +38,14 @@ public final class UpdateChecker {
     public static boolean isNewReleaseAvailable() {
         final String latestTag = fetchLatestTag(AppConstants.GIT_HUB_REPO_OWNER, AppConstants.APP_NAME);
         LOGGER.info("Fetch '{}' tag from GitHub repo.", latestTag);
-        return latestTag != null && !AppConstants.VERSION.equals(latestTag);
+        if (latestTag == null) {
+            return false;
+        }
+        if (AppConstants.VERSION.contains("SNAPSHOT") && !AppConstants.VERSION.replace("-SNAPSHOT", "").equals(latestTag)) {
+            LOGGER.info("Current app version is " + AppConstants.VERSION + ", new release check will be skipped.");
+            return false;
+        }
+        return !AppConstants.VERSION.equals(latestTag);
     }
 
     public static String fetchLatestTag(String owner, String repo) {
