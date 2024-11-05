@@ -40,7 +40,7 @@
             </Label>
             <HBox>
                <children>
-                  <Label text="GitWave is a open source project:" wrapText="true">
+                  <Label text="GitWave is an open source project:" wrapText="true">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>

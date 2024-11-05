@@ -86,7 +86,7 @@ public class ExecutionController {
     }
 
     public void writeFinishMessage() {
-        commonWritingPart("\nPress Enter or Esc to close the window...", "-fx-fill: green");
+        commonWritingPart("\nPress Enter or Esc to close the tab...", "-fx-fill: gray");
         isExecutionFinished = true;
     }
 
