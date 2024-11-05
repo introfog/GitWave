@@ -89,12 +89,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "com.github.introfog"
             VALUE "FileDescription", "GitWave"
-            VALUE "FileVersion", "1.0.0.0"
+            VALUE "FileVersion", "1.1.0.0"
             VALUE "InternalName", "GitWave.exe"
             VALUE "LegalCopyright", "2023-2024 Dmitry Chubrick"
             VALUE "OriginalFilename", "GitWave.exe"
             VALUE "ProductName", "GitWave"
-            VALUE "ProductVersion", "1.0.0.0"
+            VALUE "ProductVersion", "1.1.0.0"
         END
     END
     BLOCK "VarFileInfo"
